@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+//= require bootstrap.min
+//= require jquery.min
+//= require metisMenu.min
+//= require morris-data
+//= require morris.min
+//= require raphael-min
+//= require sb-admin-2.js
