@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20160815151410) do
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.string   "username"
-    t.string   "type",                   default: "player"
+    t.string   "auth",                   default: "player"
     t.boolean  "cheater?",               default: false
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false

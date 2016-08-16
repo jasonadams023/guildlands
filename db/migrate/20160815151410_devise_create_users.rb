@@ -21,7 +21,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
 
       # My code
       t.string :username
-      t.string :type, default: 'player' #ex. admin, user, etc..
+      t.string :auth, default: 'player' #ex. admin, user, etc..
       t.boolean :cheater?, default: false
 
       ## Confirmable
