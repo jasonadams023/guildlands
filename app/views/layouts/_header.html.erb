@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Guildlands (alpha)</a>
+                <%= link_to 'Guildlands (alpha)', root_path, method: :get, :class => 'navbar-brand' %>
             </div>
             <!-- /.navbar-header -->
 
@@ -209,11 +209,11 @@
                     <ul class="dropdown-menu dropdown-user">
                         <% if user_signed_in? %>
                             <li>Logged in as <strong><%= current_user.username %></strong></li>
-                            <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
-                            <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
+                            <li><%= link_to 'Edit profile', edit_user_registration_path, method: :get, :class => 'navbar-link' %></li>
+                            <li><%= link_to "Logout", destroy_user_session_path, method: :get, :class => 'navbar-link'  %></li>
                         <% else %>
-                            <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
-                            <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
+                            <li><%= link_to "Sign up", new_user_registration_path, method: :get, :class => 'navbar-link'  %></li>
+                            <li><%= link_to "Login", new_user_session_path, method: :get, :class => 'navbar-link'  %></li>
                         <% end %>
                     </ul>
                     <!-- /.dropdown-user -->
