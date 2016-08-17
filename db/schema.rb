@@ -59,8 +59,10 @@ ActiveRecord::Schema.define(version: 20160817160647) do
     t.integer  "spent_rep"
     t.integer  "money"
     t.hstore   "effects"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_guilds_on_user_id", using: :btree
   end
 
   create_table "hall_inventories", force: :cascade do |t|
@@ -164,6 +166,7 @@ ActiveRecord::Schema.define(version: 20160817160647) do
   add_foreign_key "activities", "locations"
   add_foreign_key "guild_halls", "guilds"
   add_foreign_key "guild_halls", "locations"
+  add_foreign_key "guilds", "users"
   add_foreign_key "hall_inventories", "guild_halls"
   add_foreign_key "hall_inventories", "items"
   add_foreign_key "units", "activities"
