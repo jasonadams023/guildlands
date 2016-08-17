@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  rep_cost: 1
+  description: MyText
+  effect: 
+
+two:
+  name: MyString
+  rep_cost: 1
+  description: MyText
+  effect: 

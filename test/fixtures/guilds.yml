@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  total_rep: 1
+  spent_rep: 1
+  money: 1
+
+two:
+  name: MyString
+  total_rep: 1
+  spent_rep: 1
+  money: 1

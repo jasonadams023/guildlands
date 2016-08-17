@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guild_hall: one
+  item: one
+  total: 1
+  available: 1
+
+two:
+  guild_hall: two
+  item: two
+  total: 1
+  available: 1

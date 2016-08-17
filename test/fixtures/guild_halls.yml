@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  size: 1
+  unit_limit: 1
+  guild: one
+  location: one
+
+two:
+  name: MyString
+  size: 1
+  unit_limit: 1
+  guild: two
+  location: two

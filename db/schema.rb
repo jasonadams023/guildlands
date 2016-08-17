@@ -10,10 +10,136 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815151410) do
+ActiveRecord::Schema.define(version: 20160817160647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+
+  create_table "activities", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.hstore   "effects"
+    t.integer  "location_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["location_id"], name: "index_activities_on_location_id", using: :btree
+  end
+
+  create_table "guild_abilities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "rep_cost"
+    t.text     "description"
+    t.hstore   "effect"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "guild_abilities_guilds", id: false, force: :cascade do |t|
+    t.integer "guild_id",         null: false
+    t.integer "guild_ability_id", null: false
+  end
+
+  create_table "guild_halls", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "size"
+    t.integer  "unit_limit"
+    t.hstore   "effects"
+    t.integer  "guild_id"
+    t.integer  "location_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["guild_id"], name: "index_guild_halls_on_guild_id", using: :btree
+    t.index ["location_id"], name: "index_guild_halls_on_location_id", using: :btree
+  end
+
+  create_table "guilds", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "total_rep"
+    t.integer  "spent_rep"
+    t.integer  "money"
+    t.hstore   "effects"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "hall_inventories", force: :cascade do |t|
+    t.integer  "guild_hall_id"
+    t.integer  "item_id"
+    t.integer  "total"
+    t.integer  "available"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["guild_hall_id"], name: "index_hall_inventories_on_guild_hall_id", using: :btree
+    t.index ["item_id"], name: "index_hall_inventories_on_item_id", using: :btree
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.hstore   "effects"
+    t.string   "category"
+    t.integer  "value"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.hstore   "effects"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "unit_abilities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "xp_cost"
+    t.string   "category"
+    t.integer  "ap_cost"
+    t.integer  "sp_cost"
+    t.text     "description"
+    t.hstore   "effects"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "unit_abilities_units", id: false, force: :cascade do |t|
+    t.integer "unit_id",         null: false
+    t.integer "unit_ability_id", null: false
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "total_xp"
+    t.integer  "spent_xp"
+    t.integer  "hiring_cost"
+    t.integer  "upkeep_cost"
+    t.integer  "max_hp"
+    t.integer  "current_hp"
+    t.integer  "max_sp"
+    t.integer  "current_sp"
+    t.integer  "strength"
+    t.integer  "agility"
+    t.integer  "vitality"
+    t.integer  "stamina"
+    t.integer  "intelligence"
+    t.integer  "focus"
+    t.integer  "dodge"
+    t.integer  "resilience"
+    t.integer  "resist"
+    t.hstore   "effects"
+    t.integer  "guild_id"
+    t.integer  "guild_hall_id"
+    t.integer  "location_id"
+    t.integer  "activity_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["activity_id"], name: "index_units_on_activity_id", using: :btree
+    t.index ["guild_hall_id"], name: "index_units_on_guild_hall_id", using: :btree
+    t.index ["guild_id"], name: "index_units_on_guild_id", using: :btree
+    t.index ["location_id"], name: "index_units_on_location_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",       null: false
@@ -35,4 +161,13 @@ ActiveRecord::Schema.define(version: 20160815151410) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "activities", "locations"
+  add_foreign_key "guild_halls", "guilds"
+  add_foreign_key "guild_halls", "locations"
+  add_foreign_key "hall_inventories", "guild_halls"
+  add_foreign_key "hall_inventories", "items"
+  add_foreign_key "units", "activities"
+  add_foreign_key "units", "guild_halls"
+  add_foreign_key "units", "guilds"
+  add_foreign_key "units", "locations"
 end

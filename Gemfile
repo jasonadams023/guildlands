@@ -39,6 +39,8 @@ gem 'twitter-bootstrap-rails'
 gem 'simple_form'
 # font awesome
 gem "font-awesome-rails"
+# pry-rails
+gem 'pry-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
