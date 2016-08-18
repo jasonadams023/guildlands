@@ -1,2 +1,43 @@
-<h1>Guilds#show</h1>
-<p>Find me in app/views/guilds/show.html.erb</p>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Guild Overview</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-6'>
+		<h3><strong>Guild Info</strong></h3>
+		<h4><%= @guild.name %></h4>
+		<p><strong>Guild Owner:</strong> <%= @guild.user.username %></p>
+		<p><strong>Reputation:</strong> <%= @guild.spent_rep %> / <%= @guild.total_rep %></p>
+		<p><strong>Currency:</strong> <%= @guild.money %></p>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-4'>
+		<h3><strong>Guild Halls</strong></h3>
+		<% @guild.guild_halls.each do |hall| %>
+			<h4><%= hall.name %></h4>
+			<p><strong>Location:</strong> <%= hall.location.name %></p>
+			<p><strong>Size:</strong> <%= hall.rooms.length %> / <%= hall.size %></p>
+			<p><strong>Units:</strong> <%= hall.units.length %> / <%= hall.unit_limit %></p>
+			<p><%= link_to "View Hall", guild_hall_path(hall.id), method: :get %></p>
+			<p></p>
+		<% end %>
+		<p><%= link_to "Create New Hall", new_guild_hall_path, method: :get %></p>
+	</div>
+	<div class='col-lg-4'>
+		<h3><strong>Units</strong></h3>
+		<% @guild.units.each do |unit| %>
+			<h4><%= unit.name %></h4>
+			<p><strong>XP:</strong> <%= unit.spent_xp %> / <%= unit.total_xp %>
+			 | <strong>HP:</strong> <%= unit.current_hp %> / <%= unit.max_hp %>
+			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
+			<p><strong>Location:</strong> <%= unit.guild_hall.name %> - <%= unit.guild_hall.location.name %></p>
+			<p><strong>Activity:</strong> <%= unit.activity.name %></p>
+			<p><%= link_to "View Unit", unit_path(unit.id), method: :get %></p>
+			<p></p>
+		<% end %>
+	</div>
+</div>

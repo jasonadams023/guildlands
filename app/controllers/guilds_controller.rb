@@ -1,16 +1,14 @@
 class GuildsController < ApplicationController
 	def index
-		user = current_user
-		@guild = user.guild
-
-		render :show
 	end
-  def show
-  end
+	
+	def show
+		@guild = current_user.guild
+	end
 
-  def new
-  end
+	def new
+	end
 
-  def edit
-  end
+	def edit
+	end
 end

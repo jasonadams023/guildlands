@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guild_hall: one
+  room: one
+  modifications: 
+
+two:
+  guild_hall: two
+  room: two
+  modifications: 
