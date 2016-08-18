@@ -11,6 +11,11 @@ class GuildHallsController < ApplicationController
 		@hall = GuildHall.new
 	end
 
+	def edit
+		@guild = current_user.guild
+		@hall = GuildHall.new
+	end
+
 	def create
     	@hall = GuildHall.new(guild_hall_params)
 
@@ -23,11 +28,6 @@ class GuildHallsController < ApplicationController
 			render :edit
 		end
     end
-
-	def edit
-		@guild = current_user.guild
-		@hall = GuildHall.new
-	end
 
 	def destroy
 		hall = GuildHall.find(params[:id])

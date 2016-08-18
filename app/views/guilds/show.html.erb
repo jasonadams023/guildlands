@@ -26,7 +26,8 @@
 			<%= link_to "Destroy Hall", guild_hall_path(hall.id), method: :delete %></p>
 			<hr>
 		<% end %>
-		<p><%= link_to "Create New Hall", new_guild_hall_path, method: :get %></p>
+		<p><%= link_to "View Available Halls", guild_halls_path, method: :get %> | 
+		<%= link_to "Create New Hall", new_guild_hall_path, method: :get %></p>
 	</div>
 	<div class='col-lg-4'>
 		<h3><strong>Units</strong></h3>
@@ -37,8 +38,11 @@
 			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
 			<p><strong>Location:</strong> <%= unit.guild_hall.name %> - <%= unit.guild_hall.location.name %></p>
 			<p><strong>Activity:</strong> <%= unit.activity.name %></p>
-			<p><%= link_to "View Unit", unit_path(unit.id), method: :get %></p>
-			<p></p>
+			<p><%= link_to "View Unit", unit_path(unit.id), method: :get %> | 
+			<%= link_to "Release Unit", release_unit_path(unit), method: :get %></p>
+			<hr>
 		<% end %>
+		<p><%= link_to "View Available Units", units_path, method: :get %> | 
+		<%= link_to "Create New Unit", new_unit_path, method: :get %></p>
 	</div>
 </div>

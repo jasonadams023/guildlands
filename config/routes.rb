@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 	resources :locations
 	resources :guild_halls
 	resources :rooms
-	resources :units
+	resources :units do
+		get 'release', on: :member
+	end
 	resources :unit_abilities
 	resources :items
 
