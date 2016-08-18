@@ -1,4 +1,6 @@
 class UnitsController < ApplicationController
+	before_action :check_complete, only: :create
+
 	def index
 	end
 
@@ -17,7 +19,6 @@ class UnitsController < ApplicationController
 	end
 
 	def create
-		@unit = Unit.new(unit_params)
 		set_stats
 		set_ids
 		@unit.effects = {}
@@ -41,7 +42,6 @@ class UnitsController < ApplicationController
 		guild.guild_halls.find(hall).units.delete(unit)
 		
 		if unit.save
-			binding.pry
 			flash[:notice] = "Unit released."
 		else
 			flash[:alert] = "Failed to release unit."
@@ -58,6 +58,16 @@ class UnitsController < ApplicationController
 			params.require(:unit).permit(:name, :total_xp, :guild_hall_id,
                                         :strength, :agility, :vitality,
                                         :stamina, :intelligence, :focus)
+		end
+
+		def check_complete
+			@unit = Unit.new(unit_params)
+			if @unit.name == '' || @unit.total_xp == nil || @unit.guild_hall_id == nil || @unit.strength == nil || @unit.agility == nil || @unit.vitality == nil || @unit.stamina == nil || @unit.intelligence == nil || @unit.focus == nil
+				flash[:alert] = "Failed to save unit."
+				@guild = current_user.guild
+				@unit = Unit.new
+				render :edit
+			end
 		end
 
 		def set_spent_xp
