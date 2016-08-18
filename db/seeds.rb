@@ -30,3 +30,7 @@ units = Unit.create([{name: 'Ulbert', total_xp: 1000, spent_xp: 0, hiring_cost: 
 unit_abilities = UnitAbility.create([{name: 'Gatherer', description: 'This unit is better at gathering', xp_cost: 50, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {gathering: 'doubled'}}])
 
 items = Item.create([{name: 'potion', description: 'Restores 15 hp.', effects: {current_hp: '+15'}, category: 'consumable', value: 50}])
+
+guild_abilities = GuildAbility.create([{name: 'Team Work', rep_cost: 500, description: "Enables guild members to combine their attacks with each other.", effect: {gestalt: 'enable'}},
+										{name: 'Marketing', rep_cost: 500, description: "Increases the selling power of your entire guild.", effect: {sales: 'double'}},
+										{name: 'Word of Mouth', rep_cost: 2000, description: "Increases the rate at which you gain more prestige.", effect: {rep_gain: 'double'}}])

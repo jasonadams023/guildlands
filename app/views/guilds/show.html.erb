@@ -47,4 +47,14 @@
 		<p><%= link_to "View Available Units", units_path, method: :get %> | 
 		<%= link_to "Create New Unit", new_unit_path, method: :get %></p>
 	</div>
+	<div class='col-lg-4'>
+		<h3><strong>Guild Abilities</strong></h3>
+		<% @guild.guild_abilities.each do |ability| %>
+			<h4><%= ability.name %></h4>
+			<p><strong>Descrpition:</strong> <%= truncate(ability.description, length: 160) %></p>
+			<p><%= link_to "View Ability", guild_ability_path(ability), method: :get %> | <%= link_to "Release Ability", release_guild_ability_path(ability), method: :get %></p>
+			<hr>
+		<% end %>
+		<p><%= link_to "View Abilities", guild_abilities_path, method: :get %></p>
+	</div>
 </div>

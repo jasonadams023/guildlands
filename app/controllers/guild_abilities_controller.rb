@@ -1,10 +1,14 @@
 class GuildAbilitiesController < ApplicationController
-  def show
-  end
+	def index
+	end
 
-  def new
-  end
+	def show
+		@ability = GuildAbility.find(params[:id])
+	end
 
-  def edit
-  end
+	def new
+	end
+
+	def edit
+	end
 end

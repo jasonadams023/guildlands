@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 	devise_for :users, :controllers => { registrations: 'registrations' }
 
 	resources :guilds
-	resources :guild_abilities
+	resources :guild_abilities do
+		get 'release', on: :member
+	end
 	resources :locations
 	resources :guild_halls do
 		get 'release', on: :member
