@@ -2,10 +2,17 @@ class UnitsController < ApplicationController
 	before_action :check_complete, only: :create
 
 	def index
+		@units = Unit.all.select{|u| u.guild_hall_id == nil}
 	end
 
 	def show
 		@unit = Unit.find(params[:id])
+		@free = nil
+		if @unit.guild_hall_id == nil
+			@free = true
+		else
+			@free = false
+		end
 	end
 
 	def new

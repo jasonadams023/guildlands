@@ -1,1 +1,21 @@
-index.html.erb
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Units List</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-4'><!-- Units -->
+		<% @units.each do |unit| %>
+			<h4><%= unit.name %></h4>
+			<p><strong>XP:</strong> <%= unit.spent_xp %> / <%= unit.total_xp %>
+			 | <strong>HP:</strong> <%= unit.current_hp %> / <%= unit.max_hp %>
+			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
+			<p><strong>Hiring Cost:</strong> <%= unit.hiring_cost %></p>
+			<p><strong>Upkeep Cost:</strong> <%= unit.upkeep_cost %></p>
+			<p><%= link_to "View Unit", unit_path(unit), method: :get %> | 
+			<%= link_to "Hire Unit", release_unit_path(unit), method: :get %>
+			<hr>
+		<% end %>
+	</div><!-- /Units -->
+</div>

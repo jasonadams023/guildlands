@@ -5,17 +5,17 @@
 </div>
 
 <div class='row'>
-	<div class='col-lg-6'>
+	<div class='col-lg-6'><!-- Guild -->
 		<h3><strong>Guild Info</strong></h3>
 		<h4><%= @guild.name %></h4>
 		<p><strong>Guild Owner:</strong> <%= @guild.user.username %></p>
 		<p><strong>Reputation:</strong> <%= @guild.spent_rep %> / <%= @guild.total_rep %></p>
 		<p><strong>Currency:</strong> <%= @guild.money %></p>
-	</div>
+	</div><!-- /Guild -->
 </div>
 
 <div class='row'>
-	<div class='col-lg-4'>
+	<div class='col-lg-4'><!-- Guild Halls -->
 		<h3><strong>Guild Halls</strong></h3>
 		<% @guild.guild_halls.each do |hall| %>
 			<h4><%= hall.name %></h4>
@@ -29,8 +29,8 @@
 		<% end %>
 		<p><%= link_to "View Available Halls", guild_halls_path, method: :get %> | 
 		<%= link_to "Create New Hall", new_guild_hall_path, method: :get %></p>
-	</div>
-	<div class='col-lg-4'>
+	</div><!-- /Guild Abilities -->
+	<div class='col-lg-4'><!-- Units -->
 		<h3><strong>Units</strong></h3>
 		<% @guild.units.each do |unit| %>
 			<h4><%= unit.name %></h4>
@@ -46,8 +46,8 @@
 		<% end %>
 		<p><%= link_to "View Available Units", units_path, method: :get %> | 
 		<%= link_to "Create New Unit", new_unit_path, method: :get %></p>
-	</div>
-	<div class='col-lg-4'>
+	</div><!-- /Units -->
+	<div class='col-lg-4'><!-- Guild Abilities -->
 		<h3><strong>Guild Abilities</strong></h3>
 		<% @guild.guild_abilities.each do |ability| %>
 			<h4><%= ability.name %></h4>
@@ -56,5 +56,5 @@
 			<hr>
 		<% end %>
 		<p><%= link_to "View Abilities", guild_abilities_path, method: :get %></p>
-	</div>
+	</div><!-- /Guild Abilities -->
 </div>

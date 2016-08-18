@@ -10,10 +10,12 @@ Rails.application.routes.draw do
 	resources :locations
 	resources :guild_halls do
 		get 'release', on: :member
+		post 'purchase', on: :member
 	end
 	resources :rooms
 	resources :units do
 		get 'release', on: :member
+		post 'purchase', on: :member
 	end
 	resources :unit_abilities
 	resources :items
