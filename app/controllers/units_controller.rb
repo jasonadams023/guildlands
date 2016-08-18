@@ -34,14 +34,14 @@ class UnitsController < ApplicationController
 	end
 
 	def release
-		@unit = Unit.find(params[:id])
-		@unit.guild_hall = nil
-		@unit.guild = nil
-		@unit.location = nil
-		@unit.activity = Activity.find(1)
-		binding.pry
+		unit = Unit.find(params[:id])
+		guild = unit.guild
+		hall = unit.guild_hall
 
-		if @unit.save
+		guild.guild_halls.find(hall).units.delete(unit)
+		
+		if unit.save
+			binding.pry
 			flash[:notice] = "Unit released."
 		else
 			flash[:alert] = "Failed to release unit."
