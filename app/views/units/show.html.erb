@@ -54,6 +54,10 @@
 	<div class="col-lg-12">
 		<hr>
 		<h4>Manage</h4>
-		<p><%= if @free then link_to "Hire Unit", purchase_unit_path(@unit), method: :post else link_to "Release Unit", release_unit_path(@unit), method: :get end %></p>
+		<% if @free %>
+			<%= render 'units/purchase' %>
+		<% else %>
+			<p><%= link_to "Release Unit", release_unit_path(@unit), method: :get %></p>
+		<% end %>
 	</div>
 </div><!-- /Manage -->

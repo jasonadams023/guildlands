@@ -41,6 +41,29 @@ class UnitsController < ApplicationController
 		end
 	end
 
+	def purchase
+		unit = Unit.find(params[:id])
+		hall = GuildHall.find(params[:unit][:name])
+
+		if hall.units.length < hall.unit_limit
+			if hall.guild.money >= unit.hiring_cost
+				hall.units << unit
+				hall.guild.money -= unit.hiring_cost
+				if unit.save && hall.save && hall.guild.save
+					flash[:notice] = "Unit Hired."
+				else
+					flash[:alert] = "Failed to update."
+				end
+			else
+				flash[:alert] = "Guild does not have enough money to hire this unit."
+			end
+		else
+			flash[:alert] = "That Guild Hall cannot hold any more units."
+		end
+
+		redirect_to unit_path(unit)
+	end
+
 	def release
 		unit = Unit.find(params[:id])
 		hall = unit.guild_hall
