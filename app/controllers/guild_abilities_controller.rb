@@ -40,6 +40,24 @@ class GuildAbilitiesController < ApplicationController
 	def create
 	end
 
+	def release
+		ability = GuildAbility.find(params[:id])
+		guild = current_user.guild
+
+		if guild.guild_abilities.delete(ability)
+			guild.spent_rep -= ability.rep_cost
+			if guild.save
+				flash[:notice] = "Ability released."
+			else
+				flash[:alert] = "Guild was not updated."
+			end
+		else
+			flash[:alert] = "Failed to release Ability."
+		end
+
+		redirect_to guild_path(current_user.guild.id)
+	end
+
 	def destroy
 	end
 end

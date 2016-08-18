@@ -13,7 +13,7 @@
 				<h4><%= ability.name %></h4>
 				<p><strong>Reputation Cost:</strong> <%= ability.rep_cost %></p>
 				<p><strong>Description:</strong> <%= ability.description %></p>
-				<p><%= link_to "Purchase Ability", purchase_guild_ability_path(ability), method: :post %></p>
+				<p><%= unless @guild.guild_abilities.include?(ability) then link_to "Purchase Ability", purchase_guild_ability_path(ability), method: :post else 'You already have this ability.' end %></p>
 				<hr>
 			</div>
 		<% end %>
