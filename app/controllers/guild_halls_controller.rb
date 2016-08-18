@@ -29,6 +29,23 @@ class GuildHallsController < ApplicationController
 		end
     end
 
+	def release
+		hall = GuildHall.find(params[:id])
+		guild = hall.guild
+
+		if guild.guild_halls.delete(hall)
+			if hall.save
+				flash[:notice] = "Guild Hall released."
+			else
+				flash[:alert] = "Hall was not updated."
+			end
+		else
+			flash[:alert] = "Failed to release Guild Hall."
+		end
+
+		redirect_to guild_path(current_user.guild.id)
+	end
+
 	def destroy
 		hall = GuildHall.find(params[:id])
 		guild = hall.guild

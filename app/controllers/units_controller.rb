@@ -36,10 +36,9 @@ class UnitsController < ApplicationController
 
 	def release
 		unit = Unit.find(params[:id])
-		guild = unit.guild
 		hall = unit.guild_hall
 
-		guild.guild_halls.find(hall).units.delete(unit)
+		hall.units.delete(unit)
 		
 		if unit.save
 			flash[:notice] = "Unit released."
@@ -52,13 +51,11 @@ class UnitsController < ApplicationController
 
 	def destroy
 		unit = Unit.find(params[:id])
-
-		guild = unit.guild
 		hall = unit.guild_hall
 
-		guild.guild_halls.find(hall).units.destroy(unit)
+		hall.units.destroy(unit)
 		
-		if guild.save
+		if hall.save
 			flash[:notice] = "Unit deleted."
 		else
 			flash[:alert] = "Failed to delete unit."

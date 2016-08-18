@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 	resources :guilds
 	resources :guild_abilities
 	resources :locations
-	resources :guild_halls
+	resources :guild_halls do
+		get 'release', on: :member
+	end
 	resources :rooms
 	resources :units do
 		get 'release', on: :member

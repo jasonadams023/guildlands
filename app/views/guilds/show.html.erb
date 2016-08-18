@@ -22,8 +22,9 @@
 			<p><strong>Location:</strong> <%= hall.location.name %></p>
 			<p><strong>Size:</strong> <%= hall.rooms.length %> / <%= hall.size %></p>
 			<p><strong>Units:</strong> <%= hall.units.length %> / <%= hall.unit_limit %></p>
-			<p><%= link_to "View Hall", guild_hall_path(hall.id), method: :get %> | 
-			<%= link_to "Destroy Hall", guild_hall_path(hall.id), method: :delete %></p>
+			<p><%= link_to "View Hall", guild_hall_path(hall), method: :get %> | 
+			<%= link_to "Release Hall", release_guild_hall_path(hall) %> | 
+			<%= link_to "Destroy Hall", guild_hall_path(hall), method: :delete %></p>
 			<hr>
 		<% end %>
 		<p><%= link_to "View Available Halls", guild_halls_path, method: :get %> | 
@@ -38,7 +39,7 @@
 			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
 			<p><strong>Location:</strong> <%= unit.guild_hall.name %> - <%= unit.guild_hall.location.name %></p>
 			<p><strong>Activity:</strong> <%= unit.activity.name %></p>
-			<p><%= link_to "View Unit", unit_path(unit.id), method: :get %> | 
+			<p><%= link_to "View Unit", unit_path(unit), method: :get %> | 
 			<%= link_to "Release Unit", release_unit_path(unit), method: :get %> | 
 			<%= link_to "Retire Unit", unit_path(unit), method: :delete %></p>
 			<hr>
