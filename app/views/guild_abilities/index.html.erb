@@ -1,1 +1,21 @@
-index.html.erb
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Guild Abilities</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-6'>
+		<% @abilities.each do |ability| %>
+			<% if @guild.guild_abilities.include?(ability) then "<div class='purchased'>" else "<div>" end %>
+				<div class='purchased'>
+
+				<h4><%= ability.name %></h4>
+				<p><strong>Reputation Cost:</strong> <%= ability.rep_cost %></p>
+				<p><strong>Description:</strong> <%= ability.description %></p>
+				<p><%= link_to "Purchase Ability", purchase_guild_ability_path(ability), method: :post %></p>
+				<hr>
+			</div>
+		<% end %>
+	</div>
+</div>

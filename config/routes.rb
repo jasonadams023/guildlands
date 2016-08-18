@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	resources :guilds
 	resources :guild_abilities do
 		get 'release', on: :member
+		post 'purchase', on: :member
 	end
 	resources :locations
 	resources :guild_halls do
