@@ -239,7 +239,9 @@
                                 <!-- /input-group -->
                             </li>
                             <li>
-                                <%= link_to "Overview", guild_path(current_user.guild.id), method: :get, :class => "fa fa-dashboard fa-fw" %>
+                                <%= link_to guild_path(current_user.guild.id), method: :get do %>
+                                    <i class="fa fa-table fa-fw"></i> Overview
+                                <% end %>
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
