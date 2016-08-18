@@ -22,8 +22,9 @@
 			<p><strong>Location:</strong> <%= hall.location.name %></p>
 			<p><strong>Size:</strong> <%= hall.rooms.length %> / <%= hall.size %></p>
 			<p><strong>Units:</strong> <%= hall.units.length %> / <%= hall.unit_limit %></p>
-			<p><%= link_to "View Hall", guild_hall_path(hall.id), method: :get %></p>
-			<p></p>
+			<p><%= link_to "View Hall", guild_hall_path(hall.id), method: :get %> | 
+			<%= link_to "Destroy Hall", guild_hall_path(hall.id), method: :delete %></p>
+			<hr>
 		<% end %>
 		<p><%= link_to "Create New Hall", new_guild_hall_path, method: :get %></p>
 	</div>

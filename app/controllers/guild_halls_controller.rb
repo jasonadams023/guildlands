@@ -29,6 +29,23 @@ class GuildHallsController < ApplicationController
 		@hall = GuildHall.new
 	end
 
+	def destroy
+		hall = GuildHall.find(params[:id])
+		guild = hall.guild
+
+		if hall.delete
+			if guild.save
+				flash[:notice] = "Guild Hall destroyed."
+			else
+				flash[:alert] = "Guild was not updated."
+			end
+		else
+			flash[:alert] = "Failed to destroy Guild Hall."
+		end
+
+		redirect_to guild_path(current_user.guild.id)
+	end
+
 	private
 		def guild_hall_params
 			params.require(:guild_hall).permit(:name, :size, :unit_limit, :effects, :guild_id, :location_id)
