@@ -51,6 +51,20 @@ class UnitsController < ApplicationController
 	end
 
 	def destroy
+		unit = Unit.find(params[:id])
+
+		guild = unit.guild
+		hall = unit.guild_hall
+
+		guild.guild_halls.find(hall).units.destroy(unit)
+		
+		if guild.save
+			flash[:notice] = "Unit deleted."
+		else
+			flash[:alert] = "Failed to delete unit."
+		end
+
+		redirect_to guild_path(current_user.guild.id)
 	end
 
 	private
