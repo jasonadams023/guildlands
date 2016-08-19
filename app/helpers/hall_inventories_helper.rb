@@ -1,0 +1,2 @@
+module HallInventoriesHelper
+end

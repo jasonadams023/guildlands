@@ -20,8 +20,22 @@ Rails.application.routes.draw do
 		get 'release', on: :member
 		post 'purchase', on: :member
 	end
-	resources :unit_abilities
-	resources :items
+	resources :unit_abilities do
+		get 'release', on: :member
+		post 'purchase', on: :member
+	end
+	resources :items do
+		get 'release', on: :member
+		post 'purchase', on: :member
+	end
+	resources :hall_inventories do
+		get 'release', on: :member
+		post 'purchase', on: :member
+	end
+	resources :market_orders do
+		get 'release', on: :member
+		post 'purchase', on: :member
+	end
 
   	get 'static/welcome'
   	get 'static/admin'

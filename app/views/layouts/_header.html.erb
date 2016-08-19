@@ -277,9 +277,12 @@
                                 <% end %>
                             </li><!-- /Rooms -->
 
-                            <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                            </li>
+                            <li><!-- Market -->
+                                <%= link_to market_orders_path, method: :get do %>
+                                    <i class="fa fa-wrench fa-fw"></i> Market
+                                <% end %>
+                            </li><!-- /Market -->
+
                             <li>
                                 <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">

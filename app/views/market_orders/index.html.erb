@@ -1,19 +1,19 @@
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Items</h1>
+		<h1 class="page-header">Market</h1>
 	</div>
 </div>
 
 <div class='row'>
 	<div class='col-lg-4'><!-- Items -->
-		<% @market_orders.each do |order| %>
+		<% @orders.each do |order| %>
 			<h4><%= order.item.name %></h4>
 			<!-- <p><strong>Seller:</strong> <%= %></p>
 			<p><strong>Location:</strong> <%= %></p> -->
 			<p><strong>Description:</strong> <%= truncate(order.item.description, length: 160) %></p>
 			<p><strong>Price:</strong> <%= order.price %></p>
 			<p><strong>Available:</strong> <%= order.amount %></p>
-			<%= link_to "View Order", item_path(order), method: :get %>
+			<%= link_to "View Order", market_order_path(order), method: :get %>
 			<hr>
 		<% end %>
 	</div><!-- /Items -->

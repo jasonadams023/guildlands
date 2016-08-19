@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Order Review</h1>
+	</div>
+</div>
+
+
+<div class='row'>
+	<div class='col-lg-12'><!-- Market Order -->
+		<h3><%= @order.item.name %></h3><!-- Market Order -->
+		<!-- <p><strong>Seller:</strong> <%= %></p>
+		<p><strong>Location:</strong> <%= %></p> -->
+		<p><strong>Type:</strong> <%= @order.item.category %></p>
+		<p><strong>Description:</strong> <%= @order.item.description %></p>
+		<hr>
+		<p><strong>Base Value:</strong> <%= @order.item.value %></p>
+		<p><strong>Price:</strong> <%= @order.price %></p>
+		<p><strong>Available:</strong> <%= @order.amount %></p>
+		<% if current_user.guild.id != @order.guild_hall.guild.id %>
+			<%= render 'market_orders/purchase' %><!-- /Market Order -->
+		<% end %>
+	</div>
+</div>

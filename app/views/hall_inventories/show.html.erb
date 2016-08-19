@@ -1,0 +1,19 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Item Information</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-12'>
+		<h3><%= @inventory.item.name %></h3><!-- Hall Inventory -->
+		<p><strong>Location:</strong> <%= @inventory.guild_hall.name %> - <%= @inventory.guild_hall.location.name %></p>
+		<p><strong>Type:</strong> <%= @inventory.item.category %></p>
+		<p><strong>Description:</strong> <%= @inventory.item.description %></p>
+		<hr>
+		<p><strong>Base Value:</strong> <%= @inventory.item.value %></p>
+		<p><strong>Available:</strong> <%= @inventory.available %> / <%= @inventory.total %></p>
+		<p><%= link_to "Buy more of this item", market_orders_path(item_id: @inventory.item_id), method: :get %></p>
+		<p><%= link_to "Create Sell Order" %></p>
+	</div>
+</div>

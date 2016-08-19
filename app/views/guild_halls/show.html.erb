@@ -65,12 +65,12 @@
 			<h4><%= item.item.name %></h4>
 			<p><strong>Value:</strong> <%= item.item.value %></p>
 			<p><strong>Amount:</strong> <%= item.available %> / <%= item.total %></p>
-			<p><strong>Description:</strong> <%= truncate(item.item.description, 160) %></p>
-			<p><%= link_to "View Item", item_path(item.item), method: :get %></p>
+			<p><strong>Description:</strong> <%= truncate(item.item.description, length: 160) %></p>
+			<p><%= link_to "View Item", hall_inventory_path(item), method: :get %></p>
 			<hr>
 		<% end %>
 		<% if @hall.guild_id == current_user.guild.id %>
-			<p><%= link_to "Browse All Items", items_path, method: :get %></p>
+			<p><%= link_to "Browse Market", market_orders_path, method: :get %></p>
 		<% end %>
 	</div><!-- /Items -->
 </div><!-- /In Depth -->

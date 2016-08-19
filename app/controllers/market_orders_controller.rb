@@ -1,14 +1,14 @@
-class ItemsController < ApplicationController
+class MarketOrdersController < ApplicationController
 	def index
-		@market_orders = MarketOrder.all
+		if params[:item_id] != nil
+			@orders = MarketOrder.all.select{|o| o.item_id == params[:item_id].to_i}
+		else
+			@orders = MarketOrder.all
+		end
 	end
 
 	def show
-		if params[:market] == "true"
-			@order = MarketOrder.find(params[:id])
-		else
-			@inventory = HallInventory.find(params[:id])
-		end
+		@order = MarketOrder.find(params[:id])
 	end
 
 	def new
@@ -26,6 +26,8 @@ class ItemsController < ApplicationController
 			hall = GuildHall.find(params[:market_order][:guild_hall_id])
 			amount = params[:market_order][:amount].to_i
 
+			binding.pry
+
 			if hall.guild.money >= order.price * amount
 				if !(hall.items.include?(order.item))
 					hall.items << order.item
@@ -41,7 +43,7 @@ class ItemsController < ApplicationController
 
 				binding.pry
 
-				if hall.save && order.save && hall.guild.save
+				if hall.save && order.save && hall.guild.save && hall.hall_inventories[id].save
 					flash[:notice] = "Purchase successful."
 				else
 					flash[:alert] = "Failed to update."
@@ -53,7 +55,7 @@ class ItemsController < ApplicationController
 			redirect_to hall
 		else
 			flash[:alert] = "No destination selected."
-			redirect_to item_path(order)
+			redirect_to market_order_path(order)
 		end
 	end
 

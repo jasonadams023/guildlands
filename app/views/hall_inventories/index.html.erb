@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Items</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-4'><!-- Items -->
+		<% @inventories.each do |inventory| %>
+			<h4><%= inventory.item.name %></h4>
+			<p><strong>Location:</strong> <%= @inventory.guild_hall.name %> - <%= @inventory.guild_hall.location.name %></p>
+			<p><strong>Description:</strong> <%= inventory.item.description %></p>
+			<p><strong>Value:</strong> <%= inventory.item.price %></p>
+			<p><strong>Available:</strong> <%= inventory.available %> / <%= inventory.total %></p>
+			<%= link_to "View Item", hall_inventory_path(inventory), method: :get %>
+			<hr>
+		<% end %>
+	</div><!-- /Items -->
+</div>
+
