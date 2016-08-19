@@ -20,7 +20,7 @@
 		<% @guild.guild_halls.each do |hall| %>
 			<h4><%= hall.name %></h4>
 			<p><strong>Location:</strong> <%= hall.location.name %></p>
-			<p><strong>Size:</strong> <%= hall.rooms.length %> / <%= hall.size %></p>
+			<p><strong>Size:</strong> <%= hall.rooms.sum(&:size) %> / <%= hall.size %></p>
 			<p><strong>Units:</strong> <%= hall.units.length %> / <%= hall.unit_limit %></p>
 			<p><%= link_to "View Hall", guild_hall_path(hall), method: :get %> | 
 			<%= link_to "Sell Hall", release_guild_hall_path(hall) %> | 

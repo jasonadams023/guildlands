@@ -23,7 +23,8 @@ class RoomsController < ApplicationController
 		if (hall.rooms.sum(&:size) + room.size) < hall.size
 			if hall.guild.money >= room.cost
 				hall.rooms << room
-				if hall.save
+				hall.guild.money -= room.cost
+				if hall.save && hall.guild.save
 					flash[:notice] = "Room purchased."
 				else
 					flash[:alert] = "Failed to update Guild Hall."
@@ -39,6 +40,20 @@ class RoomsController < ApplicationController
 	end
 
 	def release
+		id = params[:id].to_i 
+		hall = GuildHall.find(params[:guild_hall_id])
+
+		if hall.room_inventories.destroy(id)
+			if hall.save
+				flash[:notice] = "Demolished room."
+			else
+				flash[:alert] = "Failed to update Guild Hall."
+			end
+		else
+			flash[:alert] = "Failed to destroy room."
+		end
+
+		redirect_to hall
 	end
 
 	def destroy
