@@ -8,6 +8,7 @@ class GuildHallsController < ApplicationController
 		@hall = GuildHall.find(params[:id])
 		@used_space = calc_used_space
 		@value = calc_value
+		@total_upkeep = calc_total_upkeep
 
 		@free = nil
 		if @hall.guild_id == nil
@@ -117,5 +118,14 @@ class GuildHallsController < ApplicationController
 			@hall.rooms.map{|room| value += room.value}
 
 			return value
+		end
+
+		def calc_total_upkeep
+			total = 0
+			@hall.units.each do |unit|
+				total += unit.upkeep_cost
+			end
+
+			return total
 		end
 end

@@ -57,7 +57,7 @@
 	</div><!-- /Units -->
 
 	<div class='col-lg-4'><!-- Items -->
-		<h3><strong>Items</strong></h3>
+		<h3><strong>Inventory</strong></h3>
 		<% @hall.hall_inventories.each do |item| %>
 			<h4><%= item.item.name %></h4>
 			<p><strong>Value:</strong> <%= item.item.value %></p>
@@ -75,7 +75,8 @@
 <div class="row"><!-- Manage -->
 	<div class="col-lg-12">
 		<hr>
-		<h4>Manage</h4>
+		<h3><strong>Manage</strong></h3>
+		<p><strong>Total Upkeep:</strong> <%= @total_upkeep %></p>
 		<% if @free %>
 			<p><strong>Value:</strong><%= @value %></p>
 			<%= link_to "Purchase Hall", purchase_guild_hall_path(@hall), method: :post %>
