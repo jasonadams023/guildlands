@@ -50,13 +50,12 @@ class UnitsController < ApplicationController
 			flash[:alert] = "Failed to update unit."
 		end
 
-		binding.pry
 		redirect_to unit
 	end
 
 	def purchase
 		unit = Unit.find(params[:id])
-		hall = GuildHall.find(params[:unit][:name])
+		hall = GuildHall.find(params[:unit][:guild_hall_id])
 
 		if hall.units.length < hall.unit_limit
 			if hall.guild.money >= unit.hiring_cost
