@@ -13,8 +13,7 @@
 			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
 			<p><strong>Hiring Cost:</strong> <%= unit.hiring_cost %></p>
 			<p><strong>Upkeep Cost:</strong> <%= unit.upkeep_cost %></p>
-			<p><%= link_to "View Unit", unit_path(unit), method: :get %> | 
-			<%= link_to "Hire Unit", release_unit_path(unit), method: :get %>
+			<p><%= link_to "View Unit", unit_path(unit), method: :get %></p>
 			<hr>
 		<% end %>
 	</div><!-- /Units -->

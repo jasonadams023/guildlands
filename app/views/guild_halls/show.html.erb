@@ -1,2 +1,87 @@
-<h1>GuildHalls#show</h1>
-<p>Find me in app/views/guild_halls/show.html.erb</p>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">View Guild Hall</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-12'><!-- Basics -->
+		<h4><%= @hall.name %></h4>
+		<p><strong>Current Owner:</strong> <%= if @hall.guild_id == nil then 'None' else @hall.guild.name end %></p>
+		<p><strong>Location:</strong> <%= @hall.location.name %></p>
+		<p><strong>Size:</strong> <%= @used_space %> / <%= @hall.size %></p>
+		<p><strong>Unit Count:</strong> <%= @hall.units.length %> / <%= @hall.unit_limit %></p>
+		<hr>
+	</div><!-- /Basics -->
+</div>
+
+<div class='row'><!-- In Depth -->
+	<div class='col-lg-4'><!-- Rooms -->
+		<h3><strong>Rooms</strong></h3>
+		<% @hall.room_inventories.each do |room| %>
+			<h4><%= room.room.name %></h4>
+			<p><strong>Size:</strong> <%= room.room.size %></p>
+			<p><strong>Cost:</strong> <%= room.room.cost %></p>
+			<p><strong>Description:</strong> <%= truncate(room.room.description, 160) %></p>
+			<p><strong>Modifications:</strong> <%= room.modifications %></p>
+			<p><%= link_to "View Room", room_path(room.room), method: :get %></p>
+			<hr>
+		<% end %>
+		<% if @hall.guild_id == current_user.guild.id %>
+			<p><%= link_to "Browse Room Catalogue", rooms_path, method: :get %></p>
+		<% end %>
+	</div><!-- /Rooms -->
+
+	<div class='col-lg-4'><!-- Units -->
+		<h3><strong>Units</strong></h3>
+		<% @hall.units.each do |unit| %>
+			<h4><%= unit.name %></h4>
+			<p><strong>XP:</strong> <%= unit.spent_xp %> / <%= unit.total_xp %>
+			 | <strong>HP:</strong> <%= unit.current_hp %> / <%= unit.max_hp %>
+			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
+			<p><strong>Location:</strong> <%= unit.guild_hall.name %> - <%= unit.guild_hall.location.name %></p>
+			<p><strong>Activity:</strong> <%= unit.activity.name %></p>
+			<p><%= link_to "View Unit", unit_path(unit), method: :get %>
+
+			<% if @hall.guild_id == current_user.guild.id %>
+				 | <%= link_to "Release Unit", release_unit_path(unit), method: :get %> | 
+				<%= link_to "Retire Unit", unit_path(unit), method: :delete %></p>
+			<% end %>
+
+			<hr>
+		<% end %>
+		<% if @hall.guild_id == current_user.guild.id %>
+			<p><%= link_to "View Available Units", units_path, method: :get %> | 
+			<%= link_to "Create New Unit", new_unit_path, method: :get %></p>
+		<% end %>
+	</div><!-- /Units -->
+
+	<div class='col-lg-4'><!-- Items -->
+		<h3><strong>Items</strong></h3>
+		<% @hall.hall_inventories.each do |item| %>
+			<h4><%= item.item.name %></h4>
+			<p><strong>Value:</strong> <%= item.item.value %></p>
+			<p><strong>Amount:</strong> <%= item.available %> / <%= item.total %></p>
+			<p><strong>Description:</strong> <%= truncate(item.item.description, 160) %></p>
+			<p><%= link_to "View Item", item_path(item.item), method: :get %></p>
+			<hr>
+		<% end %>
+		<% if @hall.guild_id == current_user.guild.id %>
+			<p><%= link_to "Browse All Items", items_path, method: :get %></p>
+		<% end %>
+	</div><!-- /Items -->
+</div><!-- /In Depth -->
+
+<div class="row"><!-- Manage -->
+	<div class="col-lg-12">
+		<hr>
+		<h4>Manage</h4>
+		<% if @free %>
+			<p><strong>Value:</strong><%= @value %></p>
+			<%= link_to "Purchase Hall", purchase_guild_hall_path(@hall), method: :post %>
+		<% else %>
+			<p><strong>Value:</strong><%= @value / 2 %></p>
+			<p><%= link_to "Sell Hall", release_guild_hall_path(@hall), method: :get %></p>
+		<% end %>
+	</div>
+</div><!-- /Manage -->
