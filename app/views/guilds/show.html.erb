@@ -30,23 +30,27 @@
 		<p><%= link_to "View Available Halls", guild_halls_path, method: :get %> | 
 		<%= link_to "Create New Hall", new_guild_hall_path, method: :get %></p>
 	</div><!-- /Guild Halls -->
+
 	<div class='col-lg-4'><!-- Units -->
 		<h3><strong>Units</strong></h3>
-		<% @guild.units.each do |unit| %>
-			<h4><%= unit.name %></h4>
-			<p><strong>XP:</strong> <%= unit.spent_xp %> / <%= unit.total_xp %>
-			 | <strong>HP:</strong> <%= unit.current_hp %> / <%= unit.max_hp %>
-			 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
-			<p><strong>Location:</strong> <%= unit.guild_hall.name %> - <%= unit.guild_hall.location.name %></p>
-			<p><strong>Activity:</strong> <%= unit.activity.name %></p>
-			<p><%= link_to "View Unit", unit_path(unit), method: :get %> | 
-			<%= link_to "Release Unit", release_unit_path(unit), method: :get %> | 
-			<%= link_to "Retire Unit", unit_path(unit), method: :delete %></p>
-			<hr>
+		<% @guild.guild_halls.each do |hall| %>
+			<% hall.units.each do |unit| %>
+				<h4><%= unit.name %></h4>
+				<p><strong>XP:</strong> <%= unit.spent_xp %> / <%= unit.total_xp %>
+				 | <strong>HP:</strong> <%= unit.current_hp %> / <%= unit.max_hp %>
+				 | <strong>SP:</strong> <%= unit.current_sp %> / <%= unit.max_sp %></p>
+				<p><strong>Location:</strong> <%= unit.guild_hall.name %> - <%= unit.guild_hall.location.name %></p>
+				<p><strong>Activity:</strong> <%= unit.activity.name %></p>
+				<p><%= link_to "View Unit", unit_path(unit), method: :get %> | 
+				<%= link_to "Release Unit", release_unit_path(unit), method: :get %> | 
+				<%= link_to "Retire Unit", unit_path(unit), method: :delete %></p>
+				<hr>
+			<% end %>
 		<% end %>
 		<p><%= link_to "View Available Units", units_path, method: :get %> | 
 		<%= link_to "Create New Unit", new_unit_path, method: :get %></p>
 	</div><!-- /Units -->
+
 	<div class='col-lg-4'><!-- Guild Abilities -->
 		<h3><strong>Guild Abilities</strong></h3>
 		<% @guild.guild_abilities.each do |ability| %>

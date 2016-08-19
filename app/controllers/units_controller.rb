@@ -41,6 +41,19 @@ class UnitsController < ApplicationController
 		end
 	end
 
+	def update
+		unit = Unit.find(params[:id])
+
+		if unit.update(unit_params)
+			flash[:notice] = "Unit updated."
+		else
+			flash[:alert] = "Failed to update unit."
+		end
+
+		binding.pry
+		redirect_to unit
+	end
+
 	def purchase
 		unit = Unit.find(params[:id])
 		hall = GuildHall.find(params[:unit][:name])

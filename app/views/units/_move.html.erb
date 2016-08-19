@@ -1,0 +1,5 @@
+<%= simple_form_for @unit, url: unit_path(@unit), method: :patch do |f| %>
+  <%= f.input :guild_hall_id, label: "Transfer", collection: current_user.guild.guild_halls.select{|hall| hall.unit_limit > hall.units.length} %>
+
+  <%= f.button :submit, label: "Move Unit" %>
+<% end %>
