@@ -3,7 +3,8 @@ class CreateRooms < ActiveRecord::Migration[5.0]
     create_table :rooms do |t|
       t.string :name
       t.integer :size
-      t.text :descritption
+      t.integer :cost
+      t.text :description
       t.hstore :effects
 
       t.timestamps

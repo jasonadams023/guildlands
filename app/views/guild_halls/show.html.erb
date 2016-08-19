@@ -22,13 +22,13 @@
 			<h4><%= room.room.name %></h4>
 			<p><strong>Size:</strong> <%= room.room.size %></p>
 			<p><strong>Cost:</strong> <%= room.room.cost %></p>
-			<p><strong>Description:</strong> <%= truncate(room.room.description, 160) %></p>
+			<p><strong>Description:</strong> <%= truncate(room.room.description, length: 160) %></p>
 			<p><strong>Modifications:</strong> <%= room.modifications %></p>
 			<p><%= link_to "View Room", room_path(room.room), method: :get %></p>
 			<hr>
 		<% end %>
 		<% if @hall.guild_id == current_user.guild.id %>
-			<p><%= link_to "Browse Room Catalogue", rooms_path, method: :get %></p>
+			<p><%= link_to "Browse Room Catalogue", rooms_path(guild_hall_id: @hall.id), method: :get %></p>
 		<% end %>
 	</div><!-- /Rooms -->
 

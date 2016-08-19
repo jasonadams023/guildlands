@@ -107,10 +107,11 @@ ActiveRecord::Schema.define(version: 20160817235311) do
   create_table "rooms", force: :cascade do |t|
     t.string   "name"
     t.integer  "size"
-    t.text     "descritption"
+    t.integer  "cost"
+    t.text     "description"
     t.hstore   "effects"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "unit_abilities", force: :cascade do |t|

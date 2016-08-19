@@ -34,3 +34,7 @@ items = Item.create([{name: 'potion', description: 'Restores 15 hp.', effects: {
 guild_abilities = GuildAbility.create([{name: 'Team Work', rep_cost: 500, description: "Enables guild members to combine their attacks with each other.", effect: {gestalt: 'enable'}},
 										{name: 'Marketing', rep_cost: 500, description: "Increases the selling power of your entire guild.", effect: {sales: 'double'}},
 										{name: 'Word of Mouth', rep_cost: 2000, description: "Increases the rate at which you gain more prestige.", effect: {rep_gain: 'double'}}])
+
+rooms = Room.create([{name: 'Bunk Room', size: 1, description: "Basic housing for your units.", effects: {unit_limit: 1}, cost: 200},
+					{name: 'Bed Room', size: 2, description: "Medium housing for your units.", effects: {unit_limit: 2}, cost: 300},
+					{name: 'Dorm', size: 3, description: "Large housing for your units.", effects: {unit_limit: 4}, cost: 800}])

@@ -12,7 +12,10 @@ Rails.application.routes.draw do
 		get 'release', on: :member
 		post 'purchase', on: :member
 	end
-	resources :rooms
+	resources :rooms do
+		get 'release', on: :member
+		post 'purchase', on: :member
+	end
 	resources :units do
 		get 'release', on: :member
 		post 'purchase', on: :member

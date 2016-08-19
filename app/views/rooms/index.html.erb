@@ -1,1 +1,21 @@
-index.html.erb
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Room Catalogue</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-4'><!-- Rooms -->
+		<% @rooms.each do |room| %>
+			<h4><%= room.name %></h4>
+			<p><strong>Name:</strong> <%= room.name %></p>
+			<p><strong>Size:</strong> <%= room.size %></p>
+			<p><strong>Description:</strong> <%= truncate(room.description, length: 160) %></p>
+			<p><strong>Cost:</strong> <%= room.cost %></p>
+			<% if @hall != nil %>
+				<%= link_to "Purchase", purchase_room_path(room, guild_hall_id: @hall), method: :post %>
+			<% end %>
+			<hr>
+		<% end %>
+	</div><!-- /Rooms -->
+</div>

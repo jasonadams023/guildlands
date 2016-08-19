@@ -115,7 +115,7 @@ class GuildHallsController < ApplicationController
 		def calc_value
 			value = 0
 			value += @hall.size * 100
-			@hall.rooms.map{|room| value += room.value}
+			@hall.rooms.map{|room| value += room.cost}
 
 			return value
 		end
