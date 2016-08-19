@@ -238,26 +238,39 @@
                                 </div>
                                 <!-- /input-group -->
                             </li>
-                            <li>
+
+                            <li><!-- Overview -->
                                 <%= link_to guild_path(current_user.guild.id), method: :get do %>
                                     <i class="fa fa-dashboard fa-fw"></i> Overview
                                 <% end %>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            </li><!-- /Overview -->
+                            
+                            <li><!-- Guild Halls -->
+                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Guild Halls<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="flot.html">Flot Charts</a>
+                                        <%= link_to "Your Guild Halls", guild_halls_path(guild_id: current_user.guild.id), method: :get %>
                                     </li>
                                     <li>
-                                        <a href="morris.html">Morris.js Charts</a>
+                                        <%= link_to "Available Guild Halls", guild_halls_path, method: :get %>
                                     </li>
+                                    <li>
                                 </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                            </li>
+                            </li><!-- /Guild Halls -->
+
+                            <li><!-- Units -->
+                                <a href="#"><i class="fa fa-table fa-fw"></i> Units<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <%= link_to "Your Units", units_path(guild_id: current_user.guild.id), method: :get %>
+                                    </li>
+                                    <li>
+                                        <%= link_to "Available Units", units_path, method: :get %>
+                                    </li>
+                                    <li>
+                                </ul>
+                            </li><!-- /Units -->
+
                             <li>
                                 <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                             </li>

@@ -2,7 +2,23 @@ class UnitsController < ApplicationController
 	before_action :check_complete, only: :create
 
 	def index
-		@units = Unit.all.select{|u| u.guild_hall_id == nil}
+		if params[:guild_id] == nil && params[:guild_hall_id] == nil
+			@units = Unit.all.select{|u| u.guild_hall_id == nil}
+		else
+			if params[:guild_id] != nil
+				guild = Guild.find(params[:guild_id].to_i)
+				halls = guild.guild_halls
+				@units = []
+				halls.each do |hall|
+					hall.units.each do |unit|
+						@units << unit
+					end
+				end
+			else
+				guild_hall = GuildHall.find(params[:guild_hall_id].to_i)
+				@units = guild_hall.units
+			end
+		end
 	end
 
 	def show

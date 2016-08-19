@@ -1,6 +1,7 @@
 class GuildHallsController < ApplicationController
 	def index
-		@halls = GuildHall.all.select{|hall| hall.guild_id == nil}
+		if params[:guild_id] != nil then guild_id = params[:guild_id].to_i else guild_id = nil end
+		@halls = GuildHall.all.select{|hall| hall.guild_id == guild_id}
 	end
 
 	def show
