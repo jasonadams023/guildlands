@@ -23,6 +23,7 @@ class RoomsController < ApplicationController
 		if (hall.rooms.sum(&:size) + room.size) < hall.size
 			if hall.guild.money >= room.cost
 				hall.rooms << room
+				hall.set_unit_limit
 				hall.guild.money -= room.cost
 				if hall.save && hall.guild.save
 					flash[:notice] = "Room purchased."
@@ -44,6 +45,7 @@ class RoomsController < ApplicationController
 		hall = GuildHall.find(params[:guild_hall_id])
 
 		if hall.room_inventories.destroy(id)
+			hall.set_unit_limit
 			if hall.save
 				flash[:notice] = "Demolished room."
 			else

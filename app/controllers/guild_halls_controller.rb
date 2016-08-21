@@ -35,7 +35,7 @@ class GuildHallsController < ApplicationController
 
     	if @hall.guild.money >= value
     		@hall.guild.money -= value
-	    	set_unit_limit(@hall)
+	    	@hall.set_unit_limit
 
 			if @hall.save && @hall.guild.save
 				flash[:notice] = "Guild Hall created."
@@ -49,6 +49,9 @@ class GuildHallsController < ApplicationController
 		@guild = current_user.guild
 		@hall = GuildHall.new
 		render :edit
+    end
+
+    def update
     end
 
     def purchase
@@ -140,13 +143,5 @@ class GuildHallsController < ApplicationController
 			end
 
 			return total
-		end
-
-		def set_unit_limit(hall)
-			hall.unit_limit = 0
-			arr = hall.rooms.select{|room| room.effects['unit_limit'] != nil}
-			arr.each do |room|
-				hall.unit_limit += room.effects['unit_limit'].to_i
-			end
 		end
 end

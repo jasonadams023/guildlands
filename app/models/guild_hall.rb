@@ -9,4 +9,12 @@ class GuildHall < ApplicationRecord
   has_many :items, through: :hall_inventories
 
   store_accessor :effects #can include unit limit, bonuses, etc.
+
+	def set_unit_limit()
+		self.unit_limit = 0
+		arr = self.rooms.select{|room| room.effects['unit_limit'] != nil}
+		arr.each do |room|
+			self.unit_limit += room.effects['unit_limit'].to_i
+		end
+	end
 end
