@@ -2,7 +2,7 @@ class GuildHall < ApplicationRecord
   belongs_to :guild
   belongs_to :location
 
-  has_many :room_inventories
+  has_many :room_inventories, dependent: :destroy
   has_many :rooms, through: :room_inventories
   has_many :units
   has_many :hall_inventories

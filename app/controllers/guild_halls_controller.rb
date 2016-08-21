@@ -83,6 +83,7 @@ class GuildHallsController < ApplicationController
 		hall = GuildHall.find(params[:id])
 		guild = hall.guild
 
+		hall.hall_inventories.destroy_all
 		if hall.delete
 			if guild.save
 				flash[:notice] = "Guild Hall destroyed."
