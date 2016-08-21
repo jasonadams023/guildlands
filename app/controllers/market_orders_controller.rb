@@ -2,6 +2,8 @@ class MarketOrdersController < ApplicationController
 	def index
 		if params[:item_id] != nil
 			@orders = MarketOrder.all.select{|o| o.item_id == params[:item_id].to_i}
+		elsif params[:guild_id] != nil
+			@orders = MarketOrder.all.select{|o| o.guild_hall.guild.id == params[:guild_id].to_i}
 		else
 			@orders = MarketOrder.all
 		end

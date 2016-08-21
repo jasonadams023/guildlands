@@ -278,9 +278,15 @@
                             </li><!-- /Rooms -->
 
                             <li><!-- Market -->
-                                <%= link_to market_orders_path, method: :get do %>
-                                    <i class="fa fa-wrench fa-fw"></i> Market
-                                <% end %>
+                                <a href="#"><i class="fa fa-wrench fa-fw"></i> Market<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <%= link_to "Market", market_orders_path, method: :get %>
+                                    </li>
+                                    <li>
+                                        <%= link_to "Your Market Orders", market_orders_path(guild_id: current_user.guild.id), method: :get %>
+                                    </li>
+                                </ul>
                             </li><!-- /Market -->
 
                             <li>
