@@ -14,7 +14,11 @@
 		<p><strong>Description:</strong> <%= @ability.description %></p>
 
 		<% if params[:unit_id] != nil %>
-			<p><%= link_to "Train Ability", purchase_unit_ability_path(@ability, unit_id: @unit.id), method: :post %></p>
+			<% if @unit.unit_abilities.include?(@ability) %>
+				<%= link_to "Untrain Ability", release_unit_ability_path(@ability, unit_id: @unit.id) %>
+			<% else %>
+				<p><%= link_to "Train Ability", purchase_unit_ability_path(@ability, unit_id: @unit.id), method: :post %></p>
+			<% end %>
 		<% end %>
 	</div>
 </div>

@@ -43,6 +43,17 @@ class UnitAbilitiesController < ApplicationController
 	end
 
 	def release
+		ability = UnitAbility.find(params[:id])
+		unit = Unit.find(params[:unit_id])
+		id = unit.unit_abilities.find_index{|a| a.id == ability.id}
+
+		if unit.unit_abilities[id].delete && unit.save
+			flash[:notice] = "Ability untrained."
+		else
+			flash[:alert] = "Failed to update."
+		end
+
+		redirect_to unit
 	end
 
 	def destroy
