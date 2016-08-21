@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 		post 'purchase', on: :member
 	end
 	resources :hall_inventories do
-		get 'release', on: :member
+		post 'release', on: :member
 		post 'purchase', on: :member
 	end
 	resources :market_orders do

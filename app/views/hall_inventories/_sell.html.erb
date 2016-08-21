@@ -1,0 +1,6 @@
+<%= simple_form_for @order, url: market_orders_path(inventory_id: @inventory.id), method: :post do |f| %>
+  <%= f.input :amount, collection: 1..@inventory.available %>
+  <%= f.input :price, label: "Price" %>
+
+  <%= f.button :submit, label: "Purchase" %>
+<% end %>

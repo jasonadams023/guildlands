@@ -14,6 +14,6 @@
 		<p><strong>Base Value:</strong> <%= @inventory.item.value %></p>
 		<p><strong>Available:</strong> <%= @inventory.available %> / <%= @inventory.total %></p>
 		<p><%= link_to "Buy more of this item", market_orders_path(item_id: @inventory.item_id), method: :get %></p>
-		<p><%= link_to "Create Sell Order" %></p>
+		<%= render 'hall_inventories/sell' %>
 	</div>
 </div>
