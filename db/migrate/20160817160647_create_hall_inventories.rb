@@ -5,6 +5,7 @@ class CreateHallInventories < ActiveRecord::Migration[5.0]
       t.references :item, foreign_key: true
       t.integer :total
       t.integer :available
+      t.integer :selling
 
       t.timestamps
     end

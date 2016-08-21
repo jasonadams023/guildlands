@@ -24,8 +24,7 @@ units = Unit.create([{name: 'Ulbert', total_xp: 1000, spent_xp: 0, hiring_cost: 
 						max_hp: 50, current_hp: 50, max_sp: 50, current_sp: 50,
 						strength: 5, agility: 5, vitality: 5, stamina: 5, intelligence: 5, focus: 5,
 						dodge: 5, resilience: 0, resist: 5,
-						effects: {},
-						guild_id: 1, guild_hall_id: 1, location_id: 1, activity_id: 1}])
+						effects: {}, guild_hall_id: 1, activity_id: 1}])
 
 unit_abilities = UnitAbility.create([{name: 'Gatherer', description: 'This unit is better at gathering', xp_cost: 50, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {gathering: 'doubled'}}])
 
@@ -39,6 +38,6 @@ rooms = Room.create([{name: 'Bunk Room', size: 1, description: "Basic housing fo
 					{name: 'Bed Room', size: 2, description: "Medium housing for your units.", effects: {unit_limit: 2}, cost: 300},
 					{name: 'Dorm', size: 3, description: "Large housing for your units.", effects: {unit_limit: 4}, cost: 800}])
 
-selling = MarketOrder.create([{guild_hall_id: 2, item_id: 1, amount: 500, price: 20}])
-
 hall_inventories = HallInventory.create([{guild_hall_id: 2, item_id: 1, available: 100, total: 600, selling: 500}])
+
+selling = MarketOrder.create([{hall_inventory_id: 1, item_id: 1, amount: 500, price: 20}])

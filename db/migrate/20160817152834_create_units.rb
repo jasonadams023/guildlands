@@ -21,9 +21,7 @@ class CreateUnits < ActiveRecord::Migration[5.0]
       t.integer :resilience
       t.integer :resist
       t.hstore :effects
-      t.references :guild, foreign_key: true
       t.references :guild_hall, foreign_key: true
-      t.references :location, foreign_key: true
       t.references :activity, foreign_key: true
 
       t.timestamps

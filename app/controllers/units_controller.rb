@@ -40,19 +40,24 @@ class UnitsController < ApplicationController
 	end
 
 	def create
-		set_stats
-		set_ids
-		@unit.effects = {}
+		@unit.custom_new
+		guild = @unit.guild_hall.guild
 
-		if @unit.save
-			flash[:notice] = "Created new unit."
-			redirect_to current_user.guild
+		if guild.money >= @unit.hiring_cost
+			guild.money -= @unit.hiring_cost
+
+			if @unit.save && guild.save
+				flash[:notice] = "Created new unit."
+				redirect_to current_user.guild and return
+			else
+				flash[:alert] = "Failed to save unit."
+			end
 		else
-			flash[:alert] = "Failed to save unit."
-			@guild = current_user.guild
-			@unit = Unit.new
-			render :edit
+			flash[:alert] = "Guild does not have enough money to hire this unit."
 		end
+		@guild = current_user.guild
+		@unit = Unit.new
+		render :edit
 	end
 
 	def update
@@ -69,22 +74,28 @@ class UnitsController < ApplicationController
 
 	def purchase
 		unit = Unit.find(params[:id])
+
+		if GuildHall.find(params[:unit][:guild_hall_id]) != ''
 		hall = GuildHall.find(params[:unit][:guild_hall_id])
 
-		if hall.units.length < hall.unit_limit
-			if hall.guild.money >= unit.hiring_cost
-				hall.units << unit
-				hall.guild.money -= unit.hiring_cost
-				if unit.save && hall.save && hall.guild.save
-					flash[:notice] = "Unit Hired."
+			if hall.units.length < hall.unit_limit
+				if hall.guild.money >= unit.hiring_cost
+					hall.units << unit
+					hall.guild.money -= unit.hiring_cost
+					if unit.save && hall.save && hall.guild.save
+						flash[:notice] = "Unit Hired."
+						
+					else
+						flash[:alert] = "Failed to update."
+					end
 				else
-					flash[:alert] = "Failed to update."
+					flash[:alert] = "Guild does not have enough money to hire this unit."
 				end
 			else
-				flash[:alert] = "Guild does not have enough money to hire this unit."
+				flash[:alert] = "That Guild Hall cannot hold any more units."
 			end
 		else
-			flash[:alert] = "That Guild Hall cannot hold any more units."
+			flash[:alert] = "No Guild Hall specified."
 		end
 
 		redirect_to unit_path(unit)
@@ -136,47 +147,4 @@ class UnitsController < ApplicationController
 				render :edit
 			end
 		end
-
-		def set_spent_xp
-	        @unit.spent_xp = 0
-	    end
-
-	    def set_costs
-	    	@unit.hiring_cost = @unit.total_xp
-	    	@unit.upkeep_cost = 10
-	    end
-	    
-	    def set_HP
-	        @unit.max_hp = @unit.vitality * 10
-	    end
-	    
-	    def set_SP
-	        @unit.max_sp = @unit.stamina * 10
-	    end
-	    
-	    def set_defenses
-	        @unit.dodge = @unit.agility
-	        @unit.resilience = 0
-	        @unit.resist = @unit.intelligence
-	    end
-	    
-	    def full_heal
-	        @unit.current_hp = @unit.max_hp
-	        @unit.current_sp = @unit.max_sp
-	    end
-
-	    def set_ids
-	    	@unit.guild = @unit.guild_hall.guild
-	    	@unit.location = @unit.guild_hall.location
-	    	@unit.activity = Activity.find(1)
-	    end
-	    
-	    def set_stats #for creating or updating characters
-	        set_HP
-	        set_SP
-	        full_heal
-	        set_defenses
-	        set_spent_xp
-	        set_costs
-	    end
 end

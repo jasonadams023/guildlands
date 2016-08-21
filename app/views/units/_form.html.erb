@@ -1,12 +1,12 @@
 <%= simple_form_for @unit do |f| %>
   <%= f.input :name, required: true %>
-  <%= f.input :total_xp %>
-  <%= f.input :strength %>
-  <%= f.input :agility %>
-  <%= f.input :vitality %>
-  <%= f.input :stamina %>
-  <%= f.input :intelligence %>
-  <%= f.input :focus %>
+  <%= f.input :total_xp, collection: 1..@guild.total_rep %>
+  <%= f.input :strength, collection: 1..20 %>
+  <%= f.input :agility, collection: 1..20 %>
+  <%= f.input :vitality, collection: 1..20 %>
+  <%= f.input :stamina, collection: 1..20 %>
+  <%= f.input :intelligence, collection: 1..20 %>
+  <%= f.input :focus, collection: 1..20 %>
   <%= f.input :guild_hall_id, collection: @guild.guild_halls %>
 
   <%= f.button :submit %>

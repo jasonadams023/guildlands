@@ -163,16 +163,12 @@ ActiveRecord::Schema.define(version: 20160819191610) do
     t.integer  "resilience"
     t.integer  "resist"
     t.hstore   "effects"
-    t.integer  "guild_id"
     t.integer  "guild_hall_id"
-    t.integer  "location_id"
     t.integer  "activity_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["activity_id"], name: "index_units_on_activity_id", using: :btree
     t.index ["guild_hall_id"], name: "index_units_on_guild_hall_id", using: :btree
-    t.index ["guild_id"], name: "index_units_on_guild_id", using: :btree
-    t.index ["location_id"], name: "index_units_on_location_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -207,6 +203,4 @@ ActiveRecord::Schema.define(version: 20160819191610) do
   add_foreign_key "room_inventories", "rooms"
   add_foreign_key "units", "activities"
   add_foreign_key "units", "guild_halls"
-  add_foreign_key "units", "guilds"
-  add_foreign_key "units", "locations"
 end
