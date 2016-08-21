@@ -3,7 +3,7 @@ class MarketOrdersController < ApplicationController
 		if params[:item_id] != nil
 			@orders = MarketOrder.all.select{|o| o.item_id == params[:item_id].to_i}
 		elsif params[:guild_id] != nil
-			@orders = MarketOrder.all.select{|o| o.guild_hall.guild.id == params[:guild_id].to_i}
+			@orders = MarketOrder.all.select{|o| o.hall_inventory.guild_hall.guild.id == params[:guild_id].to_i}
 		else
 			@orders = MarketOrder.all
 		end
@@ -23,7 +23,7 @@ class MarketOrdersController < ApplicationController
 		inventory = HallInventory.find(params[:inventory_id])
 		order = MarketOrder.new(order_params)
 
-		order.guild_hall_id = inventory.guild_hall_id
+		order.hall_inventory_id = inventory.id
 		order.item_id = inventory.item_id
 
 		inventory.selling += order.amount
@@ -89,10 +89,27 @@ class MarketOrdersController < ApplicationController
 	end
 
 	def destroy
+		order = MarketOrder.find(params[:id])
+		inventory = HallInventory.find(order.hall_inventory_id)
+
+		inventory.selling -= order.amount
+		inventory.available += order.amount
+
+		if inventory.save && order.delete
+			flash[:notice] = "Order cancellation successful."
+		else
+			if inventory.save
+				flash[:alert] = "Failed to delete order."
+			else
+				flash[:alert] = "Failed to update inventory."
+			end
+			redirect_to order
+		end
+		redirect_to inventory
 	end
 
 	private
 		def order_params
-			params.require(:market_order).permit(:guild_hall_id, :item_id, :amount, :price)
+			params.require(:market_order).permit(:hall_inventory_id, :item_id, :amount, :price)
 		end
 end

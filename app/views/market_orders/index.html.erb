@@ -8,8 +8,7 @@
 	<div class='col-lg-4'><!-- Items -->
 		<% @orders.each do |order| %>
 			<h4><%= order.item.name %></h4>
-			<!-- <p><strong>Seller:</strong> <%= %></p>
-			<p><strong>Location:</strong> <%= %></p> -->
+			<p><strong>Seller:</strong> <%= order.hall_inventory.guild_hall.guild.name %></p>
 			<p><strong>Description:</strong> <%= truncate(order.item.description, length: 160) %></p>
 			<p><strong>Price:</strong> <%= order.price %></p>
 			<p><strong>Available:</strong> <%= order.amount %></p>

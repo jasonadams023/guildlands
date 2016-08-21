@@ -1,4 +1,4 @@
 class MarketOrder < ApplicationRecord
-  belongs_to :guild_hall
+  belongs_to :hall_inventory
   belongs_to :item
 end
