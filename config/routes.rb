@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 		post 'purchase', on: :member
 	end
 	resources :unit_abilities do
-		get 'release', on: :member
+		post 'release', on: :member
 		post 'purchase', on: :member
 	end
 	resources :items do

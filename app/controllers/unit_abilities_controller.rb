@@ -47,10 +47,15 @@ class UnitAbilitiesController < ApplicationController
 		unit = Unit.find(params[:unit_id])
 		id = unit.unit_abilities.find_index{|a| a.id == ability.id}
 
-		if unit.unit_abilities[id].delete && unit.save
-			flash[:notice] = "Ability untrained."
+		if unit.unit_abilities.delete(ability)
+			unit.spent_xp -= ability.xp_cost
+			if unit.save
+				flash[:notice] = "Ability untrained."
+			else
+				flash[:alert] = "Failed to update."
+			end
 		else
-			flash[:alert] = "Failed to update."
+			flash[:alert] = "Failed to remove ability."
 		end
 
 		redirect_to unit

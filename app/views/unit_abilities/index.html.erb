@@ -15,7 +15,7 @@
 		<p><strong>Description:</strong> <%= ability.description %></p>
 		
 		<% if params[:unit_id] != nil %>
-			<p><%= link_to "View Ability", unit_ability_path(ability, unit_id: @unit.id, method: :get) %></p>
+			<p><%= link_to "View Ability", unit_ability_path(ability, unit_id: @unit.id), method: :get %></p>
 		<% else %>
 			<p><%= link_to "View Ability", unit_ability_path(ability), method: :get %></p>
 		<% end %>
