@@ -13,6 +13,7 @@
 		<hr>
 		<p><strong>Base Value:</strong> <%= @inventory.item.value %></p>
 		<p><strong>Available:</strong> <%= @inventory.available %> / <%= @inventory.total %></p>
+		<p><strong>Selling:</strong> <%= @inventory.selling %></p>
 		<p><%= link_to "Search for this item in the market.", market_orders_path(item_id: @inventory.item_id), method: :get %></p>
 	</div>
 </div>
