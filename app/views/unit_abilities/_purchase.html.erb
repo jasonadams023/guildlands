@@ -1,0 +1,4 @@
+<%= simple_form_for @ability, url: purchase_unit_ability_path(@ability, unit_id: @unit_id), method: :post do |f| %>
+
+  <%= f.button :submit, label: "Purchase" %>
+<% end %>

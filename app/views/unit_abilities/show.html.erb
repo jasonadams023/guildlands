@@ -1,2 +1,20 @@
-<h1>UnitAbilities#show</h1>
-<p>Find me in app/views/unit_abilities/show.html.erb</p>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Ability Information</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-12'>
+		<h3><%= @ability.name %></h3>
+		<p><strong>Experience:</strong> <%= @ability.xp_cost %></p>
+		<p><strong>Category:</strong> <%= @ability.category %></p>
+		<p><strong>AP Cost:</strong> <%= @ability.ap_cost %> | 
+		<strong>SP Cost:</strong> <%= @ability.ap_cost %></p>
+		<p><strong>Description:</strong> <%= @ability.description %></p>
+
+		<% if params[:unit_id] != nil %>
+			<p><%= link_to "Train Ability", purchase_unit_ability_path(@ability, unit_id: @unit.id), method: :post %></p>
+		<% end %>
+	</div>
+</div>

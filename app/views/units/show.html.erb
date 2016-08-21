@@ -5,34 +5,14 @@
 </div>
 
 <div class='row'>
-	<div class='col-lg-12'><!-- Basics -->
+	<div class='col-lg-4'><!-- Basics -->
 		<h4><%= @unit.name %></h4>
 		<p><strong>XP:</strong> <%= @unit.spent_xp %> / <%= @unit.total_xp %>
 		 | <strong>HP:</strong> <%= @unit.current_hp %> / <%= @unit.max_hp %>
 		 | <strong>SP:</strong> <%= @unit.current_sp %> / <%= @unit.max_sp %></p>
-		<hr>
 	</div><!-- /Basics -->
-</div>
 
-<div class='row'><!-- In Depth -->
-	<div class='col-lg-3'><!-- Base Stats -->
-		<h4>Base Stats</h4>
-		<p><strong>strength:</strong> <%= @unit.strength %></p>
-		<p><strong>Agility:</strong> <%= @unit.agility %></p>
-		<p><strong>Vitality:</strong> <%= @unit.vitality %></p>
-		<p><strong>Stamina:</strong> <%= @unit.stamina %></p>
-		<p><strong>Intelligence:</strong> <%= @unit.intelligence %></p>
-		<p><strong>Focus:</strong> <%= @unit.focus %></p>
-	</div><!-- /Base Stats -->
-
-	<div class='col-lg-3'><!-- Defenses -->
-		<h4>Defenses</h4>
-		<p><strong>Dodge:</strong> <%= @unit.dodge %></p>
-		<p><strong>Resilience</strong> <%= @unit.resilience %></p>
-		<p><strong>Resist:</strong> <%= @unit.resist %></p>
-	</div><!-- /Defenses -->
-
-	<div class='col-lg-3'><!-- Guild -->
+	<div class='col-lg-4'><!-- Guild -->
 		<h4>Guild</h4>
 		<% if @unit.guild_hall_id == nil %>
 			<p><strong>Guild:</strong> Free</p>
@@ -43,11 +23,47 @@
 			<p><strong>Activity:</strong> <%= @unit.activity.name %></p>
 	</div><!-- /Guild -->
 
-	<div class='col-lg-3'><!-- Financial -->
+	<div class='col-lg-4'><!-- Financial -->
 		<h4>Financial</h4>
 		<p><strong>Hiring Cost:</strong> <%= @unit.hiring_cost %></p>
 		<p><strong>Upkeep Cost:</strong> <%= @unit.upkeep_cost %></p>
 	</div><!-- /Financial -->
+</div>
+
+<div class='row'>
+	<hr>
+</div>
+
+<div class='row'><!-- In Depth -->
+	<div class='col-lg-4'><!-- Base Stats -->
+		<h4>Base Stats</h4>
+		<p><strong>strength:</strong> <%= @unit.strength %></p>
+		<p><strong>Agility:</strong> <%= @unit.agility %></p>
+		<p><strong>Vitality:</strong> <%= @unit.vitality %></p>
+		<p><strong>Stamina:</strong> <%= @unit.stamina %></p>
+		<p><strong>Intelligence:</strong> <%= @unit.intelligence %></p>
+		<p><strong>Focus:</strong> <%= @unit.focus %></p>
+	</div><!-- /Base Stats -->
+
+	<div class='col-lg-4'><!-- Defenses -->
+		<h4>Defenses</h4>
+		<p><strong>Dodge:</strong> <%= @unit.dodge %></p>
+		<p><strong>Resilience</strong> <%= @unit.resilience %></p>
+		<p><strong>Resist:</strong> <%= @unit.resist %></p>
+	</div><!-- /Defenses -->
+
+	<div class='col-lg-4'><!-- Abilities -->
+		<h4>Abilities</h4>
+		<% @unit.unit_abilities.each do |ability| %>
+			<h4><%= ability.name %></h4>
+			<p><strong>Description:</strong> <%= truncate(ability.description, length: 160) %></p>
+			<p><%= link_to "View Ability", unit_ability_path(ability, unit_id: @unit.id, method: :get) %></p>
+			<hr>
+		<% end %>
+		<%= link_to "View Abilities List", unit_abilities_path(unit_id: @unit.id), method: :get %>
+	</div><!-- /Abilities -->
+
+	
 </div><!-- /In Depth -->
 
 <div class="row"><!-- Manage -->
