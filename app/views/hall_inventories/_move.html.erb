@@ -1,0 +1,7 @@
+<%= simple_form_for @inventory, url: hall_inventory_path(@inventory, move: 'true'), method: :patch do |f| %>
+  <%= f.input :available, collection: 0..@inventory.available %>
+  <%= f.input :guild_hall_id, label: "Transfer", collection: current_user.guild.guild_halls.select{|hall| hall.id != @inventory.guild_hall.id } %>
+
+
+  <%= f.button :submit, label: "Move Unit" %>
+<% end %>

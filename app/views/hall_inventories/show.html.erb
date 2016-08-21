@@ -13,7 +13,20 @@
 		<hr>
 		<p><strong>Base Value:</strong> <%= @inventory.item.value %></p>
 		<p><strong>Available:</strong> <%= @inventory.available %> / <%= @inventory.total %></p>
-		<p><%= link_to "Buy more of this item", market_orders_path(item_id: @inventory.item_id), method: :get %></p>
-		<%= render 'hall_inventories/sell' %>
+		<p><%= link_to "Search for this item in the market.", market_orders_path(item_id: @inventory.item_id), method: :get %></p>
 	</div>
 </div>
+
+<% if @inventory.guild_hall.guild.id == current_user.guild.id %>
+	<h3>Manage</h3>
+	<div class ='row'>
+		<div class='col-lg-4'>
+			<h4>Sell</h4>
+			<%= render 'hall_inventories/sell' %>
+		</div>
+		<div class='col-lg-4'>
+			<h4>Transfer</h4>
+			<%= render 'hall_inventories/move' %>
+		</div>
+	</div>	
+<% end %>
