@@ -1,8 +1,8 @@
 <%= simple_form_for @hall do |f| %>
   <%= f.input :name %>
   <%= f.input :location_id, collection: Location.all %>
-  <%= f.input :size %>
-  <%= f.hidden_field :guild_id, value: @guild.id %>
+  <%= f.input :size, collection: 1..50 %>
+  <%= f.hidden_field :guild_id, value: current_user.guild.id %>
 
   <%= f.button :submit %>
 <% end %>
