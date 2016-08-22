@@ -38,9 +38,15 @@ gem 'twitter-bootstrap-rails'
 # Simple Form
 gem 'simple_form'
 # font awesome
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 # pry-rails
 gem 'pry-rails'
+# Delayed-Job
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+# Clockwork
+gem 'clockwork'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

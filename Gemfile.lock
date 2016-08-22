@@ -47,6 +47,9 @@ GEM
       sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.5)
+    clockwork (2.0.0)
+      activesupport
+      tzinfo
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -58,6 +61,11 @@ GEM
     commonjs (0.2.7)
     concurrent-ruby (1.0.2)
     debug_inspector (0.0.2)
+    delayed_job (4.1.2)
+      activesupport (>= 3.0, < 5.1)
+    delayed_job_active_record (4.1.1)
+      activerecord (>= 3.0, < 5.1)
+      delayed_job (>= 3.0, < 5)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -205,7 +213,10 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   byebug
+  clockwork
   coffee-rails (~> 4.2)
+  delayed_job
+  delayed_job_active_record
   devise
   font-awesome-rails
   jbuilder (~> 2.5)
