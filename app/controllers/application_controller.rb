@@ -3,4 +3,13 @@ class ApplicationController < ActionController::Base
 
   # Devise
   before_action :authenticate_user!
+  before_action :gravatar_check
+
+  def gravatar_check
+	  if user_signed_in?
+	  	@gravatar = current_user
+	  else
+	  	@gravatar = ''
+	  end
+	end
 end
