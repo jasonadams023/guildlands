@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20160819191610) do
     t.integer  "total_rep"
     t.integer  "spent_rep"
     t.integer  "money"
+    t.string   "avatar_url"
     t.hstore   "effects"
     t.integer  "user_id"
     t.datetime "created_at", null: false
@@ -183,7 +184,6 @@ ActiveRecord::Schema.define(version: 20160819191610) do
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.string   "username"
-    t.string   "avatar_url"
     t.string   "auth",                   default: "player"
     t.boolean  "cheater?",               default: false
     t.datetime "created_at",                                null: false

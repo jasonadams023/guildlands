@@ -15,6 +15,8 @@ class Guild < ApplicationRecord
 		guild.money = 1000
 		guild.effects = {}
 		guild.user_id = user.id
+		gravatar_id = Digest::MD5.hexdigest(guild.user.email.downcase)
+		guild.avatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=24&d=identicon"
 
 		guild.save
 		hall = GuildHall.new_guild(guild)

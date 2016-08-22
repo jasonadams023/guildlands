@@ -21,7 +21,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
 
       # My code
       t.string :username
-      t.string :avatar_url
       t.string :auth, default: 'player' #ex. admin, user, etc..
       t.boolean :cheater?, default: false
 

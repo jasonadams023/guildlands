@@ -6,6 +6,7 @@ class CreateGuilds < ActiveRecord::Migration[5.0]
       t.integer :total_rep
       t.integer :spent_rep
       t.integer :money
+      t.string :avatar_url
       t.hstore :effects, using: :gin
       t.references :user, foreign_key: true
 
