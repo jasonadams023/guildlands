@@ -45,4 +45,29 @@ class Unit < ApplicationRecord
 		self.activity = Activity.find(1)
 		self.effects = {}
 	end
+
+	def self.new_hall(hall)
+		unit = Unit.new
+		unit.name = hall.guild.user.username
+		unit.total_xp = 500
+		unit.strength = 5
+		unit.agility = 5
+		unit.vitality = 5
+		unit.stamina = 5
+		unit.intelligence = 5
+		unit.focus = 5
+		unit.activity = Activity.find(1)
+		unit.effects = {}
+		unit.set_spent_xp
+		unit.set_costs
+		unit.set_hp
+		unit.set_sp
+		unit.set_defenses
+		unit.full_heal
+
+		unit.guild_hall_id = hall.id
+
+		unit.save
+		return unit
+	end
 end
