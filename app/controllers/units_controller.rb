@@ -134,7 +134,8 @@ class UnitsController < ApplicationController
 		def unit_params
 			params.require(:unit).permit(:name, :total_xp, :guild_hall_id,
                                         :strength, :agility, :vitality,
-                                        :stamina, :intelligence, :focus)
+                                        :stamina, :intelligence, :focus,
+                                        :activity_id)
 		end
 
 		def check_complete

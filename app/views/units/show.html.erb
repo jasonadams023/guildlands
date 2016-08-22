@@ -63,13 +63,15 @@
 		<%= link_to "View Abilities List", unit_abilities_path(unit_id: @unit.id), method: :get %>
 	</div><!-- /Abilities -->
 
-	
 </div><!-- /In Depth -->
 
+<div class='row'>
+	<hr>
+	<h4>Manage</h4>
+</div>
+
 <div class="row"><!-- Manage -->
-	<div class="col-lg-12">
-		<hr>
-		<h4>Manage</h4>
+	<div class="col-lg-4"><!--  -->
 		<% if @free %>
 			<%= render 'units/purchase' %>
 		<% else %>
@@ -78,4 +80,9 @@
 
 		<%= if @unit.guild_hall != nil && @unit.guild_hall.guild_id == current_user.guild.id then render 'units/move' end %>
 	</div>
+
+	<div class='col-lg-4'><!-- Actions -->
+		<h4>Actions</h4>
+		<%= render 'units/actions' %>
+	</div><!-- /Actions -->
 </div><!-- /Manage -->

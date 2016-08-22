@@ -1,0 +1,5 @@
+<%= simple_form_for @unit, url: unit_path(@unit), method: :patch do |f| %>
+  <%= f.input :activity_id, collection: Activity.all %>
+
+  <%= f.button :submit, label: "Set Action" %>
+<% end %>

@@ -6,8 +6,8 @@
 
 <div class='row'>
 	<div class='col-lg-6'><!-- Guild -->
-		<h3><strong>Guild Info</strong></h3><%= link to "edit", edit_guild_path(@guild) %>
-		<h4><%= @guild.name %><%= image_tag @guild.avatar_url %></h4>
+		<h3><strong>Guild Info</strong></h3><%= link_to "edit", edit_guild_path(@guild), method: :get %>
+		<h4><%= @guild.name %> <%= image_tag @guild.avatar_url %></h4>
 		<p><strong>Guild Owner:</strong> <%= @guild.user.username %></p>
 		<p><strong>Reputation:</strong> <%= @guild.spent_rep %> / <%= @guild.total_rep %></p>
 		<p><strong>Currency:</strong> <%= @guild.money %></p>
