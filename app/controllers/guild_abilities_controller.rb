@@ -36,6 +36,7 @@ class GuildAbilitiesController < ApplicationController
 				end
 			else
 				flash[:alert] = "Guild does not have enough money to purchase this ability."
+			end
 		else
 			flash[:alert] = "Not enough reputation to purchase ability."
 		end

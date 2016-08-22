@@ -23,50 +23,55 @@ class MarketOrdersController < ApplicationController
 		inventory = HallInventory.find(params[:inventory_id])
 		order = MarketOrder.new(order_params)
 
-		order.hall_inventory_id = inventory.id
-		order.item_id = inventory.item_id
+		if !(order.amount == nil || order.price == nil)
 
-		inventory.selling += order.amount
-		inventory.available -= order.amount
+			order.hall_inventory_id = inventory.id
+			order.item_id = inventory.item_id
 
-		if inventory.save && order.save
-			flash[:notice] = "Created new market order."
+			inventory.selling += order.amount
+			inventory.available -= order.amount
+
+			if inventory.save && order.save
+				flash[:notice] = "Created new market order."
+			else
+				flash[:alert] = "Failed to update."
+			end
 		else
-			flash[:alert] = "Failed to update."
+			flash[:alert] = "Form not filled out."
 		end
 		redirect_to inventory
 	end
 
 	def purchase
 		order = MarketOrder.find(params[:id])
-		if params[:market_order][:guild_hall_id] != ''
-			hall = GuildHall.find(params[:market_order][:guild_hall_id])
+		if params[:market_order][:hall_inventory_id] != ''
+			hall = GuildHall.find(params[:market_order][:hall_inventory_id])
 			amount = params[:market_order][:amount].to_i
 
 			if hall.guild.money >= order.price * amount
 				if !(hall.items.include?(order.item))
 					hall.items << order.item
 					id = hall.hall_inventories.find_index{|o| order.item_id == o.item_id}
-					hall.hall_inventories[id].total = 0
-					hall.hall_inventories[id].available = 0
-					hall.hall_inventories[id].selling = 0
+					inventory = hall.hall_inventories[id]
+					inventory.total = 0
+					inventory.available = 0
+					inventory.selling = 0
 				else
 					id = hall.hall_inventories.find_index{|o| order.item_id == o.item_id}
+					inventory = hall.hall_inventories[id]
 				end
 				
-				hall.hall_inventories[id].total += amount
-				hall.hall_inventories[id].available += amount
+				inventory.total += amount
+				inventory.available += amount
 				hall.guild.money -= order.price * amount
 
-
-				id2 = order.guild_hall.hall_inventories.find_index{|o| order.item_id == o.item_id}
 				order.amount -= amount
-				order.guild_hall.guild.money += order.price * amount
-				order.guild_hall.hall_inventories[id2].total -= amount
-				order.guild_hall.hall_inventories[id2].selling -= amount
+				order.hall_inventory.guild_hall.guild.money += order.price * amount
+				order.hall_inventory.total -= amount
+				order.hall_inventory.selling -= amount
 
-				if hall.save && hall.guild.save && hall.hall_inventories[id].save
-					if order.save && order.guild_hall.save && order.guild_hall.hall_inventories[id2].save && order.guild_hall.guild.save
+				if hall.save && hall.guild.save && inventory.save
+					if order.save && order.hall_inventory.save && order.hall_inventory.guild_hall.save && order.hall_inventory.guild_hall.guild.save
 						flash[:notice] = "Purchase successful."
 					else
 						flash[:alert] = "Failed to update sellers info."

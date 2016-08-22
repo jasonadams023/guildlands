@@ -1,6 +1,4 @@
 class UnitsController < ApplicationController
-	before_action :check_complete, only: :create
-
 	def index
 		if params[:guild_id] == nil && params[:guild_hall_id] == nil
 			@units = Unit.all.select{|u| u.guild_hall_id == nil}
@@ -40,6 +38,7 @@ class UnitsController < ApplicationController
 	end
 
 	def create
+		check_complete
 		@unit.custom_new
 		guild = @unit.guild_hall.guild
 
