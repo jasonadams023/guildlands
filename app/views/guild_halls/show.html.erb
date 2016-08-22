@@ -24,7 +24,7 @@
 			<p><strong>Cost:</strong> <%= room.room.cost %></p>
 			<p><strong>Description:</strong> <%= truncate(room.room.description, length: 160) %></p>
 			<p><strong>Modifications:</strong> <%= room.modifications %></p>
-			<p><%= link_to "View Room", room_path(room.room), method: :get %> | 
+			<p><%= link_to "View Room", room_path(room.room, room_inventory_id: room), method: :get %> | 
 			<% if @hall.guild_id == current_user.guild.id %>
 				<%= link_to "Demolish Room", release_room_path(room, guild_hall_id: @hall.id) %>
 			<% end %></p>

@@ -24,7 +24,7 @@ class GuildAbilitiesController < ApplicationController
 		
 		if rep >= ability.rep_cost
 			if guild.money >= ability.rep_cost
-				guild.money -= rep_cost
+				guild.money -= ability.rep_cost
 
 				guild.guild_abilities << ability
 				guild.spent_rep += ability.rep_cost

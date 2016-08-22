@@ -30,7 +30,6 @@ class HallInventoriesController < ApplicationController
 	def update
 		inventory = HallInventory.find(params[:id])
 		
-
 		if params[:move] == 'true'
 			if params[:hall_inventory][:guild_hall_id] != '' && params[:hall_inventory][:available] != ''
 				hall = GuildHall.find(params[:hall_inventory][:guild_hall_id])

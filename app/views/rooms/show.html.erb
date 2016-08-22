@@ -1,2 +1,18 @@
-<h1>Rooms#show</h1>
-<p>Find me in app/views/rooms/show.html.erb</p>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Room Information</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-4'><!-- Room -->
+			<h4><%= @room.room.name %></h4>
+			<p><strong>Size:</strong> <%= @room.room.size %></p>
+			<p><strong>Description:</strong> <%= @room.room.description %></p>
+			<p><strong>Modifications:</strong> <%= @room.modifications %></p>
+			<p><strong>Cost:</strong> <%= @room.room.cost %></p>
+			<% if @room.guild_hall.guild_id == current_user.guild.id %>
+				<%= link_to "Demolish Room", release_room_path(@room, guild_hall_id: @room.guild_hall.id) %>
+			<% end %></p>
+	</div><!-- /Room -->
+</div>

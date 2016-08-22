@@ -5,6 +5,11 @@ class RoomsController < ApplicationController
 	end
 
 	def show
+		if params[:room_inventory_id] != nil
+			@room = RoomInventory.find(params[:room_inventory_id])
+		else
+			@room = Room.find(params[:id])
+		end
 	end
 
 	def new
