@@ -17,7 +17,6 @@ class OnTickJob < ApplicationJob
 		percent = 0.1
 		sales = []
 		orders.each do |order|
-			sales << [order, 0]
 		end
 
 		while spent < item.demand
