@@ -33,8 +33,8 @@ class UnitsController < ApplicationController
 	end
 
 	def edit
-		@guild = current_user.guild
-		@unit = Unit.new
+		@unit = Unit.find(params[:id])
+		@guild = @unit.guild_hall.guild
 	end
 
 	def create
@@ -61,11 +61,32 @@ class UnitsController < ApplicationController
 
 	def update
 		unit = Unit.find(params[:id])
+		guild = unit.guild_hall.guild
+		cost = 0
 
-		if unit.update(unit_params)
-			flash[:notice] = "Unit updated."
+		strength = params[:unit][:strength].to_i
+		agility = params[:unit][:agility].to_i
+		vitality = params[:unit][:vitality].to_i
+		stamina = params[:unit][:stamina].to_i
+		intelligence = params[:unit][:intelligence].to_i
+		focus = params[:unit][:focus].to_i
+
+		if strength> unit.strength then cost += ((strength - unit.strength) * 100) end
+		if agility > unit.agility then cost += ((strength - unit.strength) * 100) end
+		if vitality > unit.vitality then cost += ((strength - unit.strength) * 100) end
+		if stamina > unit.stamina then cost += ((strength - unit.strength) * 100) end
+		if intelligence > unit.intelligence then cost += ((strength - unit.strength) * 100) end
+		if focus > unit.focus then cost += ((strength - unit.strength) * 100) end
+
+		if guild.money >= cost
+			guild.money -= cost
+			if unit.update(unit_params) && guild.save
+				flash[:notice] = "Unit updated."
+			else
+				flash[:alert] = "Failed to update."
+			end
 		else
-			flash[:alert] = "Failed to update unit."
+			flash[:alert] = "Guild does not have enough money to train this unit."
 		end
 
 		redirect_to unit
@@ -136,6 +157,14 @@ class UnitsController < ApplicationController
                                         :strength, :agility, :vitality,
                                         :stamina, :intelligence, :focus,
                                         :activity_id)
+		end
+
+		def increase_stats (unit, strength, agility, vitality, stamina, intelligence, focus)
+			if strength > unit.strength || agility >> unit.agility || vitality > unit.vitality || stamina > unit.stamina || intelligence > unit.intelligence || focus > unit.focus
+				true
+			else
+				false
+			end
 		end
 
 		def check_complete

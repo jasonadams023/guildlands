@@ -6,7 +6,7 @@
 
 <div class='row'>
 	<div class='col-lg-4'><!-- Basics -->
-		<h4><%= @unit.name %></h4>
+		<h4><%= @unit.name %></h4><%= link_to "edit", edit_unit_path(@unit), method: :get %>
 		<p><strong>XP:</strong> <%= @unit.spent_xp %> / <%= @unit.total_xp %>
 		 | <strong>HP:</strong> <%= @unit.current_hp %> / <%= @unit.max_hp %>
 		 | <strong>SP:</strong> <%= @unit.current_sp %> / <%= @unit.max_sp %></p>
