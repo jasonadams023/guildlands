@@ -3,66 +3,27 @@ class MarketOrder < ApplicationRecord
   belongs_to :item
 
   #Methods
-  def npc_purchase
+  def npc_purchase (purchase_amount)
+  	sale = 0
   	if self.amount > 0
-  		self.amount -= 1
-  		self.hall_inventory.total -= 1
-  		self.hall_inventory.selling -= 1
-  		self.hall_inventory.guild_hall.guild.money += price
+	  	if self.amount - purchase_amount >= 0
+	  		self.amount -= purchase_amount
+	  		self.hall_inventory.total -= purchase_amount
+	  		self.hall_inventory.selling -= purchase_amount
 
-  		self.save
-  		self.hall_inventory.save
-  		self.hall_inventory.guild_hall.guild.save
+	  		sale = self.price * purchase_amount
+	  	else
+	  		self.amount -= self.amount
+	  		self.hall_inventory.total -= self.amount
+	  		self.hall_inventory.selling -= self.amount
 
-  		return amount
-  	else
-  		return 0
+	  		sale = self.price * self.amount
+	  	end
+	  	self.hall_inventory.guild_hall.guild.money += sale
+	  	self.save
+	  	self.hall_inventory.save
+	  	self.hall_inventory.guild_hall.guild.save
   	end
+  	return sale
   end
 end
-# f purchase
-# 		order = MarketOrder.find(params[:id])
-# 		if params[:market_order][:hall_inventory_id] != ''
-# 			hall = GuildHall.find(params[:market_order][:hall_inventory_id])
-# 			amount = params[:market_order][:amount].to_i
-
-# 			if hall.guild.money >= order.price * amount
-# 				if !(hall.items.include?(order.item))
-# 					hall.items << order.item
-# 					id = hall.hall_inventories.find_index{|o| order.item_id == o.item_id}
-# 					inventory = hall.hall_inventories[id]
-# 					inventory.total = 0
-# 					inventory.available = 0
-# 					inventory.selling = 0
-# 				else
-# 					id = hall.hall_inventories.find_index{|o| order.item_id == o.item_id}
-# 					inventory = hall.hall_inventories[id]
-# 				end
-				
-# 				inventory.total += amount
-# 				inventory.available += amount
-# 				hall.guild.money -= order.price * amount
-
-# 				order.amount -= amount
-# 				order.hall_inventory.guild_hall.guild.money += order.price * amount
-# 				order.hall_inventory.total -= amount
-# 				order.hall_inventory.selling -= amount
-
-# 				if hall.save && hall.guild.save && inventory.save
-# 					if order.save && order.hall_inventory.save && order.hall_inventory.guild_hall.save && order.hall_inventory.guild_hall.guild.save
-# 						flash[:notice] = "Purchase successful."
-# 					else
-# 						flash[:alert] = "Failed to update sellers info."
-# 					end
-# 				else
-# 					flash[:alert] = "Failed to update your info."
-# 				end
-# 			else
-# 				flash[:alert] = "Guild does not have enough money to complete that purchase."
-# 			end
-
-# 			redirect_to hall
-# 		else
-# 			flash[:alert] = "No destination selected."
-# 			redirect_to market_order_path(order)
-# 		end

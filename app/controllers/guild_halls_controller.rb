@@ -24,8 +24,7 @@ class GuildHallsController < ApplicationController
 	end
 
 	def edit
-		@guild = current_user.guild
-		@hall = GuildHall.new
+		@hall = GuildHall.find(params[:id])
 	end
 
 	def create
@@ -52,6 +51,15 @@ class GuildHallsController < ApplicationController
     end
 
     def update
+    	hall = GuildHall.find(params[:id])
+
+    	if hall.update(guild_hall_params)
+    		flash[:notice] = "Guild Hall updated."
+    	else
+    		flash[:alert] = "Failed to update Guild Hall."
+    	end
+
+    	redirect_to hall
     end
 
     def purchase

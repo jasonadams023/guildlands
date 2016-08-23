@@ -73,16 +73,23 @@
 <div class="row"><!-- Manage -->
 	<div class="col-lg-4"><!--  -->
 		<% if @free %>
+			<h4>Purchase</h4>
 			<%= render 'units/purchase' %>
 		<% else %>
+			<h4>Release</h4>
 			<p><%= link_to "Release Unit", release_unit_path(@unit), method: :get %></p>
 		<% end %>
-
-		<%= if @unit.guild_hall != nil && @unit.guild_hall.guild_id == current_user.guild.id then render 'units/move' end %>
 	</div>
 
-	<div class='col-lg-4'><!-- Actions -->
-		<h4>Actions</h4>
-		<%= render 'units/actions' %>
-	</div><!-- /Actions -->
+	<% if @unit.guild_hall != nil && @unit.guild_hall.guild_id == current_user.guild.id %>
+		<div class='col-lg-4'><!-- Actions -->
+			<h4>Actions</h4>
+			<%= render 'units/actions' %>
+		</div><!-- /Actions -->
+
+		<div class='col-lg-4'><!-- Move -->
+			<h4>Move</h4>
+			<%= render 'units/move' %>
+		</div><!-- /Move -->
+	<% end %>
 </div><!-- /Manage -->
