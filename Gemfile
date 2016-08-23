@@ -46,6 +46,8 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 # Clockwork
 gem 'clockwork'
+# Daemons
+gem 'daemons'
 
 
 group :development, :test do
