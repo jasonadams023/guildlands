@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # Devise
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:welcome]
   before_action :gravatar_check
 
   def gravatar_check

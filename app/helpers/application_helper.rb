@@ -5,7 +5,24 @@ module ApplicationHelper
 		else
 			gravatar_id = Digest::MD5.hexdigest(user)
 		end
-			return "http://gravatar.com/avatar/#{gravatar_id}.png?s=24&d=identicon"
+		return "http://gravatar.com/avatar/#{gravatar_id}.png?s=24&d=identicon"
+	end
 
+	def economy
+		#max = value * 4
+    #demand = numeric value
+    # every 10% = double/half?
+		items = Item.all
+		items.each do |item|
+			orders = MarketOrder.select{|o| o.item_id == item.id && price <= (item.max_value)}
+			spent = 0
+			percent = 0.1
+			while spent < demand
+				order.each do |order|
+					if order.price < value * percent then spent += order.npc_purchase end
+					if value * percent < max_value then percent += 0.1 else percent = 0.1 end
+				end
+			end
+		end
 	end
 end
