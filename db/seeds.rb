@@ -16,9 +16,9 @@ guild_halls = GuildHall.create([{name: 'First Hall', size: 20, unit_limit: 10, e
 								{name: 'Second', size: 10, unit_limit: 5, effects: {}, guild_id: 2, location_id: 2},
 								{name: 'Third', size: 30, unit_limit: 10, effects: {activities: 'hospital'}, guild_id: 2, location_id: 1}])
 
-activities = Activity.create([{name: 'Idle', description: 'This unit is not currently doing anything.', effects: {stats: 'heal'}},
-								{name: 'Gather', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory: 'add_regional_stamina'}, location_id: 1},
-								{name: 'Gather', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory: 'add_regional_stamina'}, location_id: 2}])
+activities = Activity.create([{name: 'Idle', description: 'This unit is not currently doing anything.', effects: {hp: 10, sp: 10}},
+								{name: 'Gather', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory1: '3_herb 2_wood 1_rabbit(dead)', sp: -10}, location_id: 1},
+								{name: 'Gather', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory1: '3_desert-herb 2_cactus 1_snake(dead)', sp: -10}, location_id: 2}])
 
 units = Unit.create([{name: 'Ulbert', total_xp: 1000, spent_xp: 0, hiring_cost: 0, upkeep_cost: 10,
 						max_hp: 50, current_hp: 50, max_sp: 50, current_sp: 50,
@@ -28,7 +28,13 @@ units = Unit.create([{name: 'Ulbert', total_xp: 1000, spent_xp: 0, hiring_cost: 
 
 unit_abilities = UnitAbility.create([{name: 'Gatherer', description: 'This unit is better at gathering', xp_cost: 50, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {gathering: 'doubled'}}])
 
-items = Item.create([{name: 'potion', description: 'Restores 15 hp.', effects: {current_hp: '+15'}, category: 'consumable', value: 50, max_value: 200, demand: 2000}])
+items = Item.create([{name: 'potion', description: 'Restores 15 hp.', effects: {current_hp: '+15'}, category: 'consumable', value: 50, max_value: 200, demand: 2000},
+						{name: 'herb', description: 'A useful supply for medicinal uses', effects: {}, category: 'crafting', value: 10, max_value: 40, demand: 1000},
+						{name: 'desert herb', description: 'A useful supply for medicinal uses. Found in the desert.', effects: {}, category: 'crafting', value: 15, max_value: 50, demand: 1500},
+						{name: 'wood', description: 'A block of wood. Useful for building.', effects: {}, category: 'crafting', value: 20, max_value: 100, demand: 2000},
+						{name: 'cactus', description: 'A prickly desert plant.', effects: {}, category: 'crafting', value: 15, max_value: 50, demand: 1000},
+						{name: 'rabbit(dead)', description: 'A dead rabbit.', effects: {}, category: 'crafting', value: 25, max_value: 100, demand: 1500},
+						{name: 'snake(dead)', description: 'A dead snake.', effects: {}, category: 'crafting', value: 25, max_value: 100, demand: 1500},])
 
 guild_abilities = GuildAbility.create([{name: 'Team Work', rep_cost: 500, description: "Enables guild members to combine their attacks with each other.", effect: {gestalt: 'enable'}},
 										{name: 'Marketing', rep_cost: 500, description: "Increases the selling power of your entire guild.", effect: {sales: 'double'}},

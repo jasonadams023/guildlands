@@ -19,6 +19,40 @@ class GuildHall < ApplicationRecord
 		end
 	end
 
+  def add_inventory(item, amount)
+    if !(self.items.include?(item))
+      self.items << item
+      id = self.hall_inventories.find_index{|i| item.id == i.item_id}
+      inventory = self.hall_inventories[id]
+      inventory.total = 0
+      inventory.available = 0
+      inventory.selling = 0
+      inventory.save
+    else
+      id = self.hall_inventories.find_index{|i| item.id == i.item_id}
+      inventory = self.hall_inventories[id]
+    end
+
+    inventory.total += amount
+    inventory.available += amount
+
+    inventory.save
+  end
+
+  def tic_inventory(items_string)
+    strings = items_string.split
+
+    strings.each do |string|
+      arr = string.split('_')
+      amount = arr[0].to_i
+      item_str = arr[1].split('-').join(' ')
+      item = Item.select{|i| i.name == item_str}
+      self.add_inventory(item[0], amount)
+    end
+    self.save
+  end
+
+  #new Guild Hall functions
   def self.new_guild(guild)
     hall = GuildHall.new
     hall.name = guild.user.username + "'s First Guild Hall"

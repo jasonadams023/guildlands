@@ -35,6 +35,28 @@ class Unit < ApplicationRecord
 	    self.current_sp = self.max_sp
 	end
 
+	def current_hp_change(amount)
+		if self.current_hp + amount > self.max_hp
+			self.current_hp = self.max_hp
+		elsif self.current_hp + amount < 0
+			self.current_hp = 0
+		else
+			self.current_hp += amount
+		end
+	end
+
+	def current_sp_change(amount)
+		if self.current_sp + amount > self.max_hp
+			self.current_sp = self.max_hp
+		elsif self.current_sp + amount < 0
+			self.current_sp = 0
+		else
+			self.current_sp += amount
+		end
+	end
+
+	#New unit functions
+
 	def custom_new
 		set_spent_xp
 		set_costs
@@ -69,5 +91,18 @@ class Unit < ApplicationRecord
 
 		unit.save
 		return unit
+	end
+
+	#On tick functions
+	def activity_run
+		if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
+		if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
+		if self.activity.effects['money'] != nil then self.guild_hall.guild.money += self.activity.effects['money'].to_i end
+		if self.activity.effects['inventory1'] != nil then self.guild_hall.tic_inventory(self.activity.effects['inventory1']) end
+
+		self.activity = Activity.find(1)#set to idle
+
+		self.save
+		self.guild_hall.guild.save
 	end
 end

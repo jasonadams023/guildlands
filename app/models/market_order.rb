@@ -11,10 +11,11 @@ class MarketOrder < ApplicationRecord
 	  		self.hall_inventory.selling -= purchase_amount
 	  		self.hall_inventory.guild_hall.guild.money += self.price * purchase_amount
 	  	else
-	  		self.amount -= self.amount
-	  		self.hall_inventory.total -= self.amount
-	  		self.hall_inventory.selling -= self.amount
-	  		self.hall_inventory.guild_hall.guild.money += self.price * self.amount
+	  		amount = self.amount
+	  		self.amount -= amount
+	  		self.hall_inventory.total -= amount
+	  		self.hall_inventory.selling -= amount
+	  		self.hall_inventory.guild_hall.guild.money += price * amount
 	  	end
 	  	self.save
 	  	self.hall_inventory.save

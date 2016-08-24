@@ -3,4 +3,7 @@ class HallInventory < ApplicationRecord
   belongs_to :item
 
   has_many :market_orders, dependent: :destroy
+
+  #Functions
+ 
 end
