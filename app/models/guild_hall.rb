@@ -1,4 +1,6 @@
 class GuildHall < ApplicationRecord
+  include Helper
+
   belongs_to :guild
   belongs_to :location
 
@@ -56,33 +58,6 @@ class GuildHall < ApplicationRecord
     #other effects
   end
 
-  def return_activities
-    activities = self.effects['activities'].split
-    activity = []
-
-    #effect specific activities
-    activities.each do |act|
-      act_by_names = Activity.select {|a| a.name.include?(act)}
-      act_by_names.each do |i|
-        activity << i
-      end
-    end
-
-    #location specific activities
-    activities = Activity.select{|a| a.location_id == self.location_id}
-    activities.each do |a|
-      activity << a
-    end
-
-    #non specific activities
-    activities = Activity.select{|a| a.category == 'open'}
-    activities.each do |a|
-      activity << a
-    end
-
-    return activity
-  end
-
   def add_inventory(item, amount)
     if !(self.items.include?(item))
       self.items << item
@@ -104,15 +79,12 @@ class GuildHall < ApplicationRecord
   end
 
   def tic_inventory(items_string)
-    strings = items_string.split
+    parsed = items_string_parse(items_string)
 
-    strings.each do |string|
-      arr = string.split('_')
-      amount = arr[0].to_i
-      item_str = arr[1].split('-').join(' ')
-      item = Item.select{|i| i.name == item_str}
-      self.add_inventory(item[0], amount)
+    parsed.each do |item, amount|
+      self.add_inventory(item, amount)
     end
+
     self.save
   end
 
@@ -132,7 +104,7 @@ class GuildHall < ApplicationRecord
     unit = Unit.new_hall(hall)
 
     unit.save
-    hall.calc_effects
+    hall.set_effects
     hall.save
     return hall
   end

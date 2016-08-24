@@ -25,7 +25,7 @@ class UnitsController < ApplicationController
 			@free = true
 		else
 			@free = false
-			@activities = @unit.guild_hall.return_activities
+			@activities = @unit.return_activities
 		end
 	end
 

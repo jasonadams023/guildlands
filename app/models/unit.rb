@@ -1,4 +1,6 @@
 class Unit < ApplicationRecord
+	include Helper
+
 	belongs_to :guild_hall
 	belongs_to :activity
 
@@ -75,6 +77,42 @@ class Unit < ApplicationRecord
 		end
 	end
 
+	def return_activities
+		#effect specific activities
+	    hall_activities = self.guild_hall.effects['activities'].split
+	    if self.effects['activities'] != nil
+	    	activities = self.effects['activities'].split
+	    else
+	    	activities = []
+	    end
+	    activity = []
+
+	    hall_activities.each do |hall_act|
+	    	activities.each do |unit_act|
+	    		if hall_act == unit_act
+					act_by_names = Activity.select {|a| a.name.include?(hall_act)}
+					act_by_names.each do |i|
+						activity << i
+					end
+				end
+			end
+	    end
+
+	    #location specific activities
+	    activities = Activity.select{|a| a.location_id == self.guild_hall.location_id}
+	    activities.each do |a|
+	      activity << a
+	    end
+
+	    #non specific activities
+	    activities = Activity.select{|a| a.category == 'open'}
+	    activities.each do |a|
+	      activity << a
+	    end
+
+	    return activity
+	end
+
 	#New unit functions
 
 	def custom_new
@@ -114,11 +152,30 @@ class Unit < ApplicationRecord
 	end
 
 	#On tick functions
+	def crafting(items_string)
+		parsed = items_string_parse(items_string)
+		can_craft = true
+		
+		parsed.each do |item, amount|
+			if amount < 0
+				id = self.guild_hall.hall_inventories.find_index {|inv| inv.item_id == item.id}
+				if id == nil
+					can_craft = false
+				elsif self.guild_hall.hall_inventories[id].available + amount < 0
+					can_craft = false
+				end
+			end
+		end
+
+		if can_craft then self.guild_hall.tic_inventory(items_string) end
+	end
+
 	def activity_run
 		if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
 		if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
 		if self.activity.effects['money'] != nil then self.guild_hall.guild.money += self.activity.effects['money'].to_i end
-		if self.activity.effects['inventory1'] != nil then self.guild_hall.tic_inventory(self.activity.effects['inventory1']) end
+		if self.activity.effects['inventory1'] != nil && self.activity.category != 'crafting' then self.guild_hall.tic_inventory(self.activity.effects['inventory1']) end
+		if self.activity.category == 'crafting' then self.crafting(self.activity.effects['inventory1']) end
 
 		self.activity = Activity.find(1)#set to idle
 

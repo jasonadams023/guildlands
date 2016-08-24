@@ -10,7 +10,7 @@ class OnTickJob < ApplicationJob
     #Economy
 	items = Item.all
 	items.each do |item|
-		orders = MarketOrder.select{|o| o.item_id == item.id && o.price <= item.max_value && o.amount > 0}
+		orders = MarketOrder.select{|o| o.item_id == item.id && o.price <= item.max_value && o.amount > 0 && o.category < 0}
 		spent = 0
 		sales = []
 		orders.each do |order|
