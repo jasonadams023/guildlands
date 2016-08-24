@@ -19,6 +19,70 @@ class GuildHall < ApplicationRecord
 		end
 	end
 
+  def set_effects
+    self.effects = {}
+
+    #enable activities
+      #get activities that rooms enable
+    rooms = self.rooms.select{|room| room.effects['activities'] != nil}
+    room_activities = []
+    rooms.each do |room|
+      arr = room.effects['activities'].split
+      arr.each {|act| room_activities << act }
+    end
+    room_activities = room_activities.uniq
+
+      #get activities that units enable
+    units = self.units.select{|unit| unit.effects['activities'] != nil}
+    unit_activities = []
+    units.each do |unit|
+      arr = unit.effects['activities'].split
+      arr.each {|act| unit_activities << act}
+    end
+    unit_activities = unit_activities.uniq
+
+      #compare enabled activities
+    hall_activities_str = ''
+    room_activities.each do |room_act|
+      if unit_activities.include?(room_act) then hall_activities_str += room_act + ' ' end
+    end
+
+    self.effects['activities'] = hall_activities_str
+    #end of enable activities
+
+    #unit_limit
+    self.set_unit_limit
+
+    #other effects
+  end
+
+  def return_activities
+    activities = self.effects['activities'].split
+    activity = []
+
+    #effect specific activities
+    activities.each do |act|
+      act_by_names = Activity.select {|a| a.name.include?(act)}
+      act_by_names.each do |i|
+        activity << i
+      end
+    end
+
+    #location specific activities
+    activities = Activity.select{|a| a.location_id == self.location_id}
+    activities.each do |a|
+      activity << a
+    end
+
+    #non specific activities
+    activities = Activity.select{|a| a.category == 'open'}
+    activities.each do |a|
+      activity << a
+    end
+
+    return activity
+  end
+
   def add_inventory(item, amount)
     if !(self.items.include?(item))
       self.items << item
@@ -68,6 +132,7 @@ class GuildHall < ApplicationRecord
     unit = Unit.new_hall(hall)
 
     unit.save
+    hall.calc_effects
     hall.save
     return hall
   end

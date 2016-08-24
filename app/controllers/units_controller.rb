@@ -20,10 +20,12 @@ class UnitsController < ApplicationController
 	def show
 		@unit = Unit.find(params[:id])
 		@free = nil
+		@activities = nil
 		if @unit.guild_hall_id == nil
 			@free = true
 		else
 			@free = false
+			@activities = @unit.guild_hall.return_activities
 		end
 	end
 
@@ -80,6 +82,7 @@ class UnitsController < ApplicationController
 
 		if guild.money >= cost
 			guild.money -= cost
+			unit.set_effects
 			if unit.update(unit_params) && guild.save
 				flash[:notice] = "Unit updated."
 			else

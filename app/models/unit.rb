@@ -35,6 +35,26 @@ class Unit < ApplicationRecord
 	    self.current_sp = self.max_sp
 	end
 
+	def set_effects
+		self.effects = {}
+
+		#unit abilities
+			#activities
+		activity_abilities = self.unit_abilities.select{|a| a.effects['activities'] != nil}
+		activities = []
+		activity_abilities.each do |ability|
+			arr = ability.effects['activities'].split
+			arr.each {|act| activities << act}
+		end
+		activities = activities.uniq
+
+		activities_str = ''
+		activities.each {|a| activities_str += a + ' '}
+
+		self.effects['activities'] = activities_str
+			#end of activities
+	end
+
 	def current_hp_change(amount)
 		if self.current_hp + amount > self.max_hp
 			self.current_hp = self.max_hp

@@ -34,7 +34,9 @@ class GuildHallsController < ApplicationController
 
     	if @hall.guild.money >= value
     		@hall.guild.money -= value
+    		@hall.effects = {}
 	    	@hall.set_unit_limit
+	    	@hall.set_effects
 
 			if @hall.save && @hall.guild.save
 				flash[:notice] = "Guild Hall created."
@@ -54,6 +56,7 @@ class GuildHallsController < ApplicationController
     	hall = GuildHall.find(params[:id])
 
     	if hall.update(guild_hall_params)
+    		hall.set_effects
     		flash[:notice] = "Guild Hall updated."
     	else
     		flash[:alert] = "Failed to update Guild Hall."

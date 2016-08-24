@@ -23,11 +23,15 @@ class UnitAbilitiesController < ApplicationController
 		if (unit.total_xp - unit.spent_xp) >= ability.xp_cost
 			if guild.money >= ability.xp_cost
 				unit.unit_abilities << ability
+				unit.set_effects
 				unit.spent_xp += ability.xp_cost
 
 				guild.money -= ability.xp_cost
 
-				if unit.save && guild.save
+				unit.save
+				unit.guild_hall.set_effects
+
+				if unit.save && unit.guild_hall.save && guild.save
 					flash[:notice] = "Ability training purchased."
 				else
 					flash[:alert] = "Failed to update."
@@ -48,8 +52,12 @@ class UnitAbilitiesController < ApplicationController
 		id = unit.unit_abilities.find_index{|a| a.id == ability.id}
 
 		if unit.unit_abilities.delete(ability)
+			unit.set_effects
 			unit.spent_xp -= ability.xp_cost
-			if unit.save
+
+			unit.save
+			unit.guild_hall.set_effects
+			if unit.save && unit.guild_hall.save
 				flash[:notice] = "Ability untrained."
 			else
 				flash[:alert] = "Failed to update."
