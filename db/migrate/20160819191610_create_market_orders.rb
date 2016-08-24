@@ -5,6 +5,7 @@ class CreateMarketOrders < ActiveRecord::Migration[5.0]
       t.references :item, foreign_key: true
       t.integer :amount
       t.integer :price
+      t.integer :category #negative = selling, positive = buying, 0 = neither
 
       t.timestamps
     end

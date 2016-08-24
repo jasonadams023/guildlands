@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 20160823132740) do
     t.integer  "item_id"
     t.integer  "amount"
     t.integer  "price"
+    t.integer  "category"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["hall_inventory_id"], name: "index_market_orders_on_hall_inventory_id", using: :btree

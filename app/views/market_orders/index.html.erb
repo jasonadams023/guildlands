@@ -5,16 +5,31 @@
 </div>
 
 <div class='row'>
-	<div class='col-lg-4'><!-- Items -->
-		<% @orders.each do |order| %>
+	<div class='col-lg-4'><!-- Selling -->
+		<h3>Selling</h3>
+		<% @sells.each do |order| %>
 			<h4><%= order.item.name %></h4>
 			<p><strong>Seller:</strong> <%= order.hall_inventory.guild_hall.guild.name %></p>
 			<p><strong>Description:</strong> <%= truncate(order.item.description, length: 160) %></p>
 			<p><strong>Price:</strong> <%= order.price %></p>
-			<p><strong>Available:</strong> <%= order.amount %></p>
+			<p><strong>Amount:</strong> <%= order.amount %></p>
 			<%= link_to "View Order", market_order_path(order), method: :get %>
 			<hr>
 		<% end %>
-	</div><!-- /Items -->
+	</div><!-- /Selling -->
+
+	<div class='col-lg-4'><!-- Buying -->
+		<h3>Buying</h3>
+		<% @buys.each do |order| %>
+			<h4><%= order.item.name %></h4>
+			<p><strong>Buyer:</strong> <%= order.hall_inventory.guild_hall.guild.name %></p>
+			<p><strong>Description:</strong> <%= truncate(order.item.description, length: 160) %></p>
+			<p><strong>Price:</strong> <%= order.price %></p>
+			<p><strong>Amount:</strong> <%= order.amount %></p>
+			<%= link_to "View Order", market_order_path(order), method: :get %>
+			<hr>
+		<% end %>
+	</div><!-- /Buying -->
+
 </div>
 
