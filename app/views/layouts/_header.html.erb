@@ -289,11 +289,17 @@
                                 </ul>
                             </li><!-- /Market -->
 
-                            <li><!-- Unit Abilities -->
-                                <%= link_to unit_abilities_path, method: :get do %>
-                                    <i class="fa fa-sitemap fa-fw"></i> Unit Abilities
-                                <% end %>
-                            </li><!-- /Unit Abilities -->
+                            <li><!-- Abilities -->
+                                <a href="#"><i class="fa fa-sitemap fa-fw"></i> Abilities<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <%= link_to "Guild Abilities", guild_abilities_path, method: :get %>
+                                    </li>
+                                    <li>
+                                        <%= link_to "Unit Abilities", unit_abilities_path, method: :get %>
+                                    </li>
+                                </ul>
+                            </li><!-- /Abilities -->
 
                             <li>
                                 <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
