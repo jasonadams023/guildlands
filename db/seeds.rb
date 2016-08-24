@@ -10,15 +10,21 @@ guilds = Guild.create([{name: 'Red Moon Rogues', total_rep: 500, spent_rep: 0, m
 						{name: 'Sacred Heart', total_rep: 1000, spent_rep: 500, money: 10000, effects: {awesomeness: 'double intelligence'}}])
 
 locations = Location.create([{name: 'Lesure', description: 'A peaceful kingdom, where new guilds can flourish', effects: {taxes: 'none'}},
-								{name: 'The Great Desert', description: 'A harsh land, with many opportunities', effects: {upkeep: 'doubled', resources: 'doubled'}}])
+								{name: 'Yaran Desert', description: 'A harsh land, with many opportunities', effects: {upkeep: 'doubled', resources: 'doubled'}}])
 
 guild_halls = GuildHall.create([{name: 'First Hall', size: 20, unit_limit: 10, effects: {activities: 'inn'}, guild_id: 1, location_id: 1},
 								{name: 'Second', size: 10, unit_limit: 5, effects: {}, guild_id: 2, location_id: 2},
 								{name: 'Third', size: 30, unit_limit: 10, effects: {activities: 'hospital'}, guild_id: 2, location_id: 1}])
 
-activities = Activity.create([{name: 'Idle', description: 'This unit is not currently doing anything.', effects: {hp: 10, sp: 10}},
-								{name: 'Gather', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory1: '3_herb 2_wood 1_rabbit(dead)', sp: -10}, location_id: 1},
-								{name: 'Gather', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory1: '3_desert-herb 2_cactus 1_snake(dead)', sp: -10}, location_id: 2}])
+activities = Activity.create([{name: 'Idle', description: 'This unit is not currently doing anything.', effects: {hp: 10, sp: 10}, category: 'single'},
+								{name: 'Gather (Lesure)', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory1: '3_herb 2_wood 1_rabbit(dead)', sp: -10}, location_id: 1, category: 'single'},
+								{name: 'Gather (Yaran)', description: 'Go out and gather supplies from the surrounding area.', effects: {inventory1: '3_desert-herb 2_cactus 1_snake(dead)', sp: -10}, location_id: 2, category: 'single'},
+								{name: 'Arena: Race', description: 'Units race each other in the arena for reputation and rewards.', effects: {first_place: '100_rep 500_money', second_place: '75_rep 250_money', third_place: '50_rep 100_money', consolation: '50_xp', stats: 'agility'}, category: 'arena'},
+								{name: 'Arena: Marathon', description: 'Units race each other in the arena for reputation and rewards.', effects: {first_place: '100_rep 500_money', second_place: '75_rep 250_money', third_place: '50_rep 100_money', consolation: '50_xp', stats: 'stamina'}, category: 'arena'},
+								{name: 'Arena: Free for all', description: 'Units fight each other in the arena for reputation and rewards.', effects: {first_place: '100_rep 500_money', second_place: '75_rep 250_money', third_place: '50_rep 100_money', consolation: '50_xp', stats: 'strength'}, category: 'arena'},
+								{name: 'Arena: Chess', description: 'Units compete in a chess tournament against each other in the arena for reputation and rewards.', effects: {first_place: '100_rep 500_money', second_place: '75_rep 250_money', third_place: '50_rep 100_money', consolation: '50_xp', stats: 'intelligence'}, category: 'arena'},
+								{name: 'Arena: Staring Contest', description: 'Units compete in a staring contest against each other in the arena for reputation and rewards.', effects: {first_place: '100_rep 500_money', second_place: '75_rep 250_money', third_place: '50_rep 100_money', consolation: '50_xp', stats: 'focus'}, category: 'arena'},
+								{name: 'Arena: Toughness', description: 'Units compete to see who is the toughest in the arena for reputation and rewards.', effects: {first_place: '100_rep 500_money', second_place: '75_rep 250_money', third_place: '50_rep 100_money', consolation: '50_xp', stats: 'vitality'}, category: 'arena'},])
 
 units = Unit.create([{name: 'Ulbert', total_xp: 1000, spent_xp: 0, hiring_cost: 0, upkeep_cost: 10,
 						max_hp: 50, current_hp: 50, max_sp: 50, current_sp: 50,
