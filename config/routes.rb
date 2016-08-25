@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
 	root 'static#welcome'
 	devise_for :users, :controllers => { registrations: 'registrations' }
 
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
 		get 'release', on: :member
 		post 'purchase', on: :member
 	end
+	resources :logs, only: :index
 
   	get 'static/welcome'
   	get 'static/admin'

@@ -30,6 +30,7 @@ class MarketOrdersController < ApplicationController
 
 			order.hall_inventory_id = inventory.id
 			order.item_id = inventory.item_id
+			order.category = -1
 
 			inventory.selling += order.amount
 			inventory.available -= order.amount

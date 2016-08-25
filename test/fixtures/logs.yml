@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guild: one
+  turn: 1
+  data: 
+
+two:
+  guild: two
+  turn: 1
+  data: 
