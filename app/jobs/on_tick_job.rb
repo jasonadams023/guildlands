@@ -1,9 +1,11 @@
 class OnTickJob < ApplicationJob
   queue_as :default
 
+  @@turn = 0
+
   def perform(*args)
   	#Setup
-  	#if Rails.application.config.turn == nil then Rails.application.config.turn = 1 end
+  	@@turn += 1
 
   	#Log setup
   	log_guilds = []
@@ -75,6 +77,7 @@ class OnTickJob < ApplicationJob
 		saved = Guild.find(guild[:id])
 		log = Log.my_new
 
+		log.turn = @@turn
 		log.guild = saved
 		log.data[:guild] = saved.name
 		log.message = "#{log.data[:guild]}: "
@@ -93,6 +96,7 @@ class OnTickJob < ApplicationJob
 		saved = GuildHall.find(hall[:id])
 		log = Log.my_new
 
+		log.turn = @@turn
 		log.guild = saved.guild
 		log.data[:guild_hall] = saved.name
 		log.message = "#{log.data[:guild_hall]}: "
@@ -101,11 +105,12 @@ class OnTickJob < ApplicationJob
 
 			index = hall[:inv].find_index{|i| i[:id] == inventory.id}
 			if index == nil
-				log.data[inventory.name] = inventory.total
+				log.data[inventory.item.name] = inventory.total
+				log.message += "Gained #{log.data[inventory.item.name]} #{inventory.item.name}."
 			else
-				log_inv = hall[:inv][i]
+				log_inv = hall[:inv][index]
 				if log_inv[:total] != inventory.total
-					log.data[inventory.item.name] = inventory.total - log_inv[:total].total
+					log.data[inventory.item.name] = inventory.total - log_inv[:total]
 					if log.data[inventory.item.name] > 0 then word = 'Gained' else word = 'lost' end
 					log.message += "#{word} #{log.data[inventory.item.name]} #{inventory.item.name}."
 				end
@@ -124,6 +129,7 @@ class OnTickJob < ApplicationJob
 		saved = Unit.find(unit[:id])
 		log = Log.my_new
 
+		log.turn = @@turn
 		log.guild = saved.guild_hall.guild
 		log.data[:unit] = saved.name
 		log.message = "#{log.data[:unit]}: "
@@ -177,7 +183,5 @@ class OnTickJob < ApplicationJob
 
 		if log.data.length > 1 then log.save end
 	end
-
-	#Rails.application.config.turn += 1
   end
 end
