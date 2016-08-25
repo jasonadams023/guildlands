@@ -19,7 +19,12 @@
 </div>
 
 <% if @inventory.guild_hall.guild.id == current_user.guild.id %>
-	<h3>Manage</h3>
+<div class='row'>
+	<div class='col-lg-12'>
+		<hr>
+		<h3>Manage</h3>
+	</div>
+</div>
 	<div class ='row'>
 		<div class='col-lg-4'>
 			<h4>Sell</h4>
@@ -29,5 +34,9 @@
 			<h4>Transfer</h4>
 			<%= render 'hall_inventories/move' %>
 		</div>
-	</div>	
+		<div class='col-lg-4'>
+			<h4>Give To Unit</h4>
+			<%= render 'unit_inventories/send_to_unit.html.erb' %>
+		</div>
+	</div>
 <% end %>

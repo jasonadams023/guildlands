@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unit: one
+  hall_inventory: one
+  amount: 1
+  equipped: false
+
+two:
+  unit: two
+  hall_inventory: two
+  amount: 1
+  equipped: false

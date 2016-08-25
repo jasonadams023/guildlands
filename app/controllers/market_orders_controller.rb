@@ -61,6 +61,7 @@ class MarketOrdersController < ApplicationController
 						inventory.total = 0
 						inventory.available = 0
 						inventory.selling = 0
+						inventory.using = 0
 					else
 						id = hall.hall_inventories.find_index{|o| order.item_id == o.item_id}
 						inventory = hall.hall_inventories[id]

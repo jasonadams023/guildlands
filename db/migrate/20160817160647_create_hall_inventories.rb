@@ -6,6 +6,7 @@ class CreateHallInventories < ActiveRecord::Migration[5.0]
       t.integer :total
       t.integer :available
       t.integer :selling
+      t.integer :using
 
       t.timestamps
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825000807) do
+ActiveRecord::Schema.define(version: 20160825215902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160825000807) do
     t.integer  "total"
     t.integer  "available"
     t.integer  "selling"
+    t.integer  "using"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["guild_hall_id"], name: "index_hall_inventories_on_guild_hall_id", using: :btree
@@ -173,6 +174,17 @@ ActiveRecord::Schema.define(version: 20160825000807) do
     t.integer "unit_ability_id", null: false
   end
 
+  create_table "unit_inventories", force: :cascade do |t|
+    t.integer  "unit_id"
+    t.integer  "hall_inventory_id"
+    t.integer  "amount"
+    t.boolean  "equipped"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["hall_inventory_id"], name: "index_unit_inventories_on_hall_inventory_id", using: :btree
+    t.index ["unit_id"], name: "index_unit_inventories_on_unit_id", using: :btree
+  end
+
   create_table "units", force: :cascade do |t|
     t.string   "name"
     t.integer  "total_xp"
@@ -232,6 +244,8 @@ ActiveRecord::Schema.define(version: 20160825000807) do
   add_foreign_key "market_orders", "items"
   add_foreign_key "room_inventories", "guild_halls"
   add_foreign_key "room_inventories", "rooms"
+  add_foreign_key "unit_inventories", "hall_inventories"
+  add_foreign_key "unit_inventories", "units"
   add_foreign_key "units", "activities"
   add_foreign_key "units", "guild_halls"
 end

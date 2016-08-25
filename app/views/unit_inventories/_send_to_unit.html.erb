@@ -1,0 +1,8 @@
+<%= simple_form_for @unit_inventory, url: unit_inventories_path(), method: :post do |f| %>
+  <%= f.input :amount, collection: 0..@inventory.available %>
+  <%= f.input :unit_id, label: "Transfer", collection: @inventory.guild_hall.units %>
+  <%= f.hidden_field :hall_inventory_id, value: @inventory.id %>
+  <%= f.hidden_field :equipped, value: false %>
+
+  <%= f.button :submit, label: "Move Unit" %>
+<% end %>

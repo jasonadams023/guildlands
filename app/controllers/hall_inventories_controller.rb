@@ -19,6 +19,7 @@ class HallInventoriesController < ApplicationController
 	def show
 		@inventory = HallInventory.find(params[:id])
 		@order = MarketOrder.new
+		@unit_inventory = UnitInventory.new
 	end
 
 	def new

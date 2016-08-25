@@ -74,7 +74,7 @@ rooms = Room.create([{name: 'Bunk Room', size: 1, description: "Basic housing fo
 					{name: 'Sauna', size: 2, description: "Room for relaxation. Improves units sp restoration.", effects: {sp: 10}, cost: 800},
 					{name: 'E.R.', size: 4, description: "Room used for emergency treatment.", effects: {activities: 'Heal'}, cost: 1500}])
 
-hall_inventories = HallInventory.create([{guild_hall_id: 2, item_id: 1, available: 100, total: 600, selling: 500}])
+hall_inventories = HallInventory.create([{guild_hall_id: 2, item_id: 1, available: 100, total: 600, selling: 500, using: 0}])
 
 selling = MarketOrder.create([{hall_inventory_id: 1, item_id: 1, amount: 500, price: 20, category: -1},
 								{hall_inventory_id: 1, item_id: 1, amount: 100, price: 10, category: 1}])

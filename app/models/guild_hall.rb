@@ -66,6 +66,7 @@ class GuildHall < ApplicationRecord
       inventory.total = 0
       inventory.available = 0
       inventory.selling = 0
+      inventory.using = 0
       inventory.save
     else
       id = self.hall_inventories.find_index{|i| item.id == i.item_id}

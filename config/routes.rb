@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 		get 'release', on: :member
 		post 'purchase', on: :member
 	end
+	resources :unit_inventories
 	resources :logs, only: :index
 
   	get 'static/welcome'
