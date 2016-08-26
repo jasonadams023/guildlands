@@ -29,27 +29,40 @@ class GuildHallsController < ApplicationController
 
 	def create
     	@hall = GuildHall.new(guild_hall_params)
-    	@hall.rooms << Room.find(1)#basic bedroom
-    	value = calc_value(@hall)
 
-    	if @hall.guild.money >= value
-    		@hall.guild.money -= value
-    		@hall.effects = {}
-	    	@hall.set_unit_limit
-	    	@hall.set_effects
+		if @hall.size != nil
+    		if @hall.location != nil
+    			if @hall.name != ''
+    				@hall.rooms << Room.find(1)#basic bedroom
+    				value = calc_value(@hall)
 
-			if @hall.save && @hall.guild.save
-				flash[:notice] = "Guild Hall created."
-				redirect_to current_user.guild and return
+			    	if @hall.guild.money >= value
+			    		@hall.guild.money -= value
+			    		@hall.effects = {}
+				    	@hall.set_unit_limit
+				    	@hall.set_effects
+
+						if @hall.save && @hall.guild.save
+							flash[:notice] = "Guild Hall created."
+							redirect_to current_user.guild and return
+						else
+							flash[:alert] = "Failed to create Guild Hall."
+						end
+					else
+						flash[:alert] = "Guild does not have enough money to build this Guild Hall."
+					end
+				else
+					flash[:alert] = "No name specified."
+				end
 			else
-				flash[:alert] = "Failed to create Guild Hall."
+				flash[:alert] = "No Location specified."
 			end
 		else
-			flash[:alert] = "Guild does not have enough money to build this Guild Hall."
+			flash[:alert] = "No size specified."
 		end
 		@guild = current_user.guild
 		@hall = GuildHall.new
-		render :edit
+		render :new
     end
 
     def update
