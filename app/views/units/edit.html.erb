@@ -5,14 +5,18 @@
 </div>
 
 <%= simple_form_for @unit, url: unit_path(@unit), method: :patch do |f| %>
-  <%= f.input :name, label: "Change Name" %>
-  <%= f.input :strength, label: "Train", collection: 1..20 %>
-  <%= f.input :agility, label: "Train", collection: 1..20 %>
-  <%= f.input :vitality, label: "Train", collection: 1..20 %>
-  <%= f.input :stamina, label: "Train", collection: 1..20 %>
-  <%= f.input :intelligence, label: "Train", collection: 1..20 %>
-  <%= f.input :focus, label: "Train", collection: 1..20 %>
-  <%= f.input :guild_hall_id, label: "Move", collection: @guild.guild_halls %>
+  <%= if @name == true then f.input :name, label: "Change Name" end %>
+
+  <% if @train == true %>
+    <%= f.input :strength, label: "Train", collection: 1..20 %>
+    <%= f.input :agility, label: "Train", collection: 1..20 %>
+    <%= f.input :vitality, label: "Train", collection: 1..20 %>
+    <%= f.input :stamina, label: "Train", collection: 1..20 %>
+    <%= f.input :intelligence, label: "Train", collection: 1..20 %>
+    <%= f.input :focus, label: "Train", collection: 1..20 %>
+  <% end %>
+
+  <%= if @move == true then f.input :guild_hall_id, label: "Move", collection: @guild.guild_halls end %>
 
   <%= f.button :submit %>
 <% end %>

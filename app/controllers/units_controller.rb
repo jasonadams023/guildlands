@@ -37,6 +37,8 @@ class UnitsController < ApplicationController
 	def edit
 		@unit = Unit.find(params[:id])
 		@guild = @unit.guild_hall.guild
+		if params[:name] == 'true' then @name = true end
+		if params[:train] == 'true' then @train= true end
 	end
 
 	def create

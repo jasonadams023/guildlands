@@ -6,7 +6,7 @@
 
 <div class='row'>
 	<div class='col-lg-12'><!-- Basics -->
-		<h4><%= @hall.name %></h4><%= link_to "edit", edit_guild_hall_path, method: :get %>
+		<h4 class='editable'><%= @hall.name %></h4><%= link_to "change name", edit_guild_hall_path, method: :get, class: 'editable' %>
 		<p><strong>Current Owner:</strong> <%= if @hall.guild_id == nil then 'None' else @hall.guild.name end %></p>
 		<p><strong>Location:</strong> <%= @hall.location.name %></p>
 		<p><strong>Size:</strong> <%= @used_space %> / <%= @hall.size %></p>

@@ -6,7 +6,10 @@
 
 <div class='row'>
 	<div class='col-lg-4'><!-- Basics -->
-		<h4><%= @unit.name %></h4><%= link_to "edit", edit_unit_path(@unit), method: :get %>
+		<h4 class='editable'><%= @unit.name %></h4>
+		<% if @unit.guild_hall.guild.id == current_user.guild.id %>
+		<%= link_to "change name", edit_unit_path(@unit, name: 'true'), method: :get, class: 'editable' %>
+		<% end %>
 		<p><strong>XP:</strong> <%= @unit.spent_xp %> / <%= @unit.total_xp %>
 		 | <strong>HP:</strong> <%= @unit.current_hp %> / <%= @unit.max_hp %>
 		 | <strong>SP:</strong> <%= @unit.current_sp %> / <%= @unit.max_sp %></p>
@@ -19,7 +22,7 @@
 			<p><strong>Guild:</strong> Free</p>
 		<% else %>
 			<p><strong>Guild:</strong> <%= @unit.guild_hall.guild.name %></p>
-			<p><strong>Location:</strong> <%= @unit.guild_hall.name %> - <%= @unit.guild_hall.location.name %></p>
+			<p><strong>Location:</strong> <%= link_to @unit.guild_hall.name, @unit.guild_hall, method: :get %> - <%= @unit.guild_hall.location.name %></p>
 		<% end %>
 	</div><!-- /Guild -->
 
@@ -71,7 +74,7 @@
 </div>
 
 <div class="row"><!-- Manage -->
-	<div class="col-lg-3"><!--  -->
+	<div class="col-lg-4"><!--  -->
 		<% if @free %>
 			<h4>Purchase</h4>
 			<%= render 'units/purchase' %>
@@ -82,12 +85,12 @@
 	</div>
 
 	<% if @unit.guild_hall != nil && @unit.guild_hall.guild_id == current_user.guild.id %>
-		<div class='col-lg-3'><!-- Actions -->
+		<div class='col-lg-4'><!-- Actions -->
 			<h4>Actions</h4>
 			<%= render 'units/actions' %>
 		</div><!-- /Actions -->
 
-		<div class='col-lg-3'><!-- Move -->
+		<div class='col-lg-4'><!-- Move -->
 			<h4>Move</h4>
 			<%= render 'units/move' %>
 		</div><!-- /Move -->
@@ -96,5 +99,10 @@
 			<h4>Inventory</h4>
 			<%= link_to 'View Inventory', unit_inventories_path(unit_id: @unit.id), method: :get %>
 		</div><!-- /Inventory -->
+
+		<div class='col-lg-4'><!-- Train -->
+			<h4>Train</h4>
+			<%= link_to "change name", edit_unit_path(@unit, train: 'true'), method: :get %>
+		</div><!-- /Train -->
 	<% end %>
 </div><!-- /Manage -->
