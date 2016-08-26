@@ -8,15 +8,19 @@
   <%= if @name == true then f.input :name, label: "Change Name" end %>
 
   <% if @train == true %>
-    <%= f.input :strength, label: "Train", collection: 1..20 %>
-    <%= f.input :agility, label: "Train", collection: 1..20 %>
-    <%= f.input :vitality, label: "Train", collection: 1..20 %>
-    <%= f.input :stamina, label: "Train", collection: 1..20 %>
-    <%= f.input :intelligence, label: "Train", collection: 1..20 %>
-    <%= f.input :focus, label: "Train", collection: 1..20 %>
+    <%= f.input :strength, label: "Train", collection: 1..20, input_html: {id: "strength"} %>
+    <%= f.input :agility, label: "Train", collection: 1..20, input_html: {id: "agility"} %>
+    <%= f.input :vitality, label: "Train", collection: 1..20, input_html: {id: "vitality"} %>
+    <%= f.input :stamina, label: "Train", collection: 1..20, input_html: {id: "stamina"} %>
+    <%= f.input :intelligence, label: "Train", collection: 1..20, input_html: {id: "intelligence"} %>
+    <%= f.input :focus, label: "Train", collection: 1..20, input_html: {id: "focus"} %>
   <% end %>
 
   <%= if @move == true then f.input :guild_hall_id, label: "Move", collection: @guild.guild_halls end %>
 
+  <p>Cost: <span class='unit-cost'>500</span></p>
+
   <%= f.button :submit %>
 <% end %>
+
+<%= render 'units/training_logic' %>

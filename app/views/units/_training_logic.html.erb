@@ -1,0 +1,41 @@
+<script>
+var startingStats = [];
+
+startingStats.push(parseInt($("#strength :selected")[0].innerHTML));
+startingStats.push(parseInt($('#agility :selected')[0].innerHTML));
+startingStats.push(parseInt($('#vitality :selected')[0].innerHTML));
+startingStats.push(parseInt($('#stamina :selected')[0].innerHTML));
+startingStats.push(parseInt($('#intelligence :selected')[0].innerHTML));
+startingStats.push(parseInt($('#focus :selected')[0].innerHTML));
+
+function updateXPCost(){
+	var cost = 0;
+	if (parseInt($("#strength :selected")[0].innerHTML) > startingStats[0]) {
+			cost = cost + ((parseInt($("#strength :selected")[0].innerHTML) - startingStats[0]) * 100 );
+		};
+	if (parseInt($('#agility :selected')[0].innerHTML) > startingStats[1]) {
+		cost = cost + ((parseInt($('#agility :selected')[0].innerHTML) - startingStats[1]) * 100 );
+	};
+	if (parseInt($('#vitality :selected')[0].innerHTML) > startingStats[2]) {
+		cost = cost + ((parseInt($('#vitality :selected')[0].innerHTML) - startingStats[2]) * 100 );
+	};
+	if (parseInt($('#stamina :selected')[0].innerHTML) > startingStats[3]) {
+		cost = cost + ((parseInt($('#stamina :selected')[0].innerHTML) - startingStats[3]) * 100 );
+	};
+	if (parseInt($('#intelligence :selected')[0].innerHTML) > startingStats[4]) {
+		cost = cost + ((parseInt($('#intelligence :selected')[0].innerHTML) - startingStats[4]) * 100 );
+	};
+	if (parseInt($('#focus :selected')[0].innerHTML) > startingStats[5]) {
+		cost = cost + ((parseInt($('#focus :selected')[0].innerHTML) - startingStats[5]) * 100 );
+	};
+
+	$('.unit-cost')[0].innerHTML = cost;
+};
+
+$('#strength').change( updateXPCost );
+$('#agility').change( updateXPCost );
+$('#vitality').change( updateXPCost );
+$('#stamina').change( updateXPCost );
+$('#intelligence').change( updateXPCost );
+$('#focus').change( updateXPCost );
+</script>
