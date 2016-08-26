@@ -54,6 +54,34 @@ class Unit < ApplicationRecord
 
 		self.effects['activities'] = activities_str
 			#end of activities
+
+			#equipment
+		gear = self.unit_inventories.select{|inv| inv.equipped = true}
+		gear.each do |equip|
+			equip.hall_inventory.item.effects.each do |key, effect|
+				if self.effects[key] == nil
+					self.effects[key] = effect
+				else
+					if key == 'slot'
+						self.effects[key] += " #{effect}"
+					else
+						self.effects[key] += effect
+					end
+				end
+			end
+		end
+					#end of equipment
+	end
+
+	def total_xp_change(amount)
+		max_xp = 10000
+		if self.total_xp + amount < max_xp #max xp
+			self.total_xp = max_xp
+		elsif self.total_xp + amount < 0
+			self.total_xp = 0
+		else
+			self.total_xp += amount
+		end
 	end
 
 	def current_hp_change(amount)
@@ -170,6 +198,7 @@ class Unit < ApplicationRecord
 	end
 
 	def activity_run
+		if self.activity.effects['xp'] != nil then self.total_xp_change(self.activity.effects['xp'].to_i) end
 		if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
 		if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
 		if self.activity.effects['money'] != nil then self.guild_hall.guild.money += self.activity.effects['money'].to_i end

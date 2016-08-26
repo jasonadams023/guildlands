@@ -29,14 +29,18 @@
 		</div>
 		<% if @unit_inventory.hall_inventory.item.category == 'consumable' %>
 			<div class='col-lg-4'>
-				<h4>Equip</h4>
-				<%= link_to 'Use Item', use_unit_inventory_path(@unit_inventory), method: :patch %>
+				<h4>Use Item</h4>
+				<%= link_to 'Use Item', unit_inventory_path(@unit_inventory, use: 'true'), method: :patch %>
 			</div>
 		<% end %>
 		<% if @unit_inventory.hall_inventory.item.category == 'equippable' %>
 			<div class='col-lg-4'>
 				<h4>Equip</h4>
-				<%= link_to 'Equip Item', equip_unit_inventory_path(@unit_inventory), method: :patch %>
+				<% if @unit_inventory.equipped == false %>
+					<%= link_to 'Equip Item', unit_inventory_path(@unit_inventory, equip: 'true'), method: :patch %>
+				<% else %>
+					<%= link_to 'Unequip Item', unit_inventory_path(@unit_inventory, equip: 'false'), method: :patch %>
+				<% end %>
 			</div>
 		<% end %>
 	</div>

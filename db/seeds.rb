@@ -55,7 +55,7 @@ items = Item.create([{name: 'potion', description: 'Restores 15 hp.', effects: {
 						{name: 'cactus', description: 'A prickly desert plant.', effects: {}, category: 'crafting', value: 15, max_value: 50, demand: 1000},
 						{name: 'rabbit(dead)', description: 'A dead rabbit.', effects: {}, category: 'crafting', value: 25, max_value: 100, demand: 1500},
 						{name: 'snake(dead)', description: 'A dead snake.', effects: {}, category: 'crafting', value: 25, max_value: 100, demand: 1500},
-						{name: 'sword', description: 'A sturdy sword.', effects: {strength: 3}, category: 'weapon', value: 100, max_value: 500, demand: 3000},
+						{name: 'sword', description: 'A sturdy sword.', effects: {slot: 'weapon', strength: 3}, category: 'equippable', value: 100, max_value: 500, demand: 3000},
 						{name: 'meat', description: 'A chunk of raw meat. Not fit for consumption.', effects: {}, category: 'crafting', value: 15, max_value: 50, demand: 3000},
 						{name: 'leather', description: 'A piece of leather. Useful for crafting gear.', effects: {}, category: 'crafting', value: 20, max_value: 100, demand: 1500},
 						{name: 'stew', description: 'A tasty stew.', effects: {sp: 20}, category: 'consumable', value: 50, max_value: 250, demand: 2000}])
