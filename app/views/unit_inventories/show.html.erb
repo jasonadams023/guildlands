@@ -1,0 +1,43 @@
+<div class='row'>
+	<div class='col-lg-12'>
+	<h1>Unit Item Page</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-12'>
+		<h4><%= @unit_inventory.hall_inventory.item.name %></h4>
+		<p><strong>Unit:</strong> <%= @unit_inventory.unit.name %></p>
+		<p><strong>Location:</strong> <%= @unit_inventory.hall_inventory.guild_hall.name %> - <%= @unit_inventory.hall_inventory.guild_hall.location.name %></p>
+		<p><strong>Description:</strong> <%= @unit_inventory.hall_inventory.item.description %></p>
+		<p><strong>Available:</strong> <%= @unit_inventory.amount %></p>
+		<p><strong>Equipped:</strong> <%= if @unit_inventory.equipped == true then 'Yes' else 'No' end %></p>
+	</div>
+</div>
+
+<% if @unit_inventory.hall_inventory.guild_hall.guild.id == current_user.guild.id %>
+<div class='row'>
+	<div class='col-lg-12'>
+		<hr>
+		<h3>Manage</h3>
+	</div>
+</div>
+	<div class ='row'>
+		<div class='col-lg-4'>
+			<h4>Return to Hall</h4>
+			<%= render 'unit_inventories/return' %>
+		</div>
+		<% if @unit_inventory.hall_inventory.item.category == 'consumable' %>
+			<div class='col-lg-4'>
+				<h4>Equip</h4>
+				<%= link_to 'Use Item', use_unit_inventory_path(@unit_inventory), method: :patch %>
+			</div>
+		<% end %>
+		<% if @unit_inventory.hall_inventory.item.category == 'equippable' %>
+			<div class='col-lg-4'>
+				<h4>Equip</h4>
+				<%= link_to 'Equip Item', equip_unit_inventory_path(@unit_inventory), method: :patch %>
+			</div>
+		<% end %>
+	</div>
+<% end %>

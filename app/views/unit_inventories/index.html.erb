@@ -1,1 +1,20 @@
-index.html.erb
+<div class='row'>
+	<div class='col-lg-12'>
+	<h1>Unit Inventory</h1>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-lg-12'>
+		<% @unit_inventories.each do |inventory| %>
+			<h4><%= inventory.hall_inventory.item.name %></h4>
+			<p><strong>Unit:</strong> <%= inventory.unit.name %></p>
+			<p><strong>Location:</strong> <%= inventory.hall_inventory.guild_hall.name %> - <%= inventory.hall_inventory.guild_hall.location.name %></p>
+			<p><strong>Description:</strong> <%= inventory.hall_inventory.item.description %></p>
+			<p><strong>Available:</strong> <%= inventory.amount %></p>
+			<p><strong>Equipped:</strong> <%= if inventory.equipped == true then 'Yes' else 'No' end %></p>
+			<%= link_to "View Item", unit_inventory_path(inventory), method: :get %>
+			<hr>
+		<% end %>
+	</div>
+</div>

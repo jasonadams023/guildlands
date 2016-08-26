@@ -1,0 +1,5 @@
+<%= simple_form_for @unit_inventory, url: unit_inventory_path(@unit_inventory, return: 'true'), method: :patch do |f| %>
+  <%= f.input :amount, collection: 0..@unit_inventory.amount %>
+
+  <%= f.button :submit, label: "Return Items" %>
+<% end %>

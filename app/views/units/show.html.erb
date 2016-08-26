@@ -71,7 +71,7 @@
 </div>
 
 <div class="row"><!-- Manage -->
-	<div class="col-lg-4"><!--  -->
+	<div class="col-lg-3"><!--  -->
 		<% if @free %>
 			<h4>Purchase</h4>
 			<%= render 'units/purchase' %>
@@ -82,14 +82,19 @@
 	</div>
 
 	<% if @unit.guild_hall != nil && @unit.guild_hall.guild_id == current_user.guild.id %>
-		<div class='col-lg-4'><!-- Actions -->
+		<div class='col-lg-3'><!-- Actions -->
 			<h4>Actions</h4>
 			<%= render 'units/actions' %>
 		</div><!-- /Actions -->
 
-		<div class='col-lg-4'><!-- Move -->
+		<div class='col-lg-3'><!-- Move -->
 			<h4>Move</h4>
 			<%= render 'units/move' %>
 		</div><!-- /Move -->
+
+		<div class='col-lg-4'><!-- Inventory -->
+			<h4>Inventory</h4>
+			<%= link_to 'View Inventory', unit_inventories_path(unit_id: @unit.id), method: :get %>
+		</div><!-- /Inventory -->
 	<% end %>
 </div><!-- /Manage -->
