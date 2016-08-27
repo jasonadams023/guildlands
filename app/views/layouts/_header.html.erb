@@ -239,6 +239,13 @@
                                 <!-- /input-group -->
                             </li>
 
+
+                            <li><!-- Logs -->
+                                <%= link_to logs_path(), method: :get do %>
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> Logs
+                                <% end %>
+                            </li><!-- /Logs -->
+
                             <li><!-- Overview -->
                                 <%= link_to guild_path(current_user.guild.id), method: :get do %>
                                     <i class="fa fa-dashboard fa-fw"></i> Overview
