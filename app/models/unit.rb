@@ -8,8 +8,51 @@ class Unit < ApplicationRecord
 
 	has_and_belongs_to_many :unit_abilities
 
-	def set_spent_xp
-	    self.spent_xp = 0
+	def calc_xp_per_stat(stat)
+		low_stat_cost = 15
+		mid_stat_cost = 30
+		high_stat_cost = 50
+
+		if stat < 11
+	    	return stat * low_stat_cost
+	    elsif stat >10 && stat < 16
+	    	return ((stat - 10) * mid_stat_cost) + 150
+	    else
+	    	return ((stat - 15) * high_stat_cost) + 300
+	    end
+	end
+
+	def calc_xp_discount
+		max_free_stats = 30
+		free_stats = 0
+
+		if self.strength <= 10 then free_stats += self.strength else free_stats += 10 end
+		if self.agility <= 10 then free_stats += self.agility else free_stats += 10 end
+		if self.vitality <= 10 then free_stats += self.vitality else free_stats += 10 end
+		if self.stamina <= 10 then free_stats += self.stamina else free_stats += 10 end
+		if self.intelligence <= 10 then free_stats += self.intelligence else free_stats += 10 end
+		if self.focus <= 10 then free_stats += self.focus else free_stats += 10 end
+
+		if free_stats <= max_free_stats then return free_stats * 15 else return max_free_stats * 15 end
+	end
+
+	def calc_spent_xp
+	    xp = 0
+
+	    self.unit_abilities.each do |ability|
+	    	xp += ability.xp_cost
+	    end
+
+	    xp += calc_xp_per_stat(self.strength)
+	    xp += calc_xp_per_stat(self.agility)
+	    xp += calc_xp_per_stat(self.vitality)
+	    xp += calc_xp_per_stat(self.stamina)
+	    xp += calc_xp_per_stat(self.intelligence)
+	    xp += calc_xp_per_stat(self.focus)
+
+	    xp -= calc_xp_discount
+
+	    return xp
 	end
 
 	def set_costs

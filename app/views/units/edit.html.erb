@@ -18,7 +18,9 @@
 
   <%= if @move == true then f.input :guild_hall_id, label: "Move", collection: @guild.guild_halls end %>
 
-  <p>Cost: <span class='unit-cost'>500</span></p>
+  <% if @train == true %>
+    <p>Cost: <span class='unit-cost'>0</span></p>
+  <% end %>
 
   <%= f.button :submit %>
 <% end %>

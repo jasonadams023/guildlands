@@ -46,17 +46,27 @@ class UnitsController < ApplicationController
 		@unit.custom_new
 		guild = @unit.guild_hall.guild
 
-		if guild.money >= @unit.hiring_cost
-			guild.money -= @unit.hiring_cost
+		xp = @unit.calc_spent_xp
+		if xp > @unit.total_xp
+			if xp > guild.reputation
+				if guild.money >= @unit.hiring_cost
+					@unit.spent_xp = xp
+					guild.money -= @unit.hiring_cost
 
-			if @unit.save && guild.save
-				flash[:notice] = "Created new unit."
-				redirect_to current_user.guild and return
+					if @unit.save && guild.save
+						flash[:notice] = "Created new unit."
+						redirect_to current_user.guild and return
+					else
+						flash[:alert] = "Failed to save unit."
+					end
+				else
+					flash[:alert] = "Guild does not have enough money to hire this unit."
+				end
 			else
-				flash[:alert] = "Failed to save unit."
+				flash[:alert] = "Guild does not have enough reputation to hire this unit."
 			end
 		else
-			flash[:alert] = "Guild does not have enough money to hire this unit."
+			flash[:alert] = "Spent xp exceeds total xp."
 		end
 		@guild = current_user.guild
 		@unit = Unit.new
@@ -68,30 +78,28 @@ class UnitsController < ApplicationController
 		guild = unit.guild_hall.guild
 		cost = 0
 
-		strength = params[:unit][:strength].to_i
-		agility = params[:unit][:agility].to_i
-		vitality = params[:unit][:vitality].to_i
-		stamina = params[:unit][:stamina].to_i
-		intelligence = params[:unit][:intelligence].to_i
-		focus = params[:unit][:focus].to_i
+		unit.assign_attributes(unit_params)
+		test_xp = unit.calc_spent_xp
 
-		if strength> unit.strength then cost += ((strength - unit.strength) * 100) end
-		if agility > unit.agility then cost += ((strength - unit.strength) * 100) end
-		if vitality > unit.vitality then cost += ((strength - unit.strength) * 100) end
-		if stamina > unit.stamina then cost += ((strength - unit.strength) * 100) end
-		if intelligence > unit.intelligence then cost += ((strength - unit.strength) * 100) end
-		if focus > unit.focus then cost += ((strength - unit.strength) * 100) end
+		if test_xp <= unit.total_xp
+			if test_xp > unit.spent_xp then cost = test_xp - unit.spent_xp else cost = 0 end
 
-		if guild.money >= cost
-			guild.money -= cost
-			unit.set_effects
-			if unit.update(unit_params) && guild.save
-				flash[:notice] = "Unit updated."
+			if guild.money >= cost
+				guild.money -= cost
+
+				unit.set_effects
+				unit.spent_xp = test_xp
+
+				if unit.save && guild.save
+					flash[:notice] = "Unit updated."
+				else
+					flash[:alert] = "Failed to update."
+				end
 			else
-				flash[:alert] = "Failed to update."
+				flash[:alert] = "Guild does not have enough money to train this unit."
 			end
 		else
-			flash[:alert] = "Guild does not have enough money to train this unit."
+			flash[:alert] = "Spent xp would exceed total xp."
 		end
 
 		redirect_to unit
