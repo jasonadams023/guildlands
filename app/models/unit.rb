@@ -155,16 +155,16 @@ class Unit < ApplicationRecord
 	end
 
 	def strength_effect
-		if self.effects[:strength] != nil
-			return self.effects[:strength]
+		if self.effects['strength'] != nil
+			return self.effects['strength'].to_i
 		else
 			return 0
 		end
 	end
 
 	def strength_sum
-		if self.effects[:strength] != nil
-			sum = self.effects[:strength] + self.strength
+		if self.effects['strength'] != nil
+			sum = self.effects['strength'].to_i + self.strength
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.strength
@@ -178,16 +178,16 @@ class Unit < ApplicationRecord
 	end
 
 	def agility_effect
-		if self.effects[:agility] != nil
-			return self.effects[:agility]
+		if self.effects['agility'] != nil
+			return self.effects['agility'].to_i
 		else
 			return 0
 		end
 	end
 
 	def agility_sum
-		if self.effects[:agility] != nil
-			sum = self.effects[:agility] + self.agility
+		if self.effects['agility'] != nil
+			sum = self.effects['agility'].to_i + self.agility
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.agility
@@ -201,16 +201,16 @@ class Unit < ApplicationRecord
 	end
 
 	def vitality_effect
-		if self.effects[:vitality] != nil
-			return self.effects[:vitality]
+		if self.effects['vitality'] != nil
+			return self.effects['vitality'].to_i
 		else
 			return 0
 		end
 	end
 
 	def vitality_sum
-		if self.effects[:vitality] != nil
-			sum = self.effects[:vitality] + self.vitality
+		if self.effects['vitality'] != nil
+			sum = self.effects['vitality'].to_i + self.vitality
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.vitality
@@ -224,16 +224,16 @@ class Unit < ApplicationRecord
 	end
 
 	def stamina_effect
-		if self.effects[:stamina] != nil
-			return self.effects[:stamina]
+		if self.effects['stamina'] != nil
+			return self.effects['stamina'].to_i
 		else
 			return 0
 		end
 	end
 
 	def stamina_sum
-		if self.effects[:stamina] != nil
-			sum = self.effects[:stamina] + self.stamina
+		if self.effects['stamina'] != nil
+			sum = self.effects['stamina'].to_i + self.stamina
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.stamina
@@ -247,16 +247,16 @@ class Unit < ApplicationRecord
 	end
 
 	def intelligence_effect
-		if self.effects[:intelligence] != nil
-			return self.effects[:intelligence]
+		if self.effects['intelligence'] != nil
+			return self.effects['intelligence'].to_i
 		else
 			return 0
 		end
 	end
 
 	def intelligence_sum
-		if self.effects[:intelligence] != nil
-			sum = self.effects[:intelligence] + self.intelligence
+		if self.effects['intelligence'] != nil
+			sum = self.effects['intelligence'].to_i + self.intelligence
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.intelligence
@@ -270,16 +270,16 @@ class Unit < ApplicationRecord
 	end
 
 	def focus_effect
-		if self.effects[:focus] != nil
-			return self.effects[:focus]
+		if self.effects['focus'] != nil
+			return self.effects['focus'].to_i
 		else
 			return 0
 		end
 	end
 
 	def focus_sum
-		if self.effects[:focus] != nil
-			sum = self.effects[:focus] + self.focus
+		if self.effects['focus'] != nil
+			sum = self.effects['focus'].to_i + self.focus
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.focus
@@ -294,7 +294,7 @@ class Unit < ApplicationRecord
 
 	def upkeep_sum
 		if self.effects['upkeep'] != nil
-			sum = self.effects[:upkeep] + self.upkeep
+			sum = self.effects[:upkeep].to_i + self.upkeep
 			if sum < 1 then sum = 1 end
 		else
 			sum = self.upkeep
