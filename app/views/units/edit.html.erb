@@ -25,4 +25,135 @@
   <%= f.button :submit %>
 <% end %>
 
-<%= render 'units/training_logic' %>
+<script>
+var startingStats = [];
+
+startingStats.push(parseInt($("#strength :selected")[0].innerHTML));
+startingStats.push(parseInt($('#agility :selected')[0].innerHTML));
+startingStats.push(parseInt($('#vitality :selected')[0].innerHTML));
+startingStats.push(parseInt($('#stamina :selected')[0].innerHTML));
+startingStats.push(parseInt($('#intelligence :selected')[0].innerHTML));
+startingStats.push(parseInt($('#focus :selected')[0].innerHTML));
+
+
+function calcXPDiscount(strength, agility, vitality, stamina, intelligence, focus){
+  maxFreeStats = 30;
+  freeStats = 0;
+
+  if (strength <= 10){
+    freeStats += strength;
+  } else {
+    freeStats += 10;
+  }
+  if (agility <= 10){
+    freeStats += agility;
+  } else {
+    freeStats += 10;
+  }
+  if (vitality <= 10){
+    freeStats += vitality;
+  } else {
+    freeStats += 10;
+  }
+  if (stamina <= 10){
+    freeStats += stamina;
+  } else {
+    freeStats += 10;
+  }
+  if (intelligence <= 10){
+    freeStats += intelligence;
+  } else {
+    freeStats += 10;
+  }
+  if (focus <= 10){
+    freeStats += focus;
+  } else {
+    freeStats += 10;
+  }
+
+  if (freeStats <= maxFreeStats){
+    return freeStats * 15;
+  } else {
+    return maxFreeStats *15;
+  }
+};
+
+function calcXPPerStat(stat){
+  lowStat = 15;
+  midStat = 30;
+  highStat = 50;
+
+  if (stat < 11){
+    return stat * lowStat;
+  } else if (stat > 10 && stat < 16){
+    return ((stat - 10) * midStat) + 150;
+  } else {
+    return ((stat - 15) * highStat) + 300;
+  }
+};
+
+function updateXPCost(){
+  var cost = 0;
+  var negativeDiscount = 0;
+  var grossCost = 0;
+  var previousCost = 0;
+  var strength = parseInt($("#strength :selected")[0].innerHTML);
+  var agility = parseInt($("#agility :selected")[0].innerHTML);
+  var vitality = parseInt($("#vitality :selected")[0].innerHTML);
+  var stamina = parseInt($("#stamina :selected")[0].innerHTML);
+  var intelligence = parseInt($("#intelligence :selected")[0].innerHTML);
+  var focus = parseInt($("#focus :selected")[0].innerHTML);
+
+  if (strength > startingStats[0]){
+    cost += calcXPPerStat(strength) - calcXPPerStat(startingStats[0]);
+  } else if (strength < startingStats[0]) {
+    negativeDiscount += calcXPPerStat(startingStats[0]) - calcXPPerStat(strength);
+  }
+  if (agility > startingStats[1]){
+    cost += calcXPPerStat(agility) - calcXPPerStat(startingStats[1]);
+  } else if (agility < startingStats[1]) {
+    negativeDiscount += calcXPPerStat(startingStats[1]) - calcXPPerStat(agility);
+  }
+  if (vitality > startingStats[2]){
+    cost += calcXPPerStat(vitality) - calcXPPerStat(startingStats[2]);
+  } else if (vitality < startingStats[2]) {
+    negativeDiscount += calcXPPerStat(startingStats[2]) - calcXPPerStat(vitality);
+  }
+  if (stamina > startingStats[3]){
+    cost += calcXPPerStat(stamina) - calcXPPerStat(startingStats[3]);
+  } else if (stamina < startingStats[3]) {
+    negativeDiscount += calcXPPerStat(startingStats[3]) - calcXPPerStat(stamina);
+  }
+  if (intelligence > startingStats[4]){
+    cost += calcXPPerStat(intelligence) - calcXPPerStat(startingStats[4]);
+  } else if (intelligence < startingStats[4]) {
+    negativeDiscount += calcXPPerStat(startingStats[4]) - calcXPPerStat(intelligence);
+  }
+  if (focus > startingStats[5]){
+    cost += calcXPPerStat(focus) - calcXPPerStat(startingStats[5]);
+  } else if (focus < startingStats[5]) {
+    negativeDiscount += calcXPPerStat(startingStats[5]) - calcXPPerStat(focus);
+  }
+
+  discount = calcXPDiscount(strength, agility, vitality, stamina, intelligence, focus);
+  discount -= calcXPDiscount(startingStats[0], startingStats[1], startingStats[2], startingStats[3], startingStats[4], startingStats[5]);
+
+  if (discount < 0){
+    discount = 0;
+  }
+
+  cost -= discount; 
+  if (cost < 0){
+    cost = 0;
+  }
+
+  $('.unit-cost')[0].innerHTML = cost;
+};
+
+$('#strength').change( updateXPCost );
+$('#agility').change( updateXPCost );
+$('#vitality').change( updateXPCost );
+$('#stamina').change( updateXPCost );
+$('#intelligence').change( updateXPCost );
+$('#focus').change( updateXPCost );
+</script>

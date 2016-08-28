@@ -8,6 +8,48 @@ class Guild < ApplicationRecord
 	store_accessor :effects
 
 	#Methods
+	def set_effects
+		self.guild_abilities.each do |ability|
+			ability.effect.each do |key, effect|
+				if self.effects[key] == nil
+					self.effects[key] = effect
+				else
+					if key.include?('modifier')
+			          self.effects[key] = self.effects[key].to_f * effect.to_f
+			        else
+			          self.effects[key] = self.effects.to_i + effect.to_i
+			        end
+				end
+			end
+		end
+	end
+
+	def reputation_change(reputation_change)
+		max_rep = 10000
+		if self.effects['rep_multiplier'] != nil
+			reputation_change = reputations_change * self.effects['rep_multiplier'].to_i
+		end
+
+		if self.total_rep += reputation_change > max_rep
+			self.total_rep = max_rep
+		elsif self.total_rep += reputations_change < 0
+			self.total_rep = 0
+		else
+			self.total_rep += reputation_change
+		end
+	end
+
+	def money_change(money_change)
+		max_money = 1000000
+		if self.money += reputation_change > max_money
+			self.money = max_money
+		elsif self.money += reputations_change < 0
+			self.money = 0
+		else
+			self.money += reputation_change
+		end
+	end
+
 	def self.new_user(user)
 		guild = Guild.new
 		guild.name = user.username + "'s Guild"

@@ -42,35 +42,42 @@ class UnitsController < ApplicationController
 	end
 
 	def create
-		check_complete
-		@unit.custom_new
-		guild = @unit.guild_hall.guild
+		if !check_complete
+			flash[:alert] = "Failed to save unit."
+			@guild = current_user.guild
+			@unit = Unit.new and return
+		else
+			@unit = Unit.new(unit_params)
+			@unit.custom_new
+			guild = @unit.guild_hall.guild
 
-		xp = @unit.calc_spent_xp
-		if xp > @unit.total_xp
-			if xp > guild.reputation
-				if guild.money >= @unit.hiring_cost
-					@unit.spent_xp = xp
-					guild.money -= @unit.hiring_cost
+			xp = @unit.calc_spent_xp
+			if xp <= @unit.total_xp
+				if @unit.total_xp <= guild.total_rep
+					cost = xp + @unit.total_xp
+					if guild.money >= cost
+						@unit.spent_xp = xp
+						guild.money -= cost
 
-					if @unit.save && guild.save
-						flash[:notice] = "Created new unit."
-						redirect_to current_user.guild and return
+						if @unit.save && guild.save
+							flash[:notice] = "Created new unit."
+							redirect_to current_user.guild and return
+						else
+							flash[:alert] = "Failed to save unit."
+						end
 					else
-						flash[:alert] = "Failed to save unit."
+						flash[:alert] = "Guild does not have enough money to hire this unit."
 					end
 				else
-					flash[:alert] = "Guild does not have enough money to hire this unit."
+					flash[:alert] = "Guild does not have enough reputation to hire this unit."
 				end
 			else
-				flash[:alert] = "Guild does not have enough reputation to hire this unit."
+				flash[:alert] = "Spent xp exceeds total xp."
 			end
-		else
-			flash[:alert] = "Spent xp exceeds total xp."
 		end
 		@guild = current_user.guild
 		@unit = Unit.new
-		render :edit
+		render :new
 	end
 
 	def update
@@ -114,7 +121,7 @@ class UnitsController < ApplicationController
 
 		previous_discount = unit.calc_xp_discount
 		unit.assign_attributes(unit_params)
-		discount = unit.calc_xp_discount - previous discount
+		discount = unit.calc_xp_discount - previous_discount
 		cost -= discount
 
 		if discount < 0 then discount = 0 end
@@ -222,10 +229,9 @@ class UnitsController < ApplicationController
 		def check_complete
 			@unit = Unit.new(unit_params)
 			if @unit.name == '' || @unit.total_xp == nil || @unit.guild_hall_id == nil || @unit.strength == nil || @unit.agility == nil || @unit.vitality == nil || @unit.stamina == nil || @unit.intelligence == nil || @unit.focus == nil
-				flash[:alert] = "Failed to save unit."
-				@guild = current_user.guild
-				@unit = Unit.new
-				render :edit
+				return false
+			else
+				return true
 			end
 		end
 end

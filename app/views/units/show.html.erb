@@ -40,12 +40,57 @@
 <div class='row'><!-- In Depth -->
 	<div class='col-lg-4'><!-- Base Stats -->
 		<h4>Base Stats</h4>
+
+		<table class="table table-bordered table-hover table-striped">
+	        <thead>
+	            <tr>
+	                <th>Stat</th>
+	                <th>Base</th>
+	                <th>Total</th>
+	            </tr>
+            </thead>
+
+            <tbody>
+	            <tr>
+	            	<td>Strength
+	                <td><%= @unit.strength %></td>
+	                <td><%= @unit.strength_sum %></td>
+	            </tr>
+	            <tr>
+	            	<td>agility
+	                <td><%= @unit.agility %></td>
+	                <td><%= @unit.agility_sum %></td>
+	            </tr>   
+	            <tr>
+	            	<td>Vitality
+	                <td><%= @unit.vitality %></td>
+	                <td><%= @unit.vitality_sum %></td>
+	            </tr>   
+	            <tr>
+	            	<td>Stamina
+	                <td><%= @unit.stamina %></td>
+	                <td><%= @unit.stamina_sum %></td>
+	            </tr>   
+	            <tr>
+	            	<td>Intelligence
+	                <td><%= @unit.intelligence %></td>
+	                <td><%= @unit.intelligence_sum %></td>
+	            </tr>   
+	            <tr>
+	            	<td>Focus
+	                <td><%= @unit.focus %></td>
+	                <td><%= @unit.focus_sum %></td>
+	            </tr>   
+            </tbody>
+        </table>
+        <!--
 		<p><strong>strength:</strong> <%= @unit.strength %></p>
 		<p><strong>Agility:</strong> <%= @unit.agility %></p>
 		<p><strong>Vitality:</strong> <%= @unit.vitality %></p>
 		<p><strong>Stamina:</strong> <%= @unit.stamina %></p>
 		<p><strong>Intelligence:</strong> <%= @unit.intelligence %></p>
 		<p><strong>Focus:</strong> <%= @unit.focus %></p>
+		-->
 	</div><!-- /Base Stats -->
 
 	<div class='col-lg-4'><!-- Defenses -->

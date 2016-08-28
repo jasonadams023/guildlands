@@ -82,7 +82,24 @@ class Unit < ApplicationRecord
 	def set_effects
 		self.effects = {}
 
-		#unit abilities
+			#unit abilities
+		self.unit_abilities.each do |ability|
+			ability.effects.each do |key, effect|
+				if key != 'activities' #handled in activities section
+					if self.effects[key] == nil
+						self.effects[key] = effect
+					else
+						if key.include?('modifier')
+				          self.effects[key] = self.effects[key].to_f * effect.to_f
+				        else
+				          self.effects[key] = self.effects[key].to_i + effect.to_i
+				        end
+					end
+				end
+			end
+		end
+			#end of unit abilities
+
 			#activities
 		activity_abilities = self.unit_abilities.select{|a| a.effects['activities'] != nil}
 		activities = []
@@ -108,16 +125,190 @@ class Unit < ApplicationRecord
 					if key == 'slot'
 						self.effects[key] += " #{effect}"
 					else
-						self.effects[key] += effect
+						if key.include?('modifier')
+				          self.effects[key] = self.effects[key] * effect
+				        else
+				          self.effects[key] += effect
+				        end
 					end
 				end
 			end
 		end
-					#end of equipment
+			#end of equipment
+
+			#Guild Hall
+		hall = self.guild_hall
+		hall.effects.each do |key, effect|
+			if key != 'activities'
+				if self.effects[key] == nil
+					self.effects[key] = effect
+				else
+					if key.include?('modifier')
+			          self.effects[key] = self.effects[key] * effect
+			        else
+			          self.effects[key] += effect
+			        end
+				end
+			end
+		end
+			#end of guild hall
+	end
+
+	def strength_effect
+		if self.effects[:strength] != nil
+			return self.effects[:strength]
+		else
+			return 0
+		end
+	end
+
+	def strength_sum
+		if self.effects[:strength] != nil
+			sum = self.effects[:strength] + self.strength
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.strength
+		end
+
+		if self.effects['strength_modifier'] != nil
+			sum = (sum * self.effects['strength_modifier'].to_f).to_i
+		end
+
+		return sum
+	end
+
+	def agility_effect
+		if self.effects[:agility] != nil
+			return self.effects[:agility]
+		else
+			return 0
+		end
+	end
+
+	def agility_sum
+		if self.effects[:agility] != nil
+			sum = self.effects[:agility] + self.agility
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.agility
+		end
+
+		if self.effects['agility_modifier'] != nil
+			sum = (sum * self.effects['agility_modifier'].to_f).to_i
+		end
+		
+		return sum
+	end
+
+	def vitality_effect
+		if self.effects[:vitality] != nil
+			return self.effects[:vitality]
+		else
+			return 0
+		end
+	end
+
+	def vitality_sum
+		if self.effects[:vitality] != nil
+			sum = self.effects[:vitality] + self.vitality
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.vitality
+		end
+
+		if self.effects['vitality_modifier'] != nil
+			sum = (sum * self.effects['vitality_modifier'].to_f).to_i
+		end
+		
+		return sum
+	end
+
+	def stamina_effect
+		if self.effects[:stamina] != nil
+			return self.effects[:stamina]
+		else
+			return 0
+		end
+	end
+
+	def stamina_sum
+		if self.effects[:stamina] != nil
+			sum = self.effects[:stamina] + self.stamina
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.stamina
+		end
+
+		if self.effects['stamina_modifier'] != nil
+			sum = (sum * self.effects['stamina_modifier'].to_f).to_i
+		end
+		
+		return sum
+	end
+
+	def intelligence_effect
+		if self.effects[:intelligence] != nil
+			return self.effects[:intelligence]
+		else
+			return 0
+		end
+	end
+
+	def intelligence_sum
+		if self.effects[:intelligence] != nil
+			sum = self.effects[:intelligence] + self.intelligence
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.intelligence
+		end
+
+		if self.effects['intelligence_modifier'] != nil
+			sum = (sum * self.effects['intelligence_modifier'].to_f).to_i
+		end
+		
+		return sum
+	end
+
+	def focus_effect
+		if self.effects[:focus] != nil
+			return self.effects[:focus]
+		else
+			return 0
+		end
+	end
+
+	def focus_sum
+		if self.effects[:focus] != nil
+			sum = self.effects[:focus] + self.focus
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.focus
+		end
+
+		if self.effects['focus_modifier'] != nil
+			sum = (sum * self.effects['focus_modifier'].to_f).to_i
+		end
+		
+		return sum
+	end
+
+	def upkeep_sum
+		if self.effects['upkeep'] != nil
+			sum = self.effects[:upkeep] + self.upkeep
+			if sum < 1 then sum = 1 end
+		else
+			sum = self.upkeep
+		end
+
+		if self.effects['upkeep_modifier'] != nil
+			sum = (sum * self.effects['upkeep_modifier'].to_f).to_i
+		end
+		
+		return sum
 	end
 
 	def total_xp_change(amount)
-		max_xp = 10000
+		max_xp = 3000
 		if self.total_xp + amount < max_xp #max xp
 			self.total_xp = max_xp
 		elsif self.total_xp + amount < 0
@@ -186,7 +377,7 @@ class Unit < ApplicationRecord
 	#New unit functions
 
 	def custom_new
-		set_spent_xp
+		self.spent_xp = self.calc_spent_xp
 		set_costs
 		set_hp
 		set_sp
@@ -208,7 +399,7 @@ class Unit < ApplicationRecord
 		unit.focus = 5
 		unit.activity = Activity.find(1)
 		unit.effects = {}
-		unit.set_spent_xp
+		unit.spent_xp = unit.calc_spent_xp
 		unit.set_costs
 		unit.set_hp
 		unit.set_sp
@@ -237,18 +428,71 @@ class Unit < ApplicationRecord
 			end
 		end
 
-		if can_craft then self.guild_hall.tic_inventory(items_string) end
+		if can_craft
+			self.guild_hall.tic_inventory(items_string, self.effects['crafting_modifier'])
+		else
+			log = Log.my_new
+			log.turn = OnTickJob.turn
+			log.guild = self.guild_hall.guild
+			log.data[:unit] = self.name
+			log.message = "#{log.data[:unit]}: Could not finish #{self.activity.name} due to insufficient materials."
+		end
 	end
 
-	def activity_run
-		if self.activity.effects['xp'] != nil then self.total_xp_change(self.activity.effects['xp'].to_i) end
-		if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
-		if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
-		if self.activity.effects['money'] != nil then self.guild_hall.guild.money += self.activity.effects['money'].to_i end
-		if self.activity.effects['inventory1'] != nil && self.activity.category != 'crafting' then self.guild_hall.tic_inventory(self.activity.effects['inventory1']) end
-		if self.activity.category == 'crafting' then self.crafting(self.activity.effects['inventory1']) end
+	def on_tick
+		#Activities
+		if self.activity.effects['hp'].to_i < 0 && self.current_hp < 1
+			log = Log.my_new
+			log.turn = OnTickJob.turn
+			log.guild = self.guild_hall.guild
+			log.data[:unit] = self.name
+			log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low hp."
+		else
+			if self.activity.effects['sp'].to_i < 0 && self.current_sp < 1
+				log = Log.my_new
+				log.turn = OnTickJob.turn
+				log.guild = self.guild_hall.guild
+				log.data[:unit] = self.name
+				log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low sp."
+			else
+				if self.activity.effects['money'].to_i < 0 && self.guild_hall.guild.money < self.activity.effects['money']
+					log = Log.my_new
+					log.turn = OnTickJob.turn
+					log.guild = self.guild_hall.guild
+					log.data[:unit] = self.name
+					log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low money in guild."
+				else
+					if self.activity.effects['reputation'] != nil then self.guild_hall.guild.reputation_change (self.activity.effects['reputation'].to_i) end
+					if self.activity.effects['xp'] != nil then self.total_xp_change(self.activity.effects['xp'].to_i) end
+					if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
+					if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
+					if self.activity.effects['money'] != nil then self.guild_hall.guild.money_change(self.activity.effects['money'].to_i) end
+					if self.activity.effects['inventory1'] != nil && self.activity.category != 'crafting' then self.guild_hall.tic_inventory(self.activity.effects['inventory1'], self.effects['gather_modifier']) end
+					if self.activity.category == 'crafting' then self.crafting(self.activity.effects['inventory1']) end
+				end
+			end
+		end
 
 		self.activity = Activity.find(1)#set to idle
+		#end of Activities
+
+		#Self
+		if self.effects['xp'] != nil then self.total_xp_change(self.effects['xp'].to_i) end
+		if self.effects['hp'] != nil then self.current_hp_change(self.effects['hp'].to_i) end
+		if self.effects['sp'] != nil then self.current_sp_change(self.effects['sp'].to_i) end
+		#end of Self
+
+		# #Guild Hall
+		# if self.guild_hall.effects['xp'] != nil then self.total_xp_change(self.guild_hall.effects['xp'].to_i) end
+		# if self.guild_hall.effects['hp'] != nil then self.current_hp_change(self.guild_hall.effects['hp'].to_i) end
+		# if self.guild_hall.effects['sp'] != nil then self.current_sp_change(self.guild_hall.effects['sp'].to_i) end
+		# #end of Guild Hall
+
+		# #Guild
+		# if self.guild_hall.guild.effects['xp'] != nil then self.total_xp_change(self.guild_hall.guild.effects['xp'].to_i) end
+		# if self.guild_hall.guild.effects['hp'] != nil then self.current_hp_change(self.guild_hall.guild.effects['hp'].to_i) end
+		# if self.guild_hall.guild.effects['sp'] != nil then self.current_sp_change(self.guild_hall.guild.effects['sp'].to_i) end
+		# #end of Guild
 
 		self.save
 		self.guild_hall.guild.save

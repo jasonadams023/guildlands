@@ -28,7 +28,13 @@ class RoomsController < ApplicationController
 		if (hall.rooms.sum(&:size) + room.size) < hall.size
 			if hall.guild.money >= room.cost
 				hall.rooms << room
+
 				hall.set_effects
+				hall.units.each do |unit|
+					unit.set_effects
+					unit.save
+				end
+
 				hall.set_unit_limit
 				hall.guild.money -= room.cost
 				if hall.save && hall.guild.save
@@ -52,7 +58,13 @@ class RoomsController < ApplicationController
 
 		if hall.room_inventories.destroy(id)
 			hall.set_unit_limit
+			
 			hall.set_effects
+			hall.units.each do |unit|
+				unit.set_effects
+				unit.save
+			end
+
 			if hall.save
 				flash[:notice] = "Demolished room."
 			else

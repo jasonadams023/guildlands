@@ -3,6 +3,10 @@ class OnTickJob < ApplicationJob
 
   @@turn = 0
 
+  def self.turn
+  	return @@turn
+  end
+
   def perform(*args)
   	#Setup
   	@@turn += 1
@@ -35,13 +39,13 @@ class OnTickJob < ApplicationJob
   	#Units
     units = Unit.select{|u| u.guild_hall_id != nil}
     units.each do |unit|
-    	unit.activity_run
+    	unit.on_tick
     end
 
     #Economy
 	items = Item.all
 	items.each do |item|
-		orders = MarketOrder.select{|o| o.item_id == item.id && o.price <= item.max_value && o.amount > 0 && o.category < 0}
+		orders = MarketOrder.select{|o| o.item_id == item.id && o.price_sum <= item.max_value && o.amount > 0 && o.category < 0}
 		spent = 0
 		sales = []
 		orders.each do |order|
@@ -54,8 +58,8 @@ class OnTickJob < ApplicationJob
 				percent = 0.1
 				while percent <= target_percent
 					sales.each do |sale|
-						if sale[0].price < (item.value * percent)
-							spent += sale[0].price
+						if sale[0].price_sum < (item.value * percent)
+							spent += sale[0].price_sum
 							sale[1] += 1
 						end
 					end

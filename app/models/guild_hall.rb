@@ -24,6 +24,24 @@ class GuildHall < ApplicationRecord
   def set_effects
     self.effects = {}
 
+      #Room Effects
+    rooms = self.rooms.each do |room|
+      room.effects.each do |key, effect|
+        if key != 'activities' #handled in next section
+          if self.effects[key] == nil
+            self.effects[key] = effect
+          else
+            if key.include?('modifier')
+              self.effects[key] = self.effects[key].to_f * effect.to_f
+            else
+              self.effects[key] = self.effects[key].to_i + effect.to_i
+            end
+          end
+        end
+      end
+    end
+      #end of room effects
+
     #enable activities
       #get activities that rooms enable
     rooms = self.rooms.select{|room| room.effects['activities'] != nil}
@@ -52,6 +70,38 @@ class GuildHall < ApplicationRecord
     self.effects['activities'] = hall_activities_str
     #end of enable activities
 
+      #get Guild Abilities
+    self.guild.effects.each do |key, effect|
+      if key != 'activities'
+        if self.effects[key] == nil
+          self.effects[key] = effect
+        else
+          if key.include?('modifier')
+            self.effects[key] = self.effects[key].to_f * effect.to_f
+          else
+            self.effects[key] = self.effects[key].to_i + effect.to_i
+          end
+        end
+      end
+    end
+      #end of Guild Abilities
+
+      #location effects
+    self.location.effects.each do |key, effect|
+      if key != 'activities'
+        if self.effects[key] == nil
+          self.effects[key] = effect
+        else
+          if key.include?('modifier')
+            self.effects[key] = self.effects[key].to_f * effect.to_f
+          else
+            self.effects[key] = self.effects[key].to_i + effect.to_i
+          end
+        end
+      end
+    end
+      #end of location effects
+
     #unit_limit
     self.set_unit_limit
 
@@ -79,11 +129,16 @@ class GuildHall < ApplicationRecord
     inventory.save
   end
 
-  def tic_inventory(items_string)
+  def tic_inventory(items_string, modifier)
+    if modifier != nil then modifier = modifier.to_f else modifier = 1 end
     parsed = items_string_parse(items_string)
 
     parsed.each do |item, amount|
-      self.add_inventory(item, amount)
+      if amount > 0
+        self.add_inventory(item, (amount * modifier).to_i)
+      else
+        self.add_inventory(item, amount)
+      end
     end
 
     self.save

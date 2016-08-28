@@ -29,6 +29,16 @@ class GuildAbilitiesController < ApplicationController
 				guild.guild_abilities << ability
 				guild.spent_rep += ability.rep_cost
 
+				guild.set_effects
+				guild.guild_halls.each do |hall|
+					hall.set_effects
+					hall.units.each do |unit|
+						unit.set_effects
+						unit.save
+					end
+					hall.save
+				end
+
 				if guild.save
 					flash[:notice] = "Ability purchased."
 				else
@@ -50,6 +60,17 @@ class GuildAbilitiesController < ApplicationController
 
 		if guild.guild_abilities.delete(ability)
 			guild.spent_rep -= ability.rep_cost
+
+			guild.set_effects
+			guild.guild_halls.each do |hall|
+				hall.set_effects
+				hall.units.each do |unit|
+					unit.set_effects
+					unit.save
+				end
+				hall.save
+			end
+			
 			if guild.save
 				flash[:notice] = "Ability released."
 			else
