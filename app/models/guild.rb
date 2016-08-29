@@ -30,7 +30,7 @@ class Guild < ApplicationRecord
 			reputation_change = reputations_change * self.effects['rep_multiplier'].to_i
 		end
 
-		if self.total_rep += reputation_change > max_rep
+		if self.total_rep + reputation_change > max_rep
 			self.total_rep = max_rep
 		elsif self.total_rep += reputations_change < 0
 			self.total_rep = 0
@@ -41,7 +41,7 @@ class Guild < ApplicationRecord
 
 	def money_change(money_change)
 		max_money = 1000000
-		if self.money += reputation_change > max_money
+		if self.money = reputation_change > max_money
 			self.money = max_money
 		elsif self.money += reputations_change < 0
 			self.money = 0
