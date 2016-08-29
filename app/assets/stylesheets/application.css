@@ -26,3 +26,8 @@
 	display: inline-block;
 	margin-right: 20px;
 }
+
+.data-container{
+	height: 20em;
+	overflow: auto;
+}

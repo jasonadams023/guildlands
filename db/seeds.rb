@@ -6,8 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-guilds = Guild.create([{name: 'Red Moon Rogues', total_rep: 500, spent_rep: 0, money: 1000, effects: {first: 'hello', second: 'world'}},
-						{name: 'Sacred Heart', total_rep: 1000, spent_rep: 500, money: 10000, effects: {awesomeness: 'double intelligence'}}])
+guilds = Guild.create([{name: 'Red Moon Rogues', total_rep: 500, spent_rep: 0, money: 1000, effects: {}},
+						{name: 'Sacred Heart', total_rep: 1000, spent_rep: 500, money: 10000, effects: {}}])
 
 locations = Location.create([{name: 'Lesure', description: 'A peaceful kingdom, where new guilds can flourish', effects: {upkeep_modifier: 0}},
 								{name: 'Yaran Desert', description: 'A harsh land, with many opportunities', effects: {upkeep_modifier: 2, sales_modifier: 0.8}}])
@@ -59,8 +59,8 @@ unit_abilities = UnitAbility.create([
 									{name: 'Cook', description: 'This unit is able to cook food at a kitchen.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {activities: 'Cook'}},
 									{name: 'Butcher', description: 'This unit is able to process animals at a butchery.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {activities: 'Process'}},
 									#{name: 'Learner', description: 'This unit gains experience at an incresed rate.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {activities: 'Process'}},
-									{name: 'Healthy', description: 'This unit regains hp at an incresed rate.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {activities: 'Process'}},
-									{name: 'Energetic', description: 'This unit regains sp at an increased rate.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {activities: 'Process'}}
+									{name: 'Healthy', description: 'This unit regains hp at an incresed rate.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {hp: 10}},
+									{name: 'Energetic', description: 'This unit regains sp at an increased rate.', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {sp: 10}}
 									#{name: 'Doctor', description: 'This unit is able to heal units at a E.R..', xp_cost: 200, category: 'passive', ap_cost: 0, sp_cost: 0, effects: {activities: 'Heal'}}
 									])
 
