@@ -4,6 +4,13 @@ class GuildsController < ApplicationController
 	
 	def show
 		@guild = current_user.guild
+		@units = []
+
+		@guild.guild_halls.each do |hall|
+			hall.units.each do |unit|
+				@units << unit
+			end
+		end
 	end
 
 	def new
