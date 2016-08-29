@@ -73,6 +73,7 @@ class UnitInventoriesController < ApplicationController
 
 				gear.each do |equip|
 					if equip.hall_inventory.item.effects['slot'] == slot then equip.equipped = false end
+						equip.save
 				end
 
 				unit_inventory.equipped = true
@@ -80,6 +81,7 @@ class UnitInventoriesController < ApplicationController
 				unit_inventory.equipped = false
 			end
 			unit_inventory.save
+			unit_inventory.unit.save
 			unit_inventory.unit.set_effects
 
 			if unit_inventory.save && unit.save
@@ -89,7 +91,7 @@ class UnitInventoriesController < ApplicationController
 			end
 		end
 
-		redirect_to unit_inventory.unit
+		redirect_to unit
 	end
 
 	private

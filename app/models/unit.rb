@@ -116,7 +116,7 @@ class Unit < ApplicationRecord
 			#end of activities
 
 			#equipment
-		gear = self.unit_inventories.select{|inv| inv.equipped = true}
+		gear = self.unit_inventories.select{|inv| inv.equipped == true}
 		gear.each do |equip|
 			equip.hall_inventory.item.effects.each do |key, effect|
 				if self.effects[key] == nil
@@ -126,9 +126,9 @@ class Unit < ApplicationRecord
 						self.effects[key] += " #{effect}"
 					else
 						if key.include?('modifier')
-				          self.effects[key] = self.effects[key] * effect
+				          self.effects[key] = self.effects[key].to_f * effect.to_f
 				        else
-				          self.effects[key] += effect
+				          self.effects[key] = self.effects[key].to_i + effect.to_i
 				        end
 					end
 				end
@@ -165,7 +165,6 @@ class Unit < ApplicationRecord
 	def strength_sum
 		if self.effects['strength'] != nil
 			sum = self.effects['strength'].to_i + self.strength
-			if sum < 1 then sum = 1 end
 		else
 			sum = self.strength
 		end
@@ -173,6 +172,8 @@ class Unit < ApplicationRecord
 		if self.effects['strength_modifier'] != nil
 			sum = (sum * self.effects['strength_modifier'].to_f).to_i
 		end
+
+		if sum < 1 then sum = 1 end
 
 		return sum
 	end
@@ -188,7 +189,6 @@ class Unit < ApplicationRecord
 	def agility_sum
 		if self.effects['agility'] != nil
 			sum = self.effects['agility'].to_i + self.agility
-			if sum < 1 then sum = 1 end
 		else
 			sum = self.agility
 		end
@@ -196,6 +196,8 @@ class Unit < ApplicationRecord
 		if self.effects['agility_modifier'] != nil
 			sum = (sum * self.effects['agility_modifier'].to_f).to_i
 		end
+
+		if sum < 1 then sum = 1 end
 		
 		return sum
 	end
@@ -211,7 +213,6 @@ class Unit < ApplicationRecord
 	def vitality_sum
 		if self.effects['vitality'] != nil
 			sum = self.effects['vitality'].to_i + self.vitality
-			if sum < 1 then sum = 1 end
 		else
 			sum = self.vitality
 		end
@@ -219,6 +220,8 @@ class Unit < ApplicationRecord
 		if self.effects['vitality_modifier'] != nil
 			sum = (sum * self.effects['vitality_modifier'].to_f).to_i
 		end
+
+		if sum < 1 then sum = 1 end
 		
 		return sum
 	end
@@ -234,7 +237,6 @@ class Unit < ApplicationRecord
 	def stamina_sum
 		if self.effects['stamina'] != nil
 			sum = self.effects['stamina'].to_i + self.stamina
-			if sum < 1 then sum = 1 end
 		else
 			sum = self.stamina
 		end
@@ -242,6 +244,8 @@ class Unit < ApplicationRecord
 		if self.effects['stamina_modifier'] != nil
 			sum = (sum * self.effects['stamina_modifier'].to_f).to_i
 		end
+
+		if sum < 1 then sum = 1 end
 		
 		return sum
 	end
@@ -257,7 +261,6 @@ class Unit < ApplicationRecord
 	def intelligence_sum
 		if self.effects['intelligence'] != nil
 			sum = self.effects['intelligence'].to_i + self.intelligence
-			if sum < 1 then sum = 1 end
 		else
 			sum = self.intelligence
 		end
@@ -265,6 +268,8 @@ class Unit < ApplicationRecord
 		if self.effects['intelligence_modifier'] != nil
 			sum = (sum * self.effects['intelligence_modifier'].to_f).to_i
 		end
+
+		if sum < 1 then sum = 1 end
 		
 		return sum
 	end
@@ -280,7 +285,6 @@ class Unit < ApplicationRecord
 	def focus_sum
 		if self.effects['focus'] != nil
 			sum = self.effects['focus'].to_i + self.focus
-			if sum < 1 then sum = 1 end
 		else
 			sum = self.focus
 		end
@@ -288,7 +292,57 @@ class Unit < ApplicationRecord
 		if self.effects['focus_modifier'] != nil
 			sum = (sum * self.effects['focus_modifier'].to_f).to_i
 		end
+
+		if sum < 1 then sum = 1 end
 		
+		return sum
+	end
+
+	def dodge_sum
+		if self.effects['dodge'] != nil
+			sum = self.effects['dodge'].to_i + self.dodge
+		else
+			sum = self.dodge
+		end
+
+		if self.effects['dodge_modifier'] != nil
+			sum = (sum * self.effects['dodge_modifier'].to_f).to_i
+		end
+
+		if sum < 0 then sum = 0 end
+
+		return sum
+	end
+
+	def resilience_sum
+		if self.effects['resilience'] != nil
+			sum = self.effects['resilience'].to_i + self.resilience
+		else
+			sum = self.resilience
+		end
+
+		if self.effects['resilience_modifier'] != nil
+			sum = (sum * self.effects['resilience_modifier'].to_f).to_i
+		end
+
+		if sum < 0 then sum = 0 end
+
+		return sum
+	end
+
+	def resist_sum
+		if self.effects['resist'] != nil
+			sum = self.effects['resist'].to_i + self.resist
+		else
+			sum = self.resist
+		end
+
+		if self.effects['resist_modifier'] != nil
+			sum = (sum * self.effects['resist_modifier'].to_f).to_i
+		end
+
+		if sum < 0 then sum = 0 end
+
 		return sum
 	end
 

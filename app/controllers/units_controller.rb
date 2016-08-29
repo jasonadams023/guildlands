@@ -27,6 +27,9 @@ class UnitsController < ApplicationController
 			@free = false
 			@activities = @unit.return_activities
 		end
+
+		@unit.set_effects
+		@unit.save
 	end
 
 	def new

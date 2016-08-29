@@ -52,32 +52,32 @@
 
             <tbody>
 	            <tr>
-	            	<td>Strength
+	            	<td>Strength</td>
 	                <td><%= @unit.strength %></td>
 	                <td><%= @unit.strength_sum %></td>
 	            </tr>
 	            <tr>
-	            	<td>agility
+	            	<td>agility</td>
 	                <td><%= @unit.agility %></td>
 	                <td><%= @unit.agility_sum %></td>
 	            </tr>   
 	            <tr>
-	            	<td>Vitality
+	            	<td>Vitality</td>
 	                <td><%= @unit.vitality %></td>
 	                <td><%= @unit.vitality_sum %></td>
 	            </tr>   
 	            <tr>
-	            	<td>Stamina
+	            	<td>Stamina</td>
 	                <td><%= @unit.stamina %></td>
 	                <td><%= @unit.stamina_sum %></td>
 	            </tr>   
 	            <tr>
-	            	<td>Intelligence
+	            	<td>Intelligence</td>
 	                <td><%= @unit.intelligence %></td>
 	                <td><%= @unit.intelligence_sum %></td>
 	            </tr>   
 	            <tr>
-	            	<td>Focus
+	            	<td>Focus</td>
 	                <td><%= @unit.focus %></td>
 	                <td><%= @unit.focus_sum %></td>
 	            </tr>   
@@ -95,9 +95,39 @@
 
 	<div class='col-lg-4'><!-- Defenses -->
 		<h4>Defenses</h4>
+		<table class="table table-bordered table-hover table-striped">
+	        <thead>
+	            <tr>
+	                <th>Stat</th>
+	                <th>Base</th>
+	                <th>Total</th>
+	            </tr>
+            </thead>
+
+            <tbody>
+	            <tr>
+	            	<td>Dodge</td>
+	                <td><%= @unit.dodge %></td>
+	                <td><%= @unit.dodge_sum %></td>
+	            </tr>
+	            <tr>
+	            	<td>Resilience</td>
+	                <td><%= @unit.resilience %></td>
+	                <td><%= @unit.resilience_sum %></td>
+	            </tr>
+	            <tr>
+	            	<td>Resist</td>
+	                <td><%= @unit.resist %></td>
+	                <td><%= @unit.resist_sum %></td>
+	            </tr>
+            </tbody>
+        </table>
+
+		<!--
 		<p><strong>Dodge:</strong> <%= @unit.dodge %></p>
 		<p><strong>Resilience</strong> <%= @unit.resilience %></p>
 		<p><strong>Resist:</strong> <%= @unit.resist %></p>
+		-->
 	</div><!-- /Defenses -->
 
 	<div class='col-lg-4'><!-- Abilities -->
