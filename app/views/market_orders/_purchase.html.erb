@@ -2,5 +2,9 @@
   <%= f.input :amount, collection: 0..@order.amount %>
   <%= f.input :hall_inventory_id, label: "Guild Hall", collection: current_user.guild.guild_halls %>
 
-  <%= f.button :submit %>
+  <% if @order.category < 0 %>
+	  <%= f.button :submit, "Buy", class: 'btn-primary' %>
+  <% elsif @order.category > 0 %>
+  	<%= f.button :submit, "Sell", class: 'btn-primary' %>
+  <% end %>
 <% end %>

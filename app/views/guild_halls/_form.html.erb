@@ -3,21 +3,21 @@
   <%= f.input :location_id, collection: Location.all %>
   <%= f.input :size, collection: 1..50, input_html: {id: "hall-size"} %>
   <%= f.hidden_field :guild_id, value: current_user.guild.id %>
-  <p>Cost:<span class='new-hall-cost'>300</span></p>
+  <p class='form-align'><strong>Cost:<span class='new-hall-cost'>300</span></strong></p>
   
-  <%= f.button :submit %>
+  <%= f.button :submit, class: 'btn-primary' %>
 <% end %>
 
 <script>
-function updateCost() {
-	var size = $(":selected")[1].innerHTML
-	if (size != NaN) {
-		$('.new-hall-cost')[0].innerHTML = (size * 100) + 200;
-	} else {
-		$('.new-hall-cost')[0].innerHTML = 300;
-	}
-};
+	function updateCost() {
+		var size = $(":selected")[1].innerHTML
+		if (size != NaN) {
+			$('.new-hall-cost')[0].innerHTML = (size * 100) + 200;
+		} else {
+			$('.new-hall-cost')[0].innerHTML = 300;
+		}
+	};
 
-$("#hall-size").change( updateCost );
-updateCost();
+	$("#hall-size").change( updateCost );
+	updateCost();
 </script>

@@ -7,5 +7,5 @@
 <%= simple_form_for @hall, url: guild_hall_path(@hall), method: :patch do |f| %>
   <%= f.input :name %>
 
-  <%= f.button :submit %>
+  <%= f.button :submit, class: 'btn-primary' %>
 <% end %>

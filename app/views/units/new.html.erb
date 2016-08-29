@@ -15,9 +15,9 @@
   <%= f.input :focus, collection: 1..20, input_html: {id: "focus"} %>
   <%= f.input :guild_hall_id, collection: @guild.guild_halls %>
 
-  <p>Cost: <span class='unit-cost'>0</span></p>
+  <p class='form-align'><strong>Cost: <span class='unit-cost'>0</span></strong></p>
 
-  <%= f.button :submit %>
+  <%= f.button :submit, class: 'btn-primary' %>
 <% end %>
 
 <script>

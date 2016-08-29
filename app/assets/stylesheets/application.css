@@ -31,3 +31,15 @@
 	height: 20em;
 	overflow: auto;
 }
+
+label {
+	text-align: right;
+	margin-right: 15px;
+	width: 100px;
+}
+
+.form-align {
+	text-align: right;
+	margin-right: 15px;
+	width: 100px
+}

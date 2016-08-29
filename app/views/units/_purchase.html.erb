@@ -1,5 +1,5 @@
 <%= simple_form_for @unit, url: purchase_unit_path(@unit), method: :post do |f| %>
   <%= f.input :guild_hall_id, label: "Guild Hall", collection: current_user.guild.guild_halls %>
 
-  <%= f.button :submit, label: "Hire Unit" %>
+  <%= f.button :submit, "Hire Unit", class: 'btn-primary' %>
 <% end %>
