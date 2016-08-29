@@ -11,9 +11,9 @@
 // about supported directives.
 //
 
-//= require jquery.min
+//= require jquery
 //= require jquery_ujs
-//= require bootstrap.min
+//= require twitter/bootstrap
 //= require sb-admin-2.js
 //= require metisMenu.min
 //= require morris.min
