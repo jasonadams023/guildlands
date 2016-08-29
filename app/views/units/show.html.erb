@@ -83,14 +83,6 @@
 	            </tr>   
             </tbody>
         </table>
-        <!--
-		<p><strong>strength:</strong> <%= @unit.strength %></p>
-		<p><strong>Agility:</strong> <%= @unit.agility %></p>
-		<p><strong>Vitality:</strong> <%= @unit.vitality %></p>
-		<p><strong>Stamina:</strong> <%= @unit.stamina %></p>
-		<p><strong>Intelligence:</strong> <%= @unit.intelligence %></p>
-		<p><strong>Focus:</strong> <%= @unit.focus %></p>
-		-->
 	</div><!-- /Base Stats -->
 
 	<div class='col-lg-4'><!-- Defenses -->
@@ -122,23 +114,25 @@
 	            </tr>
             </tbody>
         </table>
-
-		<!--
-		<p><strong>Dodge:</strong> <%= @unit.dodge %></p>
-		<p><strong>Resilience</strong> <%= @unit.resilience %></p>
-		<p><strong>Resist:</strong> <%= @unit.resist %></p>
-		-->
 	</div><!-- /Defenses -->
 
 	<div class='col-lg-4'><!-- Abilities -->
 		<h4>Abilities</h4>
-		<% @unit.unit_abilities.each do |ability| %>
-			<h4><%= ability.name %></h4>
-			<p><strong>Description:</strong> <%= truncate(ability.description, length: 160) %></p>
-			<p><%= link_to "View Ability", unit_ability_path(ability, unit_id: @unit.id), method: :get %></p>
-			<hr>
-		<% end %>
 		<%= link_to "View Abilities List", unit_abilities_path(unit_id: @unit.id), method: :get %>
+
+		<div class='data-container'>
+			<% if @unit.unit_abilities.length < 1 %>
+				<p>No abilities trained.</p>
+			<% else %>
+				<% @unit.unit_abilities.each do |ability| %>
+					<h4><%= ability.name %></h4>
+					<p><strong>Description:</strong> <%= truncate(ability.description, length: 160) %></p>
+					<p><%= link_to "View Ability", unit_ability_path(ability, unit_id: @unit.id), method: :get %></p>
+					<hr>
+				<% end %>
+			<% end %>
+		</div>
+		
 	</div><!-- /Abilities -->
 
 </div><!-- /In Depth -->
@@ -181,3 +175,31 @@
 		</div><!-- /Train -->
 	<% end %>
 </div><!-- /Manage -->
+
+<p>
+<a href="#" data-toggle="modal" data-target="#myModal_<%= @unit.id %>">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal_<%= @unit.id %>">
+        <span class="glyphicon glyphicon-plus"> Manage</span>
+    </button>
+</a>
+</p>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal_<%= @unit.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Manage</h4>
+              </div>
+              <div class="modal-body">
+                <strong><%= @unit.name %></strong>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
