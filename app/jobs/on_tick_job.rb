@@ -140,48 +140,48 @@ class OnTickJob < ApplicationJob
 		log.message = "#{log.data[:unit]}: "
 
 		if saved.total_xp != unit[:total_xp]
-			log.data[:total_xp] = saved.total_xp - unit.total_xp
+			log.data[:total_xp] = saved.total_xp - unit[:total_xp]
 			if log.message[-1] == '.' then new_line = '\n' else new_line = '' end
 			if log.data[:total_xp] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:total_xp]} experience."
 		end
 		if saved.current_hp != unit[:current_hp]
-			log.data[:current_hp] = saved.current_hp - unit.current_hp
+			log.data[:current_hp] = saved.current_hp - unit[:current_hp]
 			if log.data[:current_hp] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:current_hp]} hp."
 		end
 		if saved.current_sp != unit[:current_sp]
-			log.data[:current_sp] = saved.current_sp - unit.current_sp
+			log.data[:current_sp] = saved.current_sp - unit[:current_sp]
 			if log.data[:current_sp] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:current_sp]} sp."
 		end
 		if saved.strength != unit[:strength]
-			log.data[:strength] = saved.strength - unit.strength
+			log.data[:strength] = saved.strength - unit[:strength]
 			if log.data[:strength] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:strength]} strength."
 		end
 		if saved.agility != unit[:agility]
-			log.data[:agility] = saved.agility - unit.agility
+			log.data[:agility] = saved.agility - unit[:agility]
 			if log.data[:agility] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:agility]} agility."
 		end
 		if saved.vitality != unit[:vitality]
-			log.data[:vitality] = saved.vitality - unit.vitality
+			log.data[:vitality] = saved.vitality - unit[:vitality]
 			if log.data[:vitality] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:vitality]} vitality."
 		end
 		if saved.stamina != unit[:stamina]
-			log.data[:stamina] = saved.stamina - unit.stamina
+			log.data[:stamina] = saved.stamina - unit[:stamina]
 			if log.data[:stamina] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:stamina]} stamina."
 		end
 		if saved.intelligence != unit[:intelligence]
-			log.data[:intelligence] = saved.intelligence - unit.intelligence
+			log.data[:intelligence] = saved.intelligence - unit[:intelligence]
 			if log.data[:intelligence] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:intelligence]} intelligence."
 		end
 		if saved.focus != unit[:focus]
-			log.data[:focus] = saved.focus - unit.focus
+			log.data[:focus] = saved.focus - unit[:focus]
 			if log.data[:focus] > 0 then word = 'Gained' else word = 'lost' end
 			log.message += "#{new_line}#{word} #{log.data[:focus]} focus."
 		end
