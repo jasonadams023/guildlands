@@ -8,6 +8,7 @@ class OnTickJob < ApplicationJob
   end
 
   def perform(*args)
+  	puts "============= JOB STARTED ================"
   	#Setup
   	@@turn += 1
 
