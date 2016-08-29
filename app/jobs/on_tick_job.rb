@@ -117,11 +117,11 @@ class OnTickJob < ApplicationJob
 				if log_inv[:total] != inventory.total
 					log.data[inventory.item.name] = inventory.total - log_inv[:total]
 					if log.data[inventory.item.name] > 0 then word = 'Gained' else word = 'lost' end
-					log.message += "#{word} #{log.data[inventory.item.name]} #{inventory.item.name}."
+					log.message += "#{word} #{log.data[inventory.item.name]} #{inventory.item.name}. "
 				end
 				if log_inv[:selling] != inventory.selling
 					log.data['sold #{inventory.item.name}'] = inventory.selling - log_inv[:selling]
-					log.message += "\nSold #{log.data[inventory.item.name]} #{inventory.item.name}."
+					log.message += "\nSold #{log.data[inventory.item.name]} #{inventory.item.name}. "
 				end
 			end
 		end
