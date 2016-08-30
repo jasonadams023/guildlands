@@ -55,7 +55,7 @@ class Guild < ApplicationRecord
 		guild.name = user.username + "'s Guild"
 		guild.total_rep = 500
 		guild.spent_rep = 0
-		guild.money = 1000
+		guild.money = 10000
 		guild.effects = {}
 		guild.user_id = user.id
 		gravatar_id = Digest::MD5.hexdigest(guild.user.email.downcase)
