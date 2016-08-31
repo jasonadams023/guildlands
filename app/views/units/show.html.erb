@@ -9,8 +9,8 @@
 <div class='row'>
 	<div class='col-lg-4'><!-- Basics -->
 		<h4 class='editable'><%= @unit.name %></h4>
-		<% if @unit.guild_hall.guild.id == current_user.guild.id %>
-		<%= link_to "change name", edit_unit_path(@unit, name: 'true'), method: :get, class: 'editable' %>
+		<% if @unit.guild_hall != nil && @unit.guild_hall.guild.id == current_user.guild.id %>
+			<%= link_to "change name", edit_unit_path(@unit, name: 'true'), method: :get, class: 'editable' %>
 		<% end %>
 		<p><strong>XP:</strong> <%= @unit.spent_xp %> / <%= @unit.total_xp %>
 		 | <strong>HP:</strong> <%= @unit.current_hp %> / <%= @unit.max_hp %>

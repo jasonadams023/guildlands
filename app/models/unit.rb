@@ -137,17 +137,19 @@ class Unit < ApplicationRecord
 			#end of equipment
 
 			#Guild Hall
-		hall = self.guild_hall
-		hall.effects.each do |key, effect|
-			if key != 'activities'
-				if self.effects[key] == nil
-					self.effects[key] = effect
-				else
-					if key.include?('modifier')
-			          self.effects[key] = self.effects[key] * effect
-			        else
-			          self.effects[key] += effect
-			        end
+		if self.guild_hall != nil
+			hall = self.guild_hall
+			hall.effects.each do |key, effect|
+				if key != 'activities'
+					if self.effects[key] == nil
+						self.effects[key] = effect
+					else
+						if key.include?('modifier')
+				          self.effects[key] = self.effects[key] * effect
+				        else
+				          self.effects[key] += effect
+				        end
+					end
 				end
 			end
 		end
