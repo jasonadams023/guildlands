@@ -496,37 +496,48 @@ class Unit < ApplicationRecord
 	end
 
 	def on_tick
-		#Activities
-		if self.activity.effects['hp'].to_i < 0 && self.current_hp < 1
-			log = Log.my_new
-			log.turn = OnTickJob.turn
-			log.guild = self.guild_hall.guild
-			log.data[:unit] = self.name
-			log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low hp."
-		else
-			if self.activity.effects['sp'].to_i < 0 && self.current_sp < 1
+		#Upkeep
+		if self.guild_hall.guild.money >= self.upkeep_cost
+			self.guild_hall.guild.money -= self.upkeep_cost
+
+			#Activities
+			if self.activity.effects['hp'].to_i < 0 && self.current_hp < 1
 				log = Log.my_new
 				log.turn = OnTickJob.turn
 				log.guild = self.guild_hall.guild
 				log.data[:unit] = self.name
-				log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low sp."
+				log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low hp."
 			else
-				if self.activity.effects['money'].to_i < 0 && self.guild_hall.guild.money < self.activity.effects['money']
+				if self.activity.effects['sp'].to_i < 0 && self.current_sp < 1
 					log = Log.my_new
 					log.turn = OnTickJob.turn
 					log.guild = self.guild_hall.guild
 					log.data[:unit] = self.name
-					log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low money in guild."
+					log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low sp."
 				else
-					if self.activity.effects['reputation'] != nil then self.guild_hall.guild.reputation_change (self.activity.effects['reputation'].to_i) end
-					if self.activity.effects['xp'] != nil then self.total_xp_change(self.activity.effects['xp'].to_i) end
-					if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
-					if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
-					if self.activity.effects['money'] != nil then self.guild_hall.guild.money_change(self.activity.effects['money'].to_i) end
-					if self.activity.effects['inventory1'] != nil && self.activity.category != 'crafting' then self.guild_hall.tic_inventory(self.activity.effects['inventory1'], self.effects['gather_modifier']) end
-					if self.activity.category == 'crafting' then self.crafting(self.activity.effects['inventory1']) end
+					if self.activity.effects['money'].to_i < 0 && self.guild_hall.guild.money < self.activity.effects['money']
+						log = Log.my_new
+						log.turn = OnTickJob.turn
+						log.guild = self.guild_hall.guild
+						log.data[:unit] = self.name
+						log.message = "#{log.data[:unit]}: Could not perform task #{self.activity.name} due to low money in guild."
+					else
+						if self.activity.effects['reputation'] != nil then self.guild_hall.guild.reputation_change (self.activity.effects['reputation'].to_i) end
+						if self.activity.effects['xp'] != nil then self.total_xp_change(self.activity.effects['xp'].to_i) end
+						if self.activity.effects['hp'] != nil then self.current_hp_change(self.activity.effects['hp'].to_i) end
+						if self.activity.effects['sp'] != nil then self.current_sp_change(self.activity.effects['sp'].to_i) end
+						if self.activity.effects['money'] != nil then self.guild_hall.guild.money_change(self.activity.effects['money'].to_i) end
+						if self.activity.effects['inventory1'] != nil && self.activity.category != 'crafting' then self.guild_hall.tic_inventory(self.activity.effects['inventory1'], self.effects['gather_modifier']) end
+						if self.activity.category == 'crafting' then self.crafting(self.activity.effects['inventory1']) end
+					end
 				end
 			end
+		else
+			log = Log.my_new
+			log.turn = OnTickJob.turn
+			log.guild = self.guild_hall.guild
+			log.data[:unit] = self.name
+			log.message = "#{log.data[:unit]}: Not enough money to pay for upkeep."
 		end
 
 		self.activity = Activity.find(1)#set to idle

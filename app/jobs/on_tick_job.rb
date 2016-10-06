@@ -37,14 +37,6 @@ class OnTickJob < ApplicationJob
   						stamina: unit.stamina, intelligence: unit.intelligence, focus: unit.focus}
 	end
 
-  	#Units
-    units = Unit.select{|u| u.guild_hall_id != nil}
-    units.each do |unit|
-    	unit.on_tick
-    end
-
-    puts "============= UNITS FINISHED ================"
-
     #Economy
 	items = Item.all
 	items.each do |item|
@@ -78,6 +70,14 @@ class OnTickJob < ApplicationJob
 	end
 	#/Economy
 	puts "============= ECONOMY FINISHED ================"
+
+	#Units
+    units = Unit.select{|u| u.guild_hall_id != nil}
+    units.each do |unit|
+    	unit.on_tick
+    end
+
+    puts "============= UNITS FINISHED ================"
 
 	#Log complete
 		#guilds
