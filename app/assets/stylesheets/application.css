@@ -43,3 +43,8 @@ label {
 	margin-right: 15px;
 	width: 100px
 }
+
+.webgl {
+	height: 800px;
+	width: 800px;
+}

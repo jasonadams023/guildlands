@@ -37,6 +37,7 @@ $(function() {
 */
 
     while(true){
+        var element = $('ul.nav a')
         if (element.is('li')){
             element = element.parent().addClass('in').parent();
         } else {

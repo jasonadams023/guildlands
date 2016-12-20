@@ -1,0 +1,36 @@
+<h1>Hello World!</h1>
+<p><button id="toggle-button" class="btn btn-default" type="submit">button</button></p>
+<p id="test-text">Test Text</p>
+
+<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
+<br>
+<div class="logo"></div>
+<div class="fullscreen"><img src="/unity/TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+<div class="title">Web test 2</div>
+
+<link rel="stylesheet" href="/unity/TemplateData/style.css">
+<link rel="shortcut icon" href="/unity/TemplateData/favicon.ico" />
+<script src="/unity/TemplateData/UnityProgress.js"></script>
+<script type='text/javascript'>
+  var Module = {
+    TOTAL_MEMORY: 268435456,
+    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+    compatibilitycheck: null,
+    backgroundColor: "#222C36",
+    splashStyle: "Light",
+    dataUrl: "/unity/Development/Builds.data",
+    codeUrl: "/unity/Development/Builds.js",
+    asmUrl: "/unity/Development/Builds.asm.js",
+    memUrl: "/unity/Development/Builds.mem",
+  };
+</script>
+<script src="/unity/Development/UnityLoader.js"></script>
+
+<script>
+  var iframe = $("#unity");
+
+  $("#toggle-button").click(function() {
+    $("#test-text").toggle();
+    SendMessage("EventSystem","toggleText", "")
+  });
+</script>

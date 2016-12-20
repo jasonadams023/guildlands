@@ -43,6 +43,11 @@ Rails.application.routes.draw do
   	get 'static/welcome'
   	get 'static/admin'
 
+  	#API Routes
+  	get 'unity/new', to: 'unity_apps#new'
+  	get 'unity/index', to: 'unity_apps#index'
+  	get 'unity_apps/login/:username/:password', to: 'unity_apps#login'
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
