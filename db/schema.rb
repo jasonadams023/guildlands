@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825215902) do
+ActiveRecord::Schema.define(version: 20170103230954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,16 @@ ActiveRecord::Schema.define(version: 20160825215902) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["guild_id"], name: "index_logs_on_guild_id", using: :btree
+  end
+
+  create_table "maps", force: :cascade do |t|
+    t.integer  "guild_id"
+    t.string   "name"
+    t.integer  "dimensions", default: [],              array: true
+    t.text     "tile_types", default: [],              array: true
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["guild_id"], name: "index_maps_on_guild_id", using: :btree
   end
 
   create_table "market_orders", force: :cascade do |t|
@@ -240,6 +250,7 @@ ActiveRecord::Schema.define(version: 20160825215902) do
   add_foreign_key "hall_inventories", "guild_halls"
   add_foreign_key "hall_inventories", "items"
   add_foreign_key "logs", "guilds"
+  add_foreign_key "maps", "guilds"
   add_foreign_key "market_orders", "hall_inventories"
   add_foreign_key "market_orders", "items"
   add_foreign_key "room_inventories", "guild_halls"

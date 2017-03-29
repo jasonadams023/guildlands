@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guild: one
+  name: MyString
+  dimensions: 1
+  tile_types: MyText
+
+two:
+  guild: two
+  name: MyString
+  dimensions: 1
+  tile_types: MyText

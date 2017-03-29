@@ -10,23 +10,14 @@ class UnityAppsController < ApplicationController
 	def load
 		user = authenticate_user
 		if user != false
-			# guild = user.guild
-			# halls = guild.guild_halls
-			#units = []
-
-			# halls.each do |hall|
-			# 	hall.units.each do |unit|
-			# 		units << unit
-			# 	end
-			# end
-
-			# render json: units
 
 			playerData = build_player_data(user)
-			render json: playerData
+			output = playerData
 		else
-			render json: "false"
+			output = "false"
 		end
+
+		render json: output
 	end
 
 	def save
@@ -84,6 +75,50 @@ class UnityAppsController < ApplicationController
 		render json: "true"
 	end
 
+	#Maps
+	def map_list
+		if params[:query_type] == "guild_id"
+			guild_id = params[:query].to_i
+			if guild_id > 0
+				maps = Map.all.select{|m| m.guild_id == guild_id}
+				output = build_map_list(maps)
+			else
+				output = "false"
+			end
+		else
+			output = "false"
+		end
+
+		render json: output
+	end
+
+	def save_map
+		unity_map = params[:unity_app]
+		guild = Guild.find(unity_map[:guild_id])
+		if Map.exists?(:guild_id => guild.id, :name => unity_map[:name])
+			map = Map.find(:guild_id => guild.id, :name => unity_map[:name])
+		else
+			map = Map.new
+			map.guild_id = unity_map[:guild_id]
+			map.name = unity_map[:guild_id]
+		end
+
+		map.name = unity_map[:name]
+		map.dimensions = unity_map[:dimensions]
+		map.tile_types = unity_map[:tile_types]
+
+		if map.save
+			output = "true"
+		else
+			output = "false"
+		end
+
+		# output = "false"
+
+		render json: output
+	end
+	#Maps
+
 	private
 		def authenticate_user
 			user = User.find_for_authentication(:username => params[:username])
@@ -110,5 +145,12 @@ class UnityAppsController < ApplicationController
 			data["units"] = units
 
 			return data
+		end
+
+		def build_map_list(maps)
+			list = {}
+			list["list"] = maps
+
+			return list
 		end
 end

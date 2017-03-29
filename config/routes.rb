@@ -49,6 +49,9 @@ Rails.application.routes.draw do
   	get 'unity_apps/load/:username/:password', to: 'unity_apps#load'
   	post 'unity_apps/save/:username/:password', to: 'unity_apps#save'
 
+  	get 'unity_apps/map/list/:query_type/:query', to: 'unity_apps#map_list' 
+  	post 'unity_apps/map/save', to: 'unity_apps#save_map'
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
