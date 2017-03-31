@@ -1,4 +1,13 @@
 Rails.application.configure do
+  #### Chat Rooms
+  config.web_socket_server_url = "wss://guildlands.herokuapp.com/cable"
+  config.action_cable.allowed_request_origins = ["https://guildlands.herokuapp.com", "http://guildlands.herokuapp.com"]
+  #### /Chat Rooms
+
+
+
+
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

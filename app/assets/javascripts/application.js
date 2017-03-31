@@ -20,3 +20,5 @@
 //= require raphael-min
 //= require turbolinks
 //= require_tree .
+
+//=require_tree ./channels

@@ -40,6 +40,14 @@ Rails.application.routes.draw do
 	resources :unit_inventories
 	resources :logs, only: :index
 
+
+	#Chat
+	mount ActionCable.server => '/cable'
+
+	resources :chat_rooms
+	resources :chat_messages, only: :create
+	#/Chat
+
   	get 'static/welcome'
   	get 'static/admin'
 

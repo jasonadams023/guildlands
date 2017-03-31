@@ -1,0 +1,12 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Create New Chat Room</h1>
+	</div>
+</div>
+
+<%= simple_form_for @chat_room, url: chat_rooms_path, method: :post do |f| %>
+  <%= f.input :name, required: true %>
+  <%= f.input :password, required: false %>
+
+  <%= f.button :submit, class: 'btn-primary' %>
+<% end %>

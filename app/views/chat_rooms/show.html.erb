@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header"><%= @chat_room.name %></h1>
+	</div>
+</div>
+
+<div class="row col-md-8 col-md-offset-2">
+
+<div class="panel panel-default">
+  <% if @chat_room.chat_messages.any? %>
+    <div class="panel-body" id="chat-messages">
+      <%= render partial: 'chat_messages/chat_message', collection: @chat_room.chat_messages%>
+    </div>
+  <%else%>
+    <div class="panel-body hidden" id="chat-messages"></div>
+  <%end%>
+</div>
+
+  <%= render partial: 'chat_messages/chat_message_form', locals: {message: @message, chatroom: @chatroom}%>
+</div>
