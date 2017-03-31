@@ -5,6 +5,6 @@ App.messages = App.cable.subscriptions.create('ChatMessagesChannel', {
   },
 
   renderMessage: function(data) {
-    return "<p> <b>" + data.user + ": </b>" + data.message + "</p>";
+    return "<p> <b>" + data.username + ": </b>" + data.content + "</p>";
   }
 });

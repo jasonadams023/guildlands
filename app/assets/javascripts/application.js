@@ -19,6 +19,5 @@
 //= require morris.min
 //= require raphael-min
 //= require turbolinks
+//= require_tree ./channels
 //= require_tree .
-
-//=require_tree ./channels
