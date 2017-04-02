@@ -5,8 +5,8 @@ class ChatMessagesController < ApplicationController
 
 	    if chat_message.save
 	    	ActionCable.server.broadcast 'chat_messages',
-	    		content: message.content,
-	    		username: message.user.username
+	    		content: chat_message.content,
+	    		username: chat_message.user.username
 	    	head :ok
 	    else
 	    	flash[:alert] = "Failed to save Chat Message."
