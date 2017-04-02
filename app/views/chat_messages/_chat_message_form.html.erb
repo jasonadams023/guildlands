@@ -1,7 +1,7 @@
 <%= form_for @chat_message, remote: true, authenticity_token: true do |f| %>
   <%= f.label :your_message %>:
-  <%= f.text_area :content, class: "form-control", data: {textarea: "message"} %>
+  <%= f.text_area :content, class: "form-control", data: {textarea: "content"} %>
 
   <%= f.hidden_field :chat_room_id, value: @chat_room.id %>
-  <%= f.submit "send", class: "btn btn-primary", style: "display: block", data: {send: "message"} %>
+  <%= f.submit "send", class: "btn btn-primary", style: "display: block", data: {send: "content"} %>
 <% end %>
