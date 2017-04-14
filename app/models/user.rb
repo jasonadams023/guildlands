@@ -7,7 +7,6 @@ class User < ApplicationRecord
   has_one :guild
 
   #chatroom
-  has_many :chat_messages
   has_and_belongs_to_many :chat_rooms
   #/chatroom
 end

@@ -1,6 +1,0 @@
-<%= simple_form_for @chat_message, remote: true, authenticity_token: true, url: chat_messages_path, method: :post do |f| %>
-  <%= f.input :content, required: true %>
-  <%= f.hidden_field :chat_room_id, value: @chat_room.id %>
-
-  <%= f.button :submit, class: 'btn-primary' %>
-<% end %>

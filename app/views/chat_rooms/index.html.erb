@@ -1,16 +1,82 @@
-<div class="row">
+<!-- <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Chat Rooms</h1>
 	</div>
 </div>
 
 <div class='row'>
-	<div class='col-lg-4'><!-- Chat Rooms -->
+	<div class='col-lg-12'>
 		<% @chat_rooms.each do |chat_room| %>
 			<p><strong><%= chat_room.name %>:</strong> <%= link_to "Enter Room", chat_room_path(chat_room), method: :get %></p>
 			<hr>
 		<% end %>
 
 		<%= link_to "Create Room", new_chat_room_path, method: :get %>
-	</div><!-- /Chat Rooms -->
+	</div>
+</div> -->
+
+
+
+
+<div class="row">
+	<div class="col-lg-12">
+
+	<ul id="chat-nav" class="nav nav-tabs" role="tablist"><!-- Chat Nav tabs -->
+		<li role="presentation" class="active"><a href="#all-rooms" aria-controls="home" role="tab" data-toggle="tab">All Rooms</a></li>
+		<li role="presentation"><a href="#subscribed-rooms" aria-controls="profile" role="tab" data-toggle="tab">Your Rooms</a></li>
+		<li role="presentation"><a href="#active-room" aria-controls="messages" role="tab" data-toggle="tab">Chat Room</a></li>
+	</ul><!-- /Chat Nav tabs -->
+
+	<div id="chat-content" class="tab-content"><!-- Chat Tab panes -->
+
+	    <div role="tabpanel" class="tab-pane active" id="all-rooms">
+	    	<div class='row'>
+				<div class='col-lg-12'><!-- All Rooms -->
+					<% @chat_rooms.each do |chat_room| %>
+						<a id="room-link-<%= chat_room.id %>" class="room-link"><%= chat_room.name %></a>
+					<% end %>
+
+					<%= link_to "Create Room", new_chat_room_path, method: :get %>
+				</div><!-- /All Rooms -->
+			</div>
+	    </div>
+
+	    <div role="tabpanel" class="tab-pane" id="subscribed-rooms"><!-- Your Rooms -->
+	    	<div class='row'>
+				<div class='col-lg-12'>
+					<% current_user.chat_rooms.each do |chat_room| %>
+						<a onclick="goToRoom(<%= chat_room.id %>)"><%= chat_room.name %></a>
+					<% end %>
+
+					<%= link_to "Create Room", new_chat_room_path, method: :get %>
+				</div>
+			</div>
+	    </div><!-- /Your Rooms -->
+
+	    <div role="tabpanel" class="tab-pane" id="current-room"><!-- Current Room -->
+	    	<div class='row'>
+				<div class='col-lg-12' id="chat-rooms">
+				<%= render partial: "chat_room", collection: current_user.chat_rooms %>
+				</div>
+			</div>
+	    </div><!-- /Current Room -->
+
+	</div><!-- /Chat Tab panes -->
+
+	</div>
 </div>
+
+<script>
+	function goToRoom(id) {
+		if ($("#current-room #room-" + id) == null) {
+			$.get("https://guildlands.herokuapp.com/chat_rooms/" + id + "/edit", function(data) {
+				$("#chat-rooms").append(data);
+			});
+		}
+
+		$(".chat-room").addClass("hidden");
+		$("#current-room #room-" + id).removeClass("hidden");
+		$("#chat-content .active").removeClass("active");
+		$("#current-room").addClass("active");
+	}
+</script>

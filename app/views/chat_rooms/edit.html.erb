@@ -1,16 +1,29 @@
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header"><%= @chat_room.name %></h1>
+<div id="edit-room-<%= @chat_room.id %>">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header"><%= @chat_room.name %></h1>
+		</div>
 	</div>
+
+	<%= simple_form_for @chat_room, url: chat_room_path(@chat_room), remote: true, method: :patch do |f| %>
+		<% if @join == true %>
+	  		<%= f.input :try_password, label: "Enter password" %>
+		<% else %>
+			<%= f.input :name, label: "Change Name" %>
+			<%= f.input :password, label: "Change Password" %>
+		<% end %>
+
+		<%= f.button :submit, class: 'btn-primary' %>
+	<% end %>
 </div>
 
-<%= simple_form_for @chat_room, url: chat_room_path(@chat_room), method: :patch do |f| %>
-	<% if @join == true %>
-  		<%= f.input :try_password, label: "Enter password" %>
-	<% else %>
-		<%= f.input :name, label: "Change Name" %>
-		<%= f.input :password, label: "Change Password" %>
-	<% end %>
+<script>
+	var roomId = <%= @chat_room.id %>;
 
-	<%= f.button :submit, class: 'btn-primary' %>
-<% end %>
+	$("#edit_chat_room_" + roomID).on("ajax:success", function(e, data, status, xhr) {
+ 		$("#edit-chat-room" + roomId).innerHTML = xhr.responseText;
+	})
+	.on("ajax:error", function(e, xhr, status, error) {
+		$("#edit-chat-room" + roomId).innerHTML("<p>ERROR</p>");
+	});
+</script>

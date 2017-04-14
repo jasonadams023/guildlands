@@ -1,0 +1,29 @@
+<div id="room-<%= chat_room.id %>" class="chat-room hidden">
+
+  <div class="row">
+  	<div class="col-lg-12">
+  		<h1 class="page-header" class="room-name"><%= chat_room.name %></h1>
+  	</div>
+  </div>
+
+  <div class="row col-md-8 col-md-offset-2">
+
+  <div class="panel panel-default">
+      <div class="panel-body" id="chat-messages"></div>
+  </div>
+
+    <input type="button" id="subscribe" class="btn-primary" value="Subscribe">
+
+    <div id="message-form" class="hidden">
+      <input type="text" id="chat-send-content">
+      <button type="button" id="send" class="btn-primary" value="Send">
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var roomId = <%= chat_room.id %>;
+
+  $("#room-" + roomId + " #subscribe").click(setupRoom(roomId));
+</script>

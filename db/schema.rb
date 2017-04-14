@@ -27,16 +27,6 @@ ActiveRecord::Schema.define(version: 20170330174637) do
     t.index ["location_id"], name: "index_activities_on_location_id", using: :btree
   end
 
-  create_table "chat_messages", force: :cascade do |t|
-    t.text     "content"
-    t.integer  "chat_room_id"
-    t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["chat_room_id"], name: "index_chat_messages_on_chat_room_id", using: :btree
-    t.index ["user_id"], name: "index_chat_messages_on_user_id", using: :btree
-  end
-
   create_table "chat_rooms", force: :cascade do |t|
     t.string   "name"
     t.string   "password"
@@ -266,8 +256,6 @@ ActiveRecord::Schema.define(version: 20170330174637) do
   end
 
   add_foreign_key "activities", "locations"
-  add_foreign_key "chat_messages", "chat_rooms"
-  add_foreign_key "chat_messages", "users"
   add_foreign_key "guild_halls", "guilds"
   add_foreign_key "guild_halls", "locations"
   add_foreign_key "guilds", "users"
