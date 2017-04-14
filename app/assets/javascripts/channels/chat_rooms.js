@@ -7,7 +7,7 @@ function setupRoom (id) {
 function createSubscription (id) {
   App['room-' + id] = App.cable.subscriptions.create ({
       channel: 'ChatMessagesChannel',
-      roomId: id;
+      roomId: id
     },
 
     {
