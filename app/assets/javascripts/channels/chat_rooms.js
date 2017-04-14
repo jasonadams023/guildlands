@@ -2,7 +2,7 @@ function setupRoom (id) {
   createSubscription(id);
   $("#room-" + id + " #send").click(chatSend(id));
   swapHidden(id);
-};
+}
 
 function createSubscription (id) {
   App['room-' + id] = App.cable.subscriptions.create ({
@@ -20,7 +20,7 @@ function createSubscription (id) {
       }
     }
   );
-};
+}
 
 function chatSend (id) {
   var content = $("#room-" + id + " #chat-send-content").val();
@@ -30,4 +30,4 @@ function chatSend (id) {
 function swapHidden (id) {
   $("#room-" + id + " #subscribe").addClass("hidden");
   $("#room-" + id + "message-form").removeClass("hidden");
-};
+}
