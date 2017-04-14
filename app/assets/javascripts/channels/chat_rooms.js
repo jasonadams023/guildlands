@@ -1,7 +1,8 @@
 function setupRoom (id, name) {
   createSubscription(id);
-  $("#room-" + id + " #send").click(chatSend(id, name));
-  swapHidden(id);
+  $("#room-" + id + " #send").on('click', function() {
+    chatSend(id, name);
+  });
 }
 
 function createSubscription (id) {
@@ -12,11 +13,11 @@ function createSubscription (id) {
 
     {
       received: function(data) {
-        return this.$("#" + id + " #chat-messages").append(this.renderMessage(data));
+        $("#room-" + id + " #chat-messages").append(this.renderMessage(data));
       },
 
       renderMessage: function(data) {
-        return "<p> <b>" + data.username + ": </b>" + data.content + "</p>";
+        return "<p><b>" + data.username + ": </b>" + data.content + "</p>";
       }
     }
   );
@@ -27,7 +28,31 @@ function chatSend (id, name) {
   App['room-' + id].send({username: name, content: content});
 }
 
-function swapHidden (id) {
-  $("#room-" + id + " #subscribe").addClass("hidden");
-  $("#room-" + id + " #message-form").removeClass("hidden");
+
+function goToRoom(id) {
+  if ($("#active-room #room-" + id) == null) {
+    $.get("/chat_rooms/" + id + "/edit", function(data) {
+      $("#chat-rooms").append(data);
+    });
+  }
+
+  $(".chat-room").addClass("hidden");
+  $("#active-room #room-" + id).removeClass("hidden");
+  $('#chat-nav a[href="#active-room"]').tab('show');
+}
+
+function chatControls(action, id) {
+  if (action == 'create') {
+    $.get("/chat_rooms/new", function(data) {
+      $("#chat-control").empty();
+      $("#chat-control").append(data);
+    })
+  } else if (action == "edit") {
+    $.get("/chat_rooms/" + id + "/edit", function(data) {
+      $("#chat-control").empty();
+      $("#chat-control").append(data);
+    })
+  }
+
+  $('#chat-nav a[href="#chat-control"').tab('show');
 }

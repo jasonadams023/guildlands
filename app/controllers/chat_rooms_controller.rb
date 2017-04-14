@@ -6,10 +6,14 @@ class ChatRoomsController < ApplicationController
 	def show
 		@chat_room = ChatRoom.find(params[:id])
 		validate
+
+		render layout: false
 	end
 
 	def new
 		@chat_room = ChatRoom.new
+
+		render layout: false
 	end
 
 	def edit
@@ -27,7 +31,7 @@ class ChatRoomsController < ApplicationController
 
 		if @chat_room.save
 			flash[:notice] = "Chat Room created succesfully."
-			redirect_to @chat_room
+			render @chat_room
 		else
 			flash[:alert] = "Failed to create Chat Room."
 			render :new

@@ -2,21 +2,19 @@
 
   <div class="row">
   	<div class="col-lg-12">
-  		<h1 class="page-header" class="room-name"><%= chat_room.name %></h1>
+  		<h1 class="page-header" id="room-name"><%= chat_room.name %></h1>
   	</div>
   </div>
 
   <div class="row col-md-8 col-md-offset-2">
 
-  <div class="panel panel-default">
-      <div class="panel-body" id="chat-messages"></div>
-  </div>
+    <div class="panel panel-default">
+        <div class="panel-body" id="chat-messages"></div>
+    </div>
 
-    <input type="button" id="subscribe" class="btn-primary" value="Subscribe">
-
-    <div id="message-form" class="hidden">
+    <div id="message-form">
       <input type="text" id="chat-send-content">
-      <button type="button" id="send" class="btn-primary" value="Send">
+      <input type="button" id="send" class="btn-primary" value="Send">
     </div>
   </div>
 
@@ -25,6 +23,5 @@
 <script>
   var roomId = <%= chat_room.id %>;
   var name = "<%= current_user.username %>";
-
-  $("#room-" + roomId + " #subscribe").click(setupRoom(roomId, name));
+  setupRoom(roomId, name);
 </script>

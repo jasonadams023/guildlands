@@ -4,9 +4,20 @@
 	</div>
 </div>
 
-<%= simple_form_for @chat_room, url: chat_rooms_path, method: :post do |f| %>
+<%= simple_form_for @chat_room, url: chat_rooms_path, remote: true, method: :post do |f| %>
   <%= f.input :name, required: true %>
   <%= f.input :password, required: false %>
 
   <%= f.button :submit, class: 'btn-primary' %>
 <% end %>
+
+<script>
+	$("#new_chat_room").on("ajax:success", function(e, data, status, xhr) {
+ 		$("#chat-rooms").append(xhr.responseText);
+ 		var chatName = $("#room-" + roomId + " #room-name")[0].innerHTML;
+ 		var insert = '<a onclick="goToRoom(' + roomId + ')">' + chatName + '</a><hr>';
+ 		$(".rooms-list").append(insert);
+
+ 		goToRoom(roomId);
+	});
+</script>
