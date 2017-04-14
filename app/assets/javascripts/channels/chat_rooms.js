@@ -29,5 +29,5 @@ function chatSend (id, name) {
 
 function swapHidden (id) {
   $("#room-" + id + " #subscribe").addClass("hidden");
-  $("#room-" + id + "message-form").removeClass("hidden");
+  $("#room-" + id + " #message-form").removeClass("hidden");
 }
