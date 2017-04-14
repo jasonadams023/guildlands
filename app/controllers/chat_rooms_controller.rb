@@ -6,7 +6,6 @@ class ChatRoomsController < ApplicationController
 	def show
 		@chat_room = ChatRoom.find(params[:id])
 		validate
-		@chat_message = ChatMessage.new
 	end
 
 	def new
