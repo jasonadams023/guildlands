@@ -24,6 +24,7 @@
 
 <script>
   var roomId = <%= chat_room.id %>;
+  var name = <%= current_user.username %>
 
-  $("#room-" + roomId + " #subscribe").click(setupRoom(roomId));
+  $("#room-" + roomId + " #subscribe").click(setupRoom(roomId, name));
 </script>

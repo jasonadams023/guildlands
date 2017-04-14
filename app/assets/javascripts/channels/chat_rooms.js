@@ -1,6 +1,6 @@
-function setupRoom (id) {
+function setupRoom (id, name) {
   createSubscription(id);
-  $("#room-" + id + " #send").click(chatSend(id));
+  $("#room-" + id + " #send").click(chatSend(id, name));
   swapHidden(id);
 }
 
@@ -22,9 +22,9 @@ function createSubscription (id) {
   );
 }
 
-function chatSend (id) {
+function chatSend (id, name) {
   var content = $("#room-" + id + " #chat-send-content").val();
-  App['room-' + id].send({username: <%= current_user.username %>, content: content});
+  App['room-' + id].send({username: name, content: content});
 }
 
 function swapHidden (id) {
