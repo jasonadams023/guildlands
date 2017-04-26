@@ -5,9 +5,12 @@ class ChatRoomsController < ApplicationController
 
 	def show
 		@chat_room = ChatRoom.find(params[:id])
-		validate
 
-		render layout: false
+		if validate
+			render layout: false
+		else
+			failed_validate
+		end
 	end
 
 	def new
@@ -21,7 +24,13 @@ class ChatRoomsController < ApplicationController
 		if params[:join] = "true"
 			@join = true
 		else
-			validate
+			@join = false
+		end
+
+		if @join == false && validate
+			render layout: false
+		else
+			failed_validate
 		end
 	end
 
@@ -31,33 +40,39 @@ class ChatRoomsController < ApplicationController
 
 		if @chat_room.save
 			flash[:notice] = "Chat Room created succesfully."
-			render @chat_room
+			render @chat_room, layout: false
 		else
 			flash[:alert] = "Failed to create Chat Room."
-			render :new
+			render :new, layout: false
 		end
 	end
 
 	def update
-		chat_room = ChatRoom.find(params[:id])
+		@chat_room = ChatRoom.find(params[:id])
 
 		if params[:chat_room][:try_password] != nil
-			if params[:chat_room][:try_password] == chat_room.password
-				chat_room.users.push(current_user)
+			if params[:chat_room][:try_password] == @chat_room.password
+				if !@chat_room.users.include?(current_user)
+					@chat_room.users.push(current_user)
+				end
 			else
 				flash[:alert] = "Incorrect password."
 			end
 		else
-			chat_room.assign_attributes(chat_room_params)
+			@chat_room.assign_attributes(@chat_room_params)
 		end
 
-		if chat_room.save
+		if @chat_room.save
 			flash[:notice] = "Chat Room updated."
 		else
 			flash[:alert] = "Failed to update."
 		end
 
-		redirect_to chat_room
+		if validate
+			render @chat_room, layout: false
+		else
+			failed_validate
+		end
 	end
 
 	def destroy
@@ -74,13 +89,15 @@ class ChatRoomsController < ApplicationController
 
 	private
 		def validate
-			if !@chat_room.users.include?(current_user)
-				if @chat_room.password != ""
-					redirect_to edit_chat_room_path, id: @chat_room.id, join: "true"
-				else
-					@chat_room.users.push(current_user)
-				end
+			if @chat_room.users.include?(current_user)
+				return true
+			else
+				return false
 			end
+		end
+
+		def failed_validate
+			render :edit, layout: false and return
 		end
 
 		def chat_room_params

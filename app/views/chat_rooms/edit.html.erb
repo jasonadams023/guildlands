@@ -19,11 +19,14 @@
 
 <script>
 	var roomId = <%= @chat_room.id %>;
+	var join = <%= @join %>;
 
-	$("#edit_chat_room_" + roomID).on("ajax:success", function(e, data, status, xhr) {
- 		$("#edit-chat-room" + roomId).innerHTML = xhr.responseText;
-	})
-	.on("ajax:error", function(e, xhr, status, error) {
-		$("#edit-chat-room" + roomId).innerHTML("<p>ERROR</p>");
+	$("#edit_chat_room_" + roomId).on("ajax:success", function(e, data, status, xhr) {
+		var check = $(xhr.responseText).find("#room-name")[0];
+		if (join == true && check != null) {
+			addRoom(xhr.responseText, "join");
+		} else {
+			chatControls("edit", roomId);
+		}
 	});
 </script>

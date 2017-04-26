@@ -13,11 +13,6 @@
 
 <script>
 	$("#new_chat_room").on("ajax:success", function(e, data, status, xhr) {
- 		$("#chat-rooms").append(xhr.responseText);
- 		var chatName = $("#room-" + roomId + " #room-name")[0].innerHTML;
- 		var insert = '<a onclick="goToRoom(' + roomId + ')">' + chatName + '</a><hr>';
- 		$(".rooms-list").append(insert);
-
- 		goToRoom(roomId);
+		addRoom(xhr.responseText, "create");
 	});
 </script>
