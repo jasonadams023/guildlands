@@ -52,7 +52,6 @@ Rails.application.routes.draw do
   	get 'static/admin'
 
   	#API Routes
-  	get 'unity/new', to: 'unity_apps#new'
   	get 'unity/index', to: 'unity_apps#index'
   	get 'unity_apps/load/:username/:password', to: 'unity_apps#load'
   	post 'unity_apps/save/:username/:password', to: 'unity_apps#save'
