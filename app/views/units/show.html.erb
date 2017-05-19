@@ -1,7 +1,9 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">View Unit<% if @unit.guild_hall != nil && @unit.guild_hall.guild_id == current_user.guild.id %>
-			<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal_<%= @unit.id %>">Manage</button>
+			<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#manageModal">Manage</button>
+		<% else %>
+			<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#purchaseModal">Purchase</button>
 		<% end %></h1>
 	</div>
 </div>
@@ -146,17 +148,17 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal_<%= @unit.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="manageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Manage <%= @unit.name %></h4>
       </div>
-      <div class="modal-body">
-        
 
-		<div class="row"><!-- Manage -->
+
+      <div class="modal-body"><!-- Manage -->
+		<div class="row">
 			
 			<div class='col-lg-4'><!-- Inventory -->
 				<h4>Inventory</h4>
@@ -182,22 +184,42 @@
 				<%= render 'units/move' %>
 			</div><!-- /Move -->
 
-			<div class="col-lg-4"><!--  -->
-				<% if @free %>
-					<h4>Purchase</h4>
-					<%= render 'units/purchase' %>
-				<% else %>
-					<h4>Release</h4>
-					<p><%= link_to "Release Unit", release_unit_path(@unit), method: :get %></p>
-				<% end %>
-			</div>
+			<div class="col-lg-4"><!-- Purchase/Release -->
+				<h4>Release</h4>
+				<p><%= link_to "Release Unit", release_unit_path(@unit), method: :get %></p>
+			</div><!-- /Purchase/Release -->
 
-		</div><!-- /Manage -->
-        
-      </div>
+		</div>
+      </div><!-- /Manage -->
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
+</div><!-- Modal -->
+
+<div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+    		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="myModalLabel">Purchase <%= @unit.name %></h4>
+      		</div>
+
+
+    		<div class="modal-body">
+      			<div class="row">
+					<div class='col-lg-4'><!-- Purchase -->
+						<h4>Purchase</h4>
+						<%= render 'units/purchase' %>
+					</div>
+				</div><!-- /Purchase -->
+      		</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+    	</div>
+    </div>
 </div>

@@ -8,6 +8,236 @@ class Unit < ApplicationRecord
 
 	has_and_belongs_to_many :unit_abilities
 
+	def self.find_by_guild (guild)
+		where(guild_hall_id: GuildHall.where("guild_id = ?", guild.id).ids)
+	end
+
+	def custom_update(compare_unit)
+		results = []
+
+		if ((compare_unit.strength != nil && compare_unit.strength != self.strength) ||
+				(compare_unit.agility != nil && compare_unit.agility != self.agility) ||
+				(compare_unit.vitality != nil && compare_unit.vitality != self.vitality) ||
+				(compare_unit.stamina != nil && compare_unit.stamina != self.stamina) ||
+				(compare_unit.intelligence != nil && compare_unit.intelligence != self.intelligence) ||
+				(compare_unit.focus != nil && compare_unit.focus != self.focus))
+
+			results << {train: train(compare_unit)}
+		end
+
+		if compare_unit.name != nil && compare_unit.name != self.name
+			results << {name: set_name(compare_unit.name)}
+		end
+
+		if compare_unit.guild_hall_id != nil && compare_unit.guild_hall_id != self.guild_hall_id
+			results << {hall: set_hall(compare_unit.guild_hall_id)}
+		end
+
+		if compare_unit.activity_id != nil && compare_unit.activity_id != self.activity_id
+			results << {activity: set_activity(compare_unit.activity_id)}
+		end
+
+		if compare_unit.total_xp != nil && compare_unit.total_xp != self.total_xp
+			results <<{total_xp: set_total_xp(compare_unit.total_xp)}
+		end
+
+		if ((compare_unit.current_hp != nil && compare_unit.current_hp != self.current_hp) ||
+			(compare_unit.current_sp != nil && compare_unit.current_sp != self.current_sp))
+			results << {current_stats: set_current_stats(compare_unit)}
+		end
+
+		success = true
+
+		results.each do |result|
+			if result != "Success."
+				if success == true
+					response = result
+					success = false
+				else
+					response += " " + result
+				end
+			end
+		end
+
+		if success == true
+			response = "Unit Updated."
+		end
+
+		return response
+	end
+
+	def set_current_stats (compare_unit)
+		result = ""
+
+		if compare_unit.current_hp != nil && compare_unit.current_hp != self.current_hp
+			if self.max_hp >= compare_unit.current_hp
+				self.current_hp = compare_unit.current_hp
+			else
+				result = "Exceeds maximum hp."
+			end
+		end
+
+		if compare_unit.current_sp != nil && compare_unit.current_sp != self.current_sp
+			if self.max_sp >= compare_unit.current_sp
+				self.current_sp = compare_unit.current_sp
+			elsif result != ""
+				result += " Exceeds maximum sp."
+			else
+				result = "Exceeds maximum sp."
+			end
+		end
+
+		if result == ""
+			if self.save
+				result = "Success."
+			else
+				result = "Failed to update current stats."
+			end
+		end
+
+		return result
+	end
+
+	def set_total_xp(new_total)
+		self.total_xp = new_total
+
+		if self.save
+			return "Success."
+		else
+			return "Failed to change total xp."
+		end
+	end
+
+	def set_activity (activity_id)
+		activity = Activity.find(activity_id)
+
+		if return_activities.include?(activity)
+			self.activity = activity
+
+			if self.save
+				return "Success."
+			else
+				return "Failed to change activity."
+			end
+		else
+			return "That activity is not available."
+		end
+	end
+
+	def set_hall (hall_id)
+		hall = GuildHall.find(hall_id)
+
+		if hall.guild == self.guild_hall.guild
+			if hall.units.length < hall.unit_limit
+				hall.units << self
+
+				if self.save && hall.save
+					return "Success."
+				else
+					return "Failed to change Guild Hall."
+				end
+			else
+				return "That Guild Hall cannot hold any more units."
+			end
+		else
+			if hall.units.length < hall.unit_limit
+				if hall.guild.money >= self.hiring_cost
+					hall.units << self
+					hall.guild.money -= unit.hiring_cost
+					if self.save && hall.save && hall.guild.save
+						return "Success."
+					else
+						return "Failed to purchase unit."
+					end
+				else
+					return "Guild does not have enough money to hire this unit."
+				end
+			else
+				return "That Guild Hall cannot hold any more units."
+			end
+		end
+	end
+
+	def set_name (name)
+		self.name = name
+
+		if self.save
+			return "Success."
+		else
+			return "Failed to change name."
+		end
+	end
+
+	def train (compare_unit)
+		guild = self.guild_hall.guild
+		cost = 0
+		previous_discount = self.calc_xp_discount
+
+		if compare_unit.strength != nil
+			if compare_unit.strength > self.strength
+				cost += compare_unit.calc_xp_per_stat(compare_unit.strength) - self.calc_xp_per_stat(self.strength)
+				self.strength = compare_unit.strength
+			end
+		end
+		if compare_unit.agility != nil
+			if compare_unit.agility > self.agility
+				cost += compare_unit.calc_xp_per_stat(compare_unit.agility) - self.calc_xp_per_stat(self.agility)
+				self.agility = compare_unit.agility
+			end
+		end
+		if compare_unit.vitality != nil
+			if compare_unit.vitality > self.vitality
+				cost += compare_unit.calc_xp_per_stat(compare_unit.vitality) - self.calc_xp_per_stat(self.vitality)
+				self.vitality = compare_unit.vitality
+			end
+		end
+		if compare_unit.stamina != nil
+			if compare_unit.stamina > self.stamina
+				cost += compare_unit.calc_xp_per_stat(compare_unit.stamina) - self.calc_xp_per_stat(self.stamina)
+				self.stamina = compare_unit.stamina
+			end
+		end
+		if compare_unit.intelligence != nil
+			if compare_unit.intelligence > self.intelligence
+				cost += compare_unit.calc_xp_per_stat(compare_unit.intelligence) - self.calc_xp_per_stat(self.intelligence)
+				self.intelligence = compare_unit.intelligence
+			end
+		end
+		if compare_unit.focus != nil
+			if compare_unit.focus > self.focus
+				cost += compare_unit.calc_xp_per_stat(compare_unit.focus) - self.calc_xp_per_stat(self.focus)
+				self.focus = compare_unit.focus
+			end
+		end
+
+		discount = self.calc_xp_discount - previous_discount
+		cost -= discount
+
+		if discount < 0 then discount = 0 end
+		test_xp = self.calc_spent_xp
+
+		if test_xp <= self.total_xp
+			if test_xp > self.spent_xp then cost = test_xp - self.spent_xp else cost = 0 end
+
+			if guild.money >= cost
+				guild.money -= cost
+
+				self.set_effects
+				self.spent_xp = test_xp
+
+				if self.save && guild.save
+					return "Success."
+				else
+					return "Failed to train."
+				end
+			else
+				return "Guild does not have enough money to train this unit."
+			end
+		else
+			return "Spent xp would exceed total xp."
+		end
+	end
+
 	def calc_xp_per_stat(stat)
 		low_stat_cost = 15
 		mid_stat_cost = 30

@@ -85,70 +85,15 @@ class UnitsController < ApplicationController
 
 	def update
 		unit = Unit.find(params[:id])
-		guild = unit.guild_hall.guild
-		cost = 0
 		compare_unit = Unit.new
-
 		compare_unit.assign_attributes(unit_params)
 
-		if compare_unit.strength != nil
-			if compare_unit.strength > unit.strength
-				cost += compare_unit.calc_xp_per_stat(compare_unit.strength) - unit.calc_xp_per_stat(unit.strength)
-			end
-		end
-		if compare_unit.agility != nil
-			if compare_unit.agility > unit.agility
-				cost += compare_unit.calc_xp_per_stat(compare_unit.agility) - unit.calc_xp_per_stat(unit.agility)
-			end
-		end
-		if compare_unit.vitality != nil
-			if compare_unit.vitality > unit.vitality
-				cost += compare_unit.calc_xp_per_stat(compare_unit.vitality) - unit.calc_xp_per_stat(unit.vitality)
-			end
-		end
-		if compare_unit.stamina != nil
-			if compare_unit.stamina > unit.stamina
-				cost += compare_unit.calc_xp_per_stat(compare_unit.stamina) - unit.calc_xp_per_stat(unit.stamina)
-			end
-		end
-		if compare_unit.intelligence != nil
-			if compare_unit.intelligence > unit.intelligence
-				cost += compare_unit.calc_xp_per_stat(compare_unit.intelligence) - unit.calc_xp_per_stat(unit.intelligence)
-			end
-		end
-		if compare_unit.focus != nil
-			if compare_unit.focus > unit.focus
-				cost += compare_unit.calc_xp_per_stat(compare_unit.focus) - unit.calc_xp_per_stat(unit.focus)
-			end
-		end
+		result = unit.custom_update(compare_unit)
 
-		previous_discount = unit.calc_xp_discount
-		unit.assign_attributes(unit_params)
-		discount = unit.calc_xp_discount - previous_discount
-		cost -= discount
-
-		if discount < 0 then discount = 0 end
-		test_xp = unit.calc_spent_xp
-
-		if test_xp <= unit.total_xp
-			if test_xp > unit.spent_xp then cost = test_xp - unit.spent_xp else cost = 0 end
-
-			if guild.money >= cost
-				guild.money -= cost
-
-				unit.set_effects
-				unit.spent_xp = test_xp
-
-				if unit.save && guild.save
-					flash[:notice] = "Unit updated."
-				else
-					flash[:alert] = "Failed to update."
-				end
-			else
-				flash[:alert] = "Guild does not have enough money to train this unit."
-			end
+		if result == "Unit updated."
+			flash[:notice] = result
 		else
-			flash[:alert] = "Spent xp would exceed total xp."
+			flash[:alert] = result
 		end
 
 		redirect_to unit
