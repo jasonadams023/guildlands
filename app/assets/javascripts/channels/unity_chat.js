@@ -15,7 +15,5 @@ function createChatSubscription (id) {
 },
 
 function chatSend (subscription, content) {
-  var subscriptionString = Pointer_stringify(subscription);
-  var contentString = Pointer_stringify(content);
-  App[subscriptionString].send({content: contentString});
+  App[subscription].send({content: content});
 }

@@ -5,20 +5,19 @@ function createPersonalSubscription () {
 
     {
       received: function(data) {
+        alert(action);
         data['details'] = {subscription: 'personal'};
         var string = JSON.stringify(data);
-        sendMessage("NetworkManager", "newMessage", string);
+        SendMessage("NetworkManager", "newMessage", string);
       },
 
       doAction: function(action) {
-        perform(action);
+        this.perform(action);
       }
     }
   );
 }
 
 function requestAction (subscription, action) {
-  var subscriptionString = Pointer_stringify(subscription);
-  var actionString = Pointer_stringify(action);
-  App[subscriptionString].doAction(actionString);
+  App[subscription].doAction(action);
 }
