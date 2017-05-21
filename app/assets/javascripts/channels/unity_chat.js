@@ -12,7 +12,7 @@ function createChatSubscription (id) {
       },
     }
   );
-},
+}
 
 function chatSend (subscription, content) {
   App[subscription].send({content: content});

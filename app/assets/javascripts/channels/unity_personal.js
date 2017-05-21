@@ -1,6 +1,6 @@
 function createPersonalSubscription () {
   App['personal'] = App.cable.subscriptions.create ({
-      channel: 'UnityPersonalChannel',
+      channel: 'UnityPersonalChannel'
     },
 
     {
