@@ -5,19 +5,30 @@ function createPersonalSubscription () {
 
     {
       received: function(data) {
-        alert(action);
-        data['details'] = {subscription: 'personal'};
-        var string = JSON.stringify(data);
-        SendMessage("NetworkManager", "newMessage", string);
-      },
+        data.data = JSON.stringify(data.data);
+        string = JSON.stringify(data);
 
-      doAction: function(action) {
-        this.perform(action);
+        SendMessage("NetworkManager", "newMessage", string);
       }
     }
   );
 }
 
 function requestAction (subscription, action) {
-  App[subscription].doAction(action);
+  App[subscription].perform(action);
 }
+
+function requestActionWithData (action, data) {
+  data = {data: data};
+  App['personal'].perform(action, data);
+}
+
+// function requestDataWithId (action, id) {
+//   data = {id: id};
+//   App['personal'].perform(action, data);
+// }
+
+// function sendDataAsString(action, string) {
+//   data = {string: string};
+//   App['personal'].perform(action, data);
+// }

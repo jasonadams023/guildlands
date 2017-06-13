@@ -1,7 +1,3 @@
-<!-- <h1>Hello World!</h1>
-<p><button id="toggle-button" class="btn btn-default" type="submit">button</button></p>
-<p id="test-text">Test Text</p> -->
-
 <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
 <br>
 <div class="logo"></div>
@@ -25,12 +21,3 @@
   };
 </script>
 <script src="/unity/Development/UnityLoader.js"></script>
-
-<script>
-  var iframe = $("#unity");
-
-  $("#toggle-button").click(function() {
-    $("#test-text").toggle();
-    SendMessage("EventSystem","toggleText", "")
-  });
-</script>

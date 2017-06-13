@@ -59,6 +59,12 @@ Rails.application.routes.draw do
   	get 'unity_apps/map/list/:query_type/:query', to: 'unity_apps#map_list' 
   	post 'unity_apps/map/save', to: 'unity_apps#save_map'
 
+  	# Just created this route to avoid 
+  	# ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.min.css.map"):
+  	# error from showing up on the server. Not sure why this was occuring in the first place,
+  	# though it must have something to do with bootstrap.
+  	# get '/assets/bootstrap.min.css.map', to: 'static#welcome'
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

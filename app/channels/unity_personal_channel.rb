@@ -1,6 +1,12 @@
 class UnityPersonalChannel < ApplicationCable::Channel
 	def subscribed
-		stream_for current_user
+		stream_from "user_#{current_user.id}"
+
+		if current_user.auth = "admin"
+			data = "admin"
+			data_type = "auth"
+			respond(data, data_type)
+		end
 	end
 
 	# def receive(data)
@@ -8,19 +14,39 @@ class UnityPersonalChannel < ApplicationCable::Channel
 	# end
 
 	def getChatRooms
-		broadcast(ChatRoom.all.pluck(:id, :name))
+		data = ChatRoom.select(:id, :name)
+		data_type = "chatRooms"
+		respond(data, data_type)
 	end
 
 	def getGuild
+		# data = current_user.guild
+		# data_type = "guild"
+		# respond(data, data_type)
 		broadcast(current_user.guild)
 	end
 
+	def getUsername
+		data = current_user.username
+		data_type = "username"
+
+		data = {username: data}
+
+		respond(data, data_type)
+	end
+
 	def getUnits
+		# data = Unit.find_by_guild(current_user.guild).select(:id, name)
+		# data_type = "units"
+		# respond(data, data_type)
 		units = Unit.find_by_guild(current_user.guild).pluck(:id, :name)		
 		broadcast(units)
 	end
 
 	def getUnit(id)
+		# data = Unit.find(id)
+		# data_type = "unit"
+		# respond(data, data_type)
 		broadcast(Unit.find(id))
 	end
 
@@ -34,26 +60,77 @@ class UnityPersonalChannel < ApplicationCable::Channel
 	end
 
 	def getMaps
-		maps = current_user.guild.maps
-		mapsHash = {}
-		maps.each do |map|
-			mapsHash[map.id] = map.name
+		data = Map.where("guild_id = ?", current_user.guild.id).select("id, name")
+		data_type = "mapList"
+
+		data = {list: data}
+
+		respond(data, data_type)
+	end
+
+	def loadMap(data)
+		#puts ("Inside loadMap")
+		int_id = data["data"]
+
+		if Map.exists?(int_id)
+			data = Map.find(int_id)
+		else
+			data = "Failed to find Map."
 		end
 
-		broadcast(mapsHash)
+		data_type = "loadMap"
+
+		respond(data, data_type)
 	end
 
-	def getMap(id)
-		broadcast(Map.find(id))
-	end
+	def saveMap(data)
+		puts("Start of setMap")
+		unity_map = JSON.parse(data["data"])
+		puts("map parsed")
 
-	def setMap(map)
-		#use map parameter to update unit in database
-		#broadcast the updated map (in case of failure or anything)
+		#guild = Guild.find(unity_map["guild_id"])
+		guild = current_user.guild
+		puts ("guild found")
+
+		if Map.exists?(:guild_id => guild.id, :name => unity_map["name"])
+			map = Map.find_by(:guild_id => guild.id, :name => unity_map["name"])
+			puts ("Map exists")
+		else
+			map = Map.new
+			puts ("Map does not exist")
+		end
+
+		map.guild_id = guild.id
+		map.name = unity_map["name"]
+		map.dimensions = unity_map["dimensions"]
+		map.tile_types = unity_map["tile_types"]
+
+		puts ("About to save map")
+
+		if map.save
+			puts("Map saved")
+			output = "Map successfully saved."
+		else
+			puts("Map not saved")
+			output = "Failed to save map."
+		end
+
+		puts ("returning output")
+		respond(output, "saveResult")
+		puts ("end of setMap")
 	end
 
 	private
 		def broadcast(response)
-			ActionCable.server.broadcast(current_user, response)
+			ActionCable.server.broadcast("user_#{current_user.id}", response)
+		end
+
+		def package_response(data, data_type)
+			response = {data: data, details: {data_type: data_type}}
+		end
+
+		def respond (data, data_type)
+			response = package_response(data, data_type)
+			broadcast(response)
 		end
 end
