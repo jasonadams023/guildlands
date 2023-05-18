@@ -2,8 +2,9 @@ development:
   adapter: async
 
 test:
-  adapter: async
+  adapter: test
 
 production:
   adapter: redis
-  url: redis://h:p073f5f5f6cc1e8cb46810c014f557f6c2bf05a0b498c95e4473d06ec7c500109@ec2-34-206-56-13.compute-1.amazonaws.com:40949
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: guildlands_production
