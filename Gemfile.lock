@@ -118,7 +118,6 @@ GEM
       actionpack (>= 4)
       less (~> 2.6.0)
       sprockets (>= 2)
-    libv8 (3.16.14.19)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -145,7 +144,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.0)
+    nokogiri (1.15.1)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -191,7 +190,6 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (3.3.5)
-    ref (2.0.0)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -222,9 +220,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (1.2.2)
     tilt (2.1.0)
     timeout (0.3.2)
@@ -277,7 +272,6 @@ DEPENDENCIES
   simple_form
   spring
   spring-watcher-listen (~> 2.0.0)
-  therubyracer
   turbolinks (~> 5)
   twitter-bootstrap-rails
   tzinfo-data
@@ -285,7 +279,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   1.17.3
+   2.4.13
